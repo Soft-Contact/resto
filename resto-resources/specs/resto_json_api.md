@@ -1702,7 +1702,7 @@ sample responses:
     For regular receipts: same as ALL_RECEIPTS_IN_SAME
 
 <a name="version-history"></a>
-Version history
+## Version history
 
 | Version   | Author                            | Summary                      |
 | --------- | --------------------------------- | ---------------------------- |
@@ -1725,4 +1725,4 @@ Version history
 | 1.22      | mats.antell@soft-contact.fi       | Added saleID and parentID to Sale row with example of fields in getReceipts method |
 | 1.23      | mats.antell@soft-contact.fi       | Added includeRowComments parameter to getReceipts method |
 | 1.30      | mats.antell@soft-contact.fi       | Restructured document, updated sections, cleaned up and added toc|
-| 1.31      | mats.antell@soft-contact.fi       | Added draft for card object and methods importCards and exportCards|
+| 1.31      | mats.antell@soft-contact.fi       | Added draft for card object and methods listCards and importCards|
