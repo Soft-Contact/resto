@@ -17,38 +17,23 @@
     + [Article Option](#article-option)
     + [Receipt](#receipt)
     + [Article Options / Chosen Options](#article-options---chosen-options)
-    + [Order Row / Sale Row](#order-row---sale-row)
+    + [Receipt Row](#receipt-row)
     + [Discount](#discount)
     + [Payment Row](#payment-row)
     + [Customer](#customer)
-    + [Card](#card)
     + [Printer](#printer)
     + [Bookkeeping Row](#bookkeeping-row)
   * [Available Methods](#available-methods)
-    + [saveToOpenTables](#savetoopentables)
-    + [closeOpenTable](#closeopentable)
-    + [getOpenTables](#getopentables)
-    + [openTable](#opentable)
-    + [addToOpenTable](#addtoopentable)
     + [listRestaurants](#listrestaurants)
-    + [placeOrder](#placeorder)
     + [getReceipts](#getreceipts)
     + [getBookkeepingRows](#getbookkeepingrows)
     + [saveReceipts](#savereceipts)
     + [listCustomers](#listcustomers)
     + [importCustomers](#importcustomers)
-    + [listCards](#listcards)
-    + [importCards](#importcards)
-    + [cancelOrder](#cancelorder)
-    + [placeBooking](#placebooking)
-    + [cancelBooking](#cancelbooking)
-    + [status](#status)
-    + [response](#response)
-  * [Request status codes](#request-status-codes)
+
   * [Receipt types](#receipt-types)
   * [Discount methods](#discount-methods)
   * [Customer types](#customer-types)
-  * [Card types](#card-types)
   * [Customer invoicing methods](#customer-invoicing-methods)
   * [Customer invoicing periods](#customer-invoicing-periods)
   * [Customer invoice contents](#customer-invoice-contents)
@@ -64,17 +49,9 @@ of Restolution data using [Soft-Contact's](http://soft-contact.fi/) Soft-Contact
 <a name="overview"></a>
 ## Overview
 
-The RESTO JSON API has a limited set of functionality suitable for the following use cases:
-
-1. 3rd party ordering, booking etc systems will read product, prices, restaurant info (tables, clerks) from Restolution.
-2. 3rd party system sends (pre)orders with products and optional payments to Restolution for specific cash register
- identified by UUID. The cash register is the master register in restaurant.
-3. Softpos cash registers are connected to Restolution back office (either through websockets or regular HTTP polling)
- and will receive order data
-4. Every time order status changes in cash register (e.g. accepted, declined, fulfilled, etc), Softpos sends feedback
- (through Restolution) to 3rd party systems.
-5. Import and export of base and sales data to 3rd party systems.
-
+The RESTO JSON API has a limited set of functionality for exporting and importing base and sales data from Restolution.
+The Restolution domain is represented JSON objects tailored for specific needs.
+All fields are mandatory, unless described as "optional".
 
 <a name="technical-description"></a>
 ## Technical description
@@ -186,8 +163,8 @@ or read using "getReceipts" method.
 * ``customerQuantity`` - customer quantity, used in  "getReceipts".
 * ``freeText`` - receipt free text, used in "getReceipts"
 * ``tableCode`` - optional table code
-* ``receiptRows`` - an array of OrderRow objects
-* ``paymentRows`` - an array of PaymentRow objects
+* ``receiptRows`` - an array of [Receipt Row](#receipt-row) objects
+* ``paymentRows`` - an array of [Payment Row](#payment-row) objects
 
 <a name="article-options---chosen-options"></a>
 ### Article Options / Chosen Options
@@ -195,8 +172,8 @@ or read using "getReceipts" method.
 * ``optionListID`` - option list ID
 * ``articleIDs`` - array containing list of article IDs (condiments, messages)
 
-<a name="order-row---sale-row"></a>
-### Order Row / Sale Row
+<a name="receipt-row"></a>
+### Receipt Row
 
 * ``articleID`` - article ID, sale article number in Restolution
 * ``articleName`` - optional article name
@@ -205,11 +182,6 @@ or read using "getReceipts" method.
 * ``quantity`` - ordered quantity in 1/1000 parts
 * ``amount`` - optional row total amount in cents including VAT after discounts
 * ``tax`` - tax percentage
-* ``userMessage`` - optional user message
-
-
-Only on sale rows when using "getReceipts":
-
 * ``timestamp`` - timestamp when this sale was created
 * ``unitName`` - unit name, operational unit name in Restolution
 * ``clerkNumber`` - number of clerk who made the sale
@@ -271,25 +243,6 @@ See also [listCustomers](#listcustomers).
 * ``subventionInvoiceContent`` - how the subvention and commission receipts should be arranged into invoices, see Customer invoice contents
 * ``contact`` - customer contact information as a Contact object. This object is omitted in results if no contact fields have been set in Restolution.
 
-<a name="card"></a>
-### Card (not yet implemented)
-
-See also [listCards](#listcards).
-
-* ``cardNumber`` - card ID, card number in Restolution
-* ``customerNumber`` - customer ID of customer this card belongs to
-* ``type`` - card type, see [Card types](#card-types). Defaults to "LOYALTY" for new card if not given.
-* ``active`` - flag to indicate whether card should be active or not in Restolution
-* ``validUntil`` - optional valid until date for this card
-* ``holderName`` - optional holder name of this card
-* ``personCode`` - optional person code of the card holder
-* ``balance`` - optional customer balance of this card in cents
-* ``department`` - optional card department
-* ``departmentName`` - optional card department name
-* ``accountCode`` - optional card account code
-* ``workHoursPerWeek`` - optional card work hours per week
-* ``originalNumber`` - special field, specifies card number of card in Restolution to be replaced with this card. Note: Used only in [importCards](#importcards).
-
 <a name="printer"></a>
 ### Printer
 
@@ -314,79 +267,6 @@ See also [listCards](#listcards).
 
 <a name="available-methods"></a>
 ## Available Methods
-
-<a name="savetoopentables"></a>
-### saveToOpenTables
-
-For saving open table receipt data in back office.
-
-parameters:
-
-* ``tableCode``
-* ``clerkCode``
-* ``saleRows``
-* ``paymentRows``
-
-response:
-
-no required fields in the response
-
-<a name="closeopentable"></a>
-### closeOpenTable
-
-For closing an open table in the back office.
-
-parameters:
-
-* ``tableCode``
-
-response:
-
-no required fields in the response
-
-<a name="getopentables"></a>
-### getOpenTables
-
-For getting a list of opened tables with receipt data from back office.
-
-parameters:
-
-* no parameters
-
-response:
-
-* list of open tables
-
-<a name="opentable"></a>
-### openTable
-
-For opening a table in cash register.
-
-parameters:
-
-* ``tableCode`` - table to open
-* ``clerkCode`` - clerk who is opening the table
-
-response:
-
-* `transactionUUID` - optional unique identifier of this table transaction
-
-<a name="addtoopentable"></a>
-### addToOpenTable
-
-For adding sales to opened table in back office.
-
-parameters:
-
-* ``tableCode`` - table to where the sales are added
-* ``clerkCode`` - clerk who is adding sales
-* ``saleRows`` - optional array of sale rows
-* ``customerNumber`` - optional customer number
-* ``userMessage`` - optional user message
-
-response:
-
-* `transactionUUID` - optional unique identifier of this table transaction
 
 <a name="listrestaurants"></a>
 ### listRestaurants
@@ -574,81 +454,6 @@ sample response:
                     ]
                   }
             ]
-        }
-    }
-
-<a name="placeorder"></a>
-### placeOrder
-
-For placing orders in certain cash register.
-
-parameters:
-
-* ``orderID`` - order ID, third party identifier for order
-* ``tableCode`` - optional table code
-* ``comment`` - optional extra information, for example name of end user
-* ``orderRows`` - array containing ordered items
-* ``paymentRows`` - optional array containing payments
-
-response:
-
-* ``transactionUUID`` - unique ID for referencing this order later
-
-sample request:
-
-    {
-        "timestamp":"2015-09-16T08:58:40",
-        "apiKey":"user_321681",
-        "requestID":"req_325168426",
-        "cashRegisterUUID":"12dad71f-3cb3-4127-a039-81ed6dad2d01",
-        "method":"placeOrder",
-        "params":{
-            "orderID":"105",
-            "orderRows":[
-                {
-                    "articleID":"123",
-                    "priceID":"2",
-                    "price":690,
-                    "quantity":2000,
-                    "tax":14,
-                    "options":[
-                        {
-                            "optionListID":"C964077949",
-                            "articleIDs":[ "9153", "9155", "9143" ]
-                        },
-                        {
-                            "optionListID":"C1016285933",
-                            "articleIDs":[ "1666", "17777" ]
-                        }
-                    ],
-                    "userMessage":"so it's two of 123"
-                },
-                {
-                    "articleID":"666",
-                    "priceID":"1",
-                    "price":1400,
-                    "quantity":500
-                }
-            ],
-            "paymentRows":[
-                {
-                    "paymentCode":"PREPAID",
-                    "amount":1000,
-                    "tip":100
-                }
-            ],
-            "comment":"Pekka"
-        }
-    }
-
-sample response:
-
-    {
-        "timestamp":"2015-09-16T08:58:40",
-        "success":true,
-        "requestID":"req_325168426",
-        "response":{
-            "transactionUUID":"8cff3dd2-1158-4acf-817d-de04436dc779"
         }
     }
 
@@ -1209,389 +1014,6 @@ sample response:
     	}
     }
 
-<a name="listcards"></a>
-### listCards (not yet implemented)
-
-For listing customer cards available to the given API Key.
-If no parameters are given, all cards available to the API key are listed.
-See also [Card](#card).
-
-parameters:
-
-* ``customerNumbers`` - array of customer numbers whose cards to include
-* ``cardNumbers`` - array of card numbers to include
-
-response:
-
-* ``cards`` - array of [Card](#card) objects
-
-sample request:
-
-    {
-        "timestamp":"2015-09-16T08:58:40",
-        "apiKey":"user_321681",
-        "requestID":"req_325168426",
-        "method":"listCards",
-        "params":{
-            "customerNumbers":[
-                "1", "4", "8"
-            ],
-            "cardNumbers" : [
-                "111122223333", "444455556666"
-            ]
-        }
-
-    }
-
-sample response:
-
-    {
-        "timestamp": "2015-09-16T08:58:40",
-        "success": true,
-        "requestID": "req_325168426",
-        "response": {
-            "cards": [
-                {
-                    "cardNumber":"111122223333",
-                    "type":"LOYALTY",
-                    "active":true,
-                    "validUntil":"2018-10-16T04:59:59",
-                    "holderName":"Mia Mallikas",
-                    "personCode":"1234567",
-                    "customerNumber":"111",
-                    "balance":5000,
-                    "department":"1122",
-                    "departmentName":"some department",
-                    "accountCode":"1234567",
-                    "workHoursPerWeek":40
-                },
-                {
-                    "cardNumber":"222233334444",
-                    "type":"LUNCH",
-                    "active":true,
-                    "validUntil":"2018-12-22T04:59:59",
-                    "holderName":"Keijo Korttelin",
-                    "personCode":"2345678",
-                    "customerNumber":"111",
-                    "balance":2680,
-                    "department":"1122",
-                    "departmentName":"some department",
-                    "accountCode":"1234567",
-                    "workHoursPerWeek":40
-                }
-            ]
-        }
-    }
-
-<a name="importcards"></a>
-### importCards (not yet implemented)
-
-For importing new and editing existing customer cards.
-See also [Card](#card).
-
-parameters:
-
-* ``cards`` - array of [Card](#card) objects.
-
-response:
-
-A "savedCards" object that contains the following fields:
-
-* ``cards`` - nr of cards in request
-* ``added`` - nr of new cards added
-* ``updated`` - nr existing cards updated
-* ``clients`` - nr of clients affected
-
-sample request:
-
-
-    {
-        "timestamp": "2015-09-16T08:58:40",
-    	"apiKey": "user_321681",
-    	"requestID": "req_325168426",
-    	"method": "importCards",
-    	"params": {
-    		"cards": [
-                {
-                    "cardNumber":"111122223333",
-                    "type":"LOYALTY",
-                    "active":true,
-                    "validUntil":"2018-10-16T04:59:59",
-                    "holderName":"Mia Mallikas",
-                    "personCode":"1234567",
-                    "customerNumber":"111",
-                    "balance":5000,
-                    "department":"1122",
-                    "departmentName":"some department",
-                    "accountCode":"1234567",
-                    "workHoursPerWeek":40
-                },
-                {
-                    "cardNumber":"222233334443",
-                    "type":"LUNCH",
-                    "active":true,
-                    "validUntil":"2018-12-22T04:59:59",
-                    "holderName":"Keijo Korttelin",
-                    "personCode":"2345678",
-                    "customerNumber":"111",
-                    "balance":2680,
-                    "originalNumber":"222233334444",
-                    "department":"1122",
-                    "departmentName":"some department",
-                    "accountCode":"1234567",
-                    "workHoursPerWeek":40
-                }
-    		]
-    	}
-    }
-
-sample response:
-
-    {
-        "timestamp": "2015-09-16T08:58:40",
-    	"success": true,
-    	"requestID": "req_325168426",
-    	"response": {
-    		"savedCards": {
-    			"cards": 2,
-    			"added": 1,
-    			"updated": 1,
-    			"clients": 1
-    		}
-    	}
-    }
-
-<a name="cancelorder"></a>
-### cancelOrder
-
-For cancelling already placed order.
-
-parameters:
-
-* ``transactionUUID`` - unique ID received in placeOrder request
-* ``message`` - optional message that can be shown to user in cash register
-
-response:
-
-contains no special parameters
-
-sample request:
-
-    {
-        "timestamp":"2015-09-16T08:58:40",
-        "apiKey":"user_321681",
-        "requestID":"req_325168426",
-        "cashRegisterUUID":"12dad71f-3cb3-4127-a039-81ed6dad2d01",
-        "method":"cancelOrder",
-        "params":{
-            "transactionUUID":"8cff3dd2-1158-4acf-817d-de04436dc779",
-            "message":"Customer changed it's mind"
-        }
-    }
-
-sample responses:
-
-    {
-        "timestamp":"2015-09-16T08:58:40",
-        "success":true,
-        "requestID":"req_325168426"
-    }
-
-    {
-        "timestamp":"2015-09-16T08:58:40",
-        "success":false,
-        "statusCode":"TRANSACTION_ID_MISSING",
-        "requestID":"req_325168426"
-    }
-
-<a name="placebooking"></a>
-### placeBooking
-
-parameters:
-
-* ``startTime`` - starting time
-* ``duration`` - duration in seconds
-* ``contactPerson`` - contact person
-* ``numberOfPersons`` - number of persons
-* ``comments`` - optional extra information
-* ``tableCode`` - optional table code
-
-response:
-
-* ``transactionUUID`` - unique ID for referencing this booking later
-
-sample request:
-
-    {
-        "timestamp":"2015-09-16T08:58:40",
-        "apiKey":"user_321681",
-        "requestID":"req_325168426",
-        "cashRegisterUUID":"12dad71f-3cb3-4127-a039-81ed6dad2d01",
-        "method":"placeBooking",
-        "params":{
-            "startTime":"2015-09-16T20:30:00",
-            "duration":7200,
-            "contactPerson":"Bob",
-            "numberOfPersons":3
-        }
-    }
-
-sample response:
-
-    {
-        "timestamp":"2015-09-16T08:58:40",
-        "success":true,
-        "requestID":"req_325168426",
-        "response":{
-            "transactionUUID":"8cff3dd2-1158-4acf-817d-de04436dc779"
-        }
-    }
-
-<a name="cancelbooking"></a>
-### cancelBooking
-
-For cancelling already placed booking.
-
-parameters:
-
-* ``transactionUUID`` - unique ID received in placeBooking request
-* ``message`` - optional message that can be shown to user in cash register
-
-response:
-
-contains no special parameters
-
-sample request:
-
-    {
-        "timestamp":"2015-09-16T08:58:40",
-        "apiKey":"user_321681",
-        "requestID":"req_325168426",
-        "cashRegisterUUID":"12dad71f-3cb3-4127-a039-81ed6dad2d01",
-        "method":"cancelBooking",
-        "params":{
-            "transactionUUID":"8cff3dd2-1158-4acf-817d-de04436dc779",
-            "message":"Customer changed it's mind"
-        }
-    }
-
-sample responses:
-
-    {
-        "timestamp":"2015-09-16T08:58:40",
-        "success":true,
-        "requestID":"req_325168426"
-    }
-
-    {
-        "timestamp":"2015-09-16T08:58:40",
-        "success":false,
-        "statusCode":"TRANSACTION_ID_MISSING",
-        "requestID":"req_325168426"
-    }
-
-<a name="status"></a>
-### status
-
-For asking service about status of request (order or booking) sent previously to cash register.
-
-parameters:
-
-* ``transactionUUID`` - unique ID received in placeOrder or placeBooking request whose status is being asked for
-* ``requestID`` - ID of the original request whose status is being asked for
-
-Either ``transactionUUID`` OR ``requestID`` must be in request.
-
-response:
-
-* ``statusCode`` - status code of the request if requestID was given
-
-
-sample request:
-
-    {
-        "timestamp":"2015-09-16T08:58:40",
-        "apiKey":"user_321681",
-        "requestID":"req_325168427",
-        "cashRegisterUUID":"12dad71f-3cb3-4127-a039-81ed6dad2d01",
-        "method":"status",
-        "params":{
-            "requestID":"req_325168426"
-        }
-    }
-
-sample responses:
-
-    {
-        "success": true,
-        "timestamp": "2015-09-16T08:58:40",
-        "requestID": "req_325168427",
-        "response": {
-            "statusCode": "COMPLETED"
-        }
-    }
-
-<a name="response"></a>
-### response
-
-For asking for a delayed response, e.g. if initial request generated response with request status code REGISTERED or PROCESSING.
-
-parameters:
-
-* ``requestID`` - ID of the original request whose delayed response is being asked for
-
-response:
-
-* if a response if found, it will be sent back exactly as generated by the cash register
-* if the request fails, (e.g. no response has been generated by the cash register)  a response will be generated containing an error code
-
-sample request:
-
-    {
-        "timestamp":"2015-09-16T08:58:40",
-        "apiKey":"user_321681",
-        "requestID":"req_325168427",
-        "cashRegisterUUID":"12dad71f-3cb3-4127-a039-81ed6dad2d01",
-        "method":"response",
-        "params":{
-            "requestID":"req_325168426"
-        }
-    }
-
-sample responses:
-
-    {
-        "success": true,
-        "timestamp": "2015-09-16T08:58:40",
-        "requestID": "req_325168426",
-        "response": {
-            "transactionUUID": "8cff3dd2-1158-4acf-817d-de04436dc779"
-        }
-    }
-
-    {
-        "success": false,
-        "timestamp": "2015-09-16T08:58:40",
-        "requestID": "req_325168427",
-        "statusCode": "RESPONSE_NOT_FOUND"
-    }
-
-<a name="request-status-codes"></a>
-## Request status codes
-
-* REGISTERED
-    Request has been validated and awaits processing by the cash register.
-
-* PROCESSING
-    Cash register has started processing the request.
-
-* COMPLETED
-    Cash register has completed processing the request successfully and generated a response.
-
-* ERROR
-    An error occurred when cash register tried to process the request and an error code and optional message
-    should be appended to the response.
-
 <a name="receipt-types"></a>
 ## Receipt types
 
@@ -1649,18 +1071,6 @@ sample responses:
 * CUSTOMER_BALANCE_GIFT_CARD
     Gift voucher customer balance customer
 
-<a name="card-types"></a>
-## Card types
-
-* LOYALTY
-    Loyalty customer card
-
-* LUNCH
-    Lunch card
-
-* LUNCH_MULTI
-    Multi lunch card
-
 <a name="customer-invoicing-methods"></a>
 ## Customer invoicing methods
 
@@ -1704,25 +1114,6 @@ sample responses:
 <a name="version-history"></a>
 ## Version history
 
-| Version   | Author                            | Summary                      |
-| --------- | --------------------------------- | ---------------------------- |
-| 0.1-draft | indrek.toom@soft-contact.fi       | Initial draft for commenting |
-| 0.2-draft | mats.antell@soft-contact.fi       | First draft for Phase 1 implementation |
-| 0.3       | mats.antell@soft-contact.fi       | Added listRestaurants and saveReceipts methods |
-| 0.4       | mats.antell@soft-contact.fi       | Ratified saveReceipts, added includeCustomers to listRestaurants|
-| 0.5       | mats.antell@soft-contact.fi       | Added includeBaseData flag and Printer object and related changes to sample json response |
-| 0.6       | mats.antell@soft-contact.fi       | Added Receipt fields to prevent duplicates, saveReceipts response as objects linking receiptID to saved receiptUUID |
-| 0.7       | indrek.toom@soft-contact.fi       | Added saveToOpenTables, closeOpenTable, getOpenTables, addToOpenTable methods |
-| 0.8       | indrek.toom@soft-contact.fi       | Changed option lists to include list id |
-| 0.81      | ilkka.hyvarinen@kassamagneetti.fi | Formatting changes |
-| 0.9       | mats.antell@soft-contact.fi       | Added importArticles with support for cookingInstruction only |
-| 1.0-draft | mats.antell@soft-contact.fi       | Added draft for getReceipts and made some changes for SoftPos API consistency |
-| 1.01      | mats.antell@soft-contact.fi       | Finalized pilot version of getReceipts |
-| 1.02      | mats.antell@soft-contact.fi       | Added Basic access authentication |
-| 1.1-draft | mats.antell@soft-contact.fi       | Added draft for getBookkeepingRows and invoice receipts parameters |
-| 1.2-draft | mats.antell@soft-contact.fi       | Added draft for listCustomers and importCustomers |
-| 1.21      | mats.antell@soft-contact.fi       | Added timestamp to Payment row |
-| 1.22      | mats.antell@soft-contact.fi       | Added saleID and parentID to Sale row with example of fields in getReceipts method |
-| 1.23      | mats.antell@soft-contact.fi       | Added includeRowComments parameter to getReceipts method |
-| 1.30      | mats.antell@soft-contact.fi       | Restructured document, updated sections, cleaned up and added toc|
-| 1.31      | mats.antell@soft-contact.fi       | Added draft for card object and methods listCards and importCards|
+| Date        | Author                            | Summary                      |
+| ----------- | --------------------------------- | ---------------------------- |
+| 17.4.12018  | mats.antell@soft-contact.fi       | Initial version              |
