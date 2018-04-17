@@ -85,7 +85,7 @@ The RESTO JSON API has a limited set of functionality suitable for the following
 ## Basic access authentication
 
 Soft-Contact JSON API also supports Basic access authentication (over HTTPS) as alternative to
-the encoding and hash described in ``Soft-Contact JSON API Protocol Technical Description``.
+the encoding and hash described in [Soft-Contact JSON API Protocol Technical Description](resto_json_api_technical_description.md)[Soft-Contact JSON API Protocol Technical Description](resto_json_api_technical_description.md).
 Note: When using Basic access authentication, the "apiKey" field is NOT required in the request JSON.
 
 <a name="common-objects"></a>

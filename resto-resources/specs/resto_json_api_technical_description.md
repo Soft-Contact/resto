@@ -1,12 +1,4 @@
-## Soft-Contact JSON API Protocol Technical Description
-
-| Version   | Author                              | Summary                     |
-| --------  | ----------------------------------- | --------------------------- |
-| 0.1       | mats.antell@soft-contact.fi         | Initial version, extracted from Soft-Contact payment authorization protocol |
-| 0.2       | indrek.toom@soft-contact.fi         | Added missing cashRegisterUUID parameter |
-| 0.21      | ilkka.hyvarinen@kassamagneetti.fi   | Formatting changes                       |
-| 0.3       | indrek.toom@soft-contact.fi         | Added PAYMENT_TYPE_NOT_FOUND error |
-| 0.4       | indrek.toom@soft-contact.fi         | Added ORDER_ID_MISSING error |
+# Soft-Contact JSON API Protocol Technical Description
 
 ## Technical overview
 
@@ -194,3 +186,13 @@ response structure:
 * 401 - not authorized
 * 404 - not found
 * 500 - internal server error    
+
+## Version history
+
+| Version   | Author                              | Summary                     |
+| --------  | ----------------------------------- | --------------------------- |
+| 0.1       | mats.antell@soft-contact.fi         | Initial version, extracted from Soft-Contact payment authorization protocol |
+| 0.2       | indrek.toom@soft-contact.fi         | Added missing cashRegisterUUID parameter |
+| 0.21      | ilkka.hyvarinen@kassamagneetti.fi   | Formatting changes                       |
+| 0.3       | indrek.toom@soft-contact.fi         | Added PAYMENT_TYPE_NOT_FOUND error |
+| 0.4       | indrek.toom@soft-contact.fi         | Added ORDER_ID_MISSING error |
