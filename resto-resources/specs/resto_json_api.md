@@ -1,7 +1,7 @@
 <a name="top"></a>
 # Soft-Contact JSON API protocol
 
-##Table of contents
+## Table of contents
 - [Soft-Contact JSON API protocol](#soft-contact-json-api-protocol)
   * [Introduction](#introduction)
   * [Overview](#overview)
