@@ -79,7 +79,7 @@ The RESTO JSON API has a limited set of functionality suitable for the following
 <a name="technical-description"></a>
 ## Technical description
 
-* see ``Soft-Contact JSON API Protocol Technical Description``
+* see [Soft-Contact JSON API Protocol Technical Description](resto_json_api_technical_description.md)
 
 <a name="basic-access-authentication"></a>
 ## Basic access authentication
