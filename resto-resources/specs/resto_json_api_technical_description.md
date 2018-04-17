@@ -1,0 +1,196 @@
+## Soft-Contact JSON API Protocol Technical Description
+
+| Version   | Author                              | Summary                     |
+| --------  | ----------------------------------- | --------------------------- |
+| 0.1       | mats.antell@soft-contact.fi         | Initial version, extracted from Soft-Contact payment authorization protocol |
+| 0.2       | indrek.toom@soft-contact.fi         | Added missing cashRegisterUUID parameter |
+| 0.21      | ilkka.hyvarinen@kassamagneetti.fi   | Formatting changes                       |
+| 0.3       | indrek.toom@soft-contact.fi         | Added PAYMENT_TYPE_NOT_FOUND error |
+| 0.4       | indrek.toom@soft-contact.fi         | Added ORDER_ID_MISSING error |
+
+## Technical overview
+
+The requests are made from SoftPos towards the 3rd-party server using HTTP or (preferably) HTTPS POST request using the [JSON](https://en.wikipedia.org/wiki/JSON) based format defined in this document.
+ 
+All SoftPos cash registers have a unique identifier (UUID).
+
+All amounts are represented by cents (integer) and quantities in 1/1000 parts (integer).
+
+All dates and times are represented using [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601).
+All dates and times exported are local timestamps without time zone.
+
+Both request and response messages might get additional (optional) parameters in the future.
+
+Note that for the sake of brevity all the JSON examples in this document are formatted.
+
+## Process flow
+
+1. SoftPos sends a request message
+2. 3rd-party replies with either 
+   * a response message or
+   * an error response message or 
+   * an HTTP error code
+
+### Request parameters
+
+HTTP request contains two parameters:
+
+1. `request` - [Base64](https://en.wikipedia.org/wiki/Base64) encoded JSON request containing the api key
+
+2. `hash` - [SHA-256](https://en.wikipedia.org/wiki/SHA-256) hash of the JSON request using secret key
+The hash is a hexadecimal representation that can be obtained using 
+for example in Java: org.apache.commons.codec.digest.HmacUtils.hmacSha256Hex:
+<programlisting language="java">
+    public static String hmacSha256Hex(byte[] key, byte[] valueToDigest)
+</programlisting>
+    where **key** is the secret key of the api user as a byte array
+    and **valueToDigest** is the JSON message as a byte array
+    
+Generating hashes can be tested online for example at http://www.freeformatter.com/hmac-generator.html 
+3rd-party must verify the hash using the secret key corresponding the api key and **must not** accept the request
+in case verification fails.
+
+### Sample session
+
+JSON request:
+
+    {"apiKey":"1","requestID":"2","cashRegisterUUID":"3","method":"test","params":
+    {"param1":"value"}}
+
+Base64 encoded JSON request:
+
+    eyJhcGlLZXkiOiIxIiwicmVxdWVzdElEIjoiMiIsImNhc2hSZWdpc3RlclVVSUQiOiIzIiwibWV0aG9kIjoidGVzd
+    CIsInBhcmFtcyI6eyJwYXJhbTEiOiJ2YWx1ZSJ9fQ==
+
+SHA-256 hash from JSON request (here using password `hunter2`):
+
+    268b0360dfc7eae551728b28d6c72ad18e76960bbef4a7c6e3fe847093a0e6be
+
+Final HTTP request:
+
+    request=eyJhcGlLZXkiOiIxIiwicmVxdWVzdElEIjoiMiIsImNhc2hSZWdpc3RlclVVSUQiOiIzIiwibWV0aG9
+    kIjoidGVzdCIsInBhcmFtcyI6eyJwYXJhbTEiOiJ2YWx1ZSJ9fQ==&hash=268b0360dfc7eae551728b28d6c
+    72ad18e76960bbef4a7c6e3fe847093a0e6be
+
+## Request message
+ 
+Required parameters for all requests:
+
+* `timestamp` - time when the request was created
+* `requestID` - ID of the request used later in response
+* `method` - name of the method to call
+* `params` - method specific parameters
+
+Optional parameters for all requests:
+
+* `cashRegisterUUID` - UUID of the cash register the request is sent to  
+* `lang` - [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1) language code for response messages
+
+request structure:
+
+    {
+        "timestamp":"2015-09-16T08:58:40",
+        "apiKey":"user_283764",
+        "requestID":"req_28376428",
+        "cashRegisterUUID":"3aaf2ef6-89ee-4e8f-8191-cbf725435a96",
+        "method":"methodName",
+        "params":{
+            "param1":"value",
+            "param2":"value"
+        }
+    }
+
+## Response message 
+
+common parameters:
+
+* `timestamp` - time when the response was created
+* `requestID` - ID of the original request 
+* `success` - shows whether the request was processed successfully (i.e. `true`)
+* `message` - optional human readable message which can be shown to user
+* `response` - optional method specific result
+
+response structure:
+
+    {
+        "timestamp":"2015-09-16T08:58:40",
+        "success":true,
+        "requestID":"req_28376428",
+        "response":{
+            "field1":"value",
+            "field2":"value"
+        },
+        "message":"optional human readable message"
+    }
+ 
+### Error response 
+ 
+parameters:
+
+* `timestamp` - time when the response was created
+* `requestID` - ID of the original request. Optional in case the original request did not contain `requestID`
+* `success` - shows whether the request was processed successfully (i.e. `false`)
+* `statusCode` - in case of unsuccessful request. see the list of error codes below
+* `message` - optional human readable description of the error which can be shown to user
+
+response structure:
+
+    {
+        "timestamp":"2015-09-16T08:58:40",
+        "success":false,
+        "requestID":"req_28376428",
+        "statusCode":"ERR_CODE",
+        "message":"human readable error message"
+    }
+    
+### Error codes
+
+* UNKNOWN_ERROR - not listed error code with details in `message` field
+* AMOUNT_MISSING
+* TRANSACTION_UUID_MISSING
+* CARD_NOT_FOUND
+* INVALID_AMOUNT
+* LIMIT_EXCEEDED
+* TRANSACTION_ALREADY_CANCELLED
+* TRANSACTION_NOT_FOUND
+* CUSTOMER_NOT_FOUND
+* CARD_ALREADY_REGISTERED
+* CARD_NUMBER_MISSING
+* CUSTOMER_NUMBER_MISSING
+* INVALID_CUSTOMER_NUMBER
+* CREDITING_NOT_ALLOWED
+* INVALID_JSON
+* INVALID_DATA
+* INVALID_PERIOD
+* UNEXPECTED_VALUE_TYPE
+* MISSING_PARAMETERS
+* INTERNAL_ERROR
+* UNKNOWN_METHOD
+* METHOD_MISSING
+* ORDER_ROWS_MISSING
+* ORDER_ROWS_EMPTY
+* ORDER_ID_MISSING
+* REQUEST_ALREADY_EXISTS
+* REQUEST_NOT_FOUND
+* REQUEST_ID_MISSING
+* API_KEY_MISSING
+* RESPONSE_NOT_FOUND
+* CASH_REGISTER_UUID_MISSING
+* INVALID_CASH_REGISTER_UUID
+* UNKNOWN_CASH_REGISTER_UUID
+* NO_REQUESTS_FOUND
+* ARTICLE_NOT_FOUND
+* CAN_NOT_OPEN_TABLE
+* TABLE_ALREADY_OPENED
+* CAN_NOT_ADD_TO_TABLE
+* DATABASE_LOCK_ERROR
+* CLERK_NOT_FOUND
+* PAYMENT_TYPE_NOT_FOUND
+    
+## Server status codes 
+
+* 200 - OK
+* 400 - bad request
+* 401 - not authorized
+* 404 - not found
+* 500 - internal server error    
