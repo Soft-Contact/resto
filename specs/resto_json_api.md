@@ -44,7 +44,7 @@
 ## Introduction
 
 This documents specifies the protocol for reading and importing a subset
-of Restolution data using [Soft-Contact's](http://soft-contact.fi/) Soft-Contact JSON API.
+of Restolution data using [Soft-Contact's](https://soft-contact.fi/) Soft-Contact JSON API.
 
 <a name="overview"></a>
 ## Overview
@@ -474,7 +474,7 @@ parameters:
 * ``includePaymentRows`` - include payment receipt rows in the results
 * ``invoiceReceiptsOnly`` - true / false to include only invoice receipts
 * ``reconciliatedDatesOnly`` - true / false if results should include only reconciliated dates. Can be used only when ``invoiceReceiptsOnly`` = true.
-* ``includeRowComments`` - true / false if row comments should be included (included by default if invoiceReceiptsOnly = true)
+* ``includeRowComments`` - true / false if row comments should be included (included by default if ``invoiceReceiptsOnly`` = true)
 
 Note 1: If no date parameters are given, the default value for ``salesReadingFromDate`` will be used. Default value is kept by Restolution.
 
@@ -681,8 +681,8 @@ parameters:
 
 * ``costCentreCodes`` - array containing cost centre codes
 * ``salesReadFromDate`` - include sales read to back office since given date
-        if not given, sales read to back office since last call to "getBookkeepingRows" will be returned
-* ``receiptTimeFromDate`` - include receipts with timestamp equal or later than given date. Overrides salesReadingFromDate
+        if not given, sales read to back office since last call to ``getBookkeepingRows`` will be returned
+* ``receiptTimeFromDate`` - include receipts with timestamp equal or later than given date. Overrides ``salesReadingFromDate``
 * ``receiptTimeUntilDate`` - include receipts with timestamp equal or older than given date
 * ``reconciliatedDatesOnly`` - true / false if results should include only reconciliated dates
 
@@ -752,7 +752,7 @@ parameters:
 
 response:
 
-* ``savedReceipts`` - array of objects containing unique receiptID, receiptsUUID and timestamp for each saved receipt
+* ``savedReceipts`` - array of objects containing unique ``receiptID``, ``receiptsUUID`` and ``timestamp`` for each saved receipt
 
 sample request:
 
@@ -1026,7 +1026,7 @@ sample response:
     Deduction (void) receipt.
 
 * MGR
-    Manage receipt.
+    Manager receipt.
 
 * RECONCILIATION
     Reconciliation receipt.
