@@ -162,6 +162,7 @@ or read using "getReceipts" method.
 * ``restaurantName`` - restaurant name, used in  "getReceipts".
 * ``customerQuantity`` - customer quantity, used in  "getReceipts".
 * ``freeText`` - receipt free text, used in "getReceipts"
+* ``quickInvoice`` - true if receipt has been finalized as a quick invoice in cash register
 * ``tableCode`` - optional table code
 * ``receiptRows`` - an array of [Receipt Row](#receipt-row) objects
 * ``paymentRows`` - an array of [Payment Row](#payment-row) objects
@@ -528,6 +529,7 @@ sample response:
                     "restaurantName":"Kulman Kuppila",
                     "customerQuantity":1,
                     "freeText":"Pizzaan saa laittaa valkosipulia",
+                    "quickInvoice":false,
                     "tableCode":"100",
                     "receiptRows":[
                         {
@@ -1117,3 +1119,5 @@ sample response:
 | Date        | Author                            | Summary                      |
 | ----------- | --------------------------------- | ---------------------------- |
 | 17.4.12018  | mats.antell@soft-contact.fi       | Initial version              |
+| 18.4.12018  | mats.antell@soft-contact.fi       | Added Receipt.quickInvoice   |
+
