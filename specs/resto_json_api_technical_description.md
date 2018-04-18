@@ -80,17 +80,19 @@ Optional parameters for all requests:
 
 request structure:
 
-    {
-        "timestamp":"2015-09-16T08:58:40",
-        "apiKey":"user_283764",
-        "requestID":"req_28376428",
-        "cashRegisterUUID":"3aaf2ef6-89ee-4e8f-8191-cbf725435a96",
-        "method":"methodName",
-        "params":{
-            "param1":"value",
-            "param2":"value"
-        }
+```json
+{
+    "timestamp":"2015-09-16T08:58:40",
+    "apiKey":"user_283764",
+    "requestID":"req_28376428",
+    "cashRegisterUUID":"3aaf2ef6-89ee-4e8f-8191-cbf725435a96",
+    "method":"methodName",
+    "params":{
+        "param1":"value",
+        "param2":"value"
     }
+}
+```
 
 ## Response message 
 
@@ -104,17 +106,19 @@ common parameters:
 
 response structure:
 
-    {
-        "timestamp":"2015-09-16T08:58:40",
-        "success":true,
-        "requestID":"req_28376428",
-        "response":{
-            "field1":"value",
-            "field2":"value"
-        },
-        "message":"optional human readable message"
-    }
- 
+```json
+{
+    "timestamp":"2015-09-16T08:58:40",
+    "success":true,
+    "requestID":"req_28376428",
+    "response":{
+        "field1":"value",
+        "field2":"value"
+    },
+    "message":"optional human readable message"
+}
+```
+
 ### Error response 
  
 parameters:
@@ -127,13 +131,15 @@ parameters:
 
 response structure:
 
-    {
-        "timestamp":"2015-09-16T08:58:40",
-        "success":false,
-        "requestID":"req_28376428",
-        "statusCode":"ERR_CODE",
-        "message":"human readable error message"
-    }
+```json
+{
+    "timestamp":"2015-09-16T08:58:40",
+    "success":false,
+    "requestID":"req_28376428",
+    "statusCode":"ERR_CODE",
+    "message":"human readable error message"
+}
+```    
     
 ### Error codes
 
