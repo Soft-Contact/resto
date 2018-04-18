@@ -287,176 +287,180 @@ response:
 
 sample request:
 
-    {
-        "timestamp" : "2015-09-16T08:58:40",
-        "apiKey" : "user_321681",
-        "requestID" : "req_325168426",
-        "method" : "listRestaurants",
-        "params" : {
-            "cashRegisterUUIDs" : [
-                "12dad71f-3cb3-4127-a039-81ed6dad2d01"
-            ],
-            "includeArticles" : true,
-            "includeCustomers" : true,
-            "includeBaseData" : true
-        }
+```json
+{
+    "timestamp" : "2015-09-16T08:58:40",
+    "apiKey" : "user_321681",
+    "requestID" : "req_325168426",
+    "method" : "listRestaurants",
+    "params" : {
+        "cashRegisterUUIDs" : [
+            "12dad71f-3cb3-4127-a039-81ed6dad2d01"
+        ],
+        "includeArticles" : true,
+        "includeCustomers" : true,
+        "includeBaseData" : true
     }
+}
+```
 
 sample response:
 
-    {
-        "timestamp" : "2015-09-16T08:58:40",
-        "success" : true,
-        "requestID" : "req_325168426",
-        "response" : {
-            "restaurants" : [
-                {
-                    "cashRegisterUUID" : "12dad71f-3cb3-4127-a039-81ed6dad2d01",
-                    "restaurantID" : "1",
-                    "name" : "S&C Testiravintola",
-                    "contact" : {
-                      "street" : "Linnanpajantie 1",
-                      "postIndex" : "00950",
-                      "city" : "Helsinki",
-                      "phoneNr" : "+358 29 007 4960",
-                      "wwwAddress" : "soft-contact.fi",
-                      "emailAddress" : "support@soft-contact.fi"
+```json
+{
+    "timestamp" : "2015-09-16T08:58:40",
+    "success" : true,
+    "requestID" : "req_325168426",
+    "response" : {
+        "restaurants" : [
+            {
+                "cashRegisterUUID" : "12dad71f-3cb3-4127-a039-81ed6dad2d01",
+                "restaurantID" : "1",
+                "name" : "S&C Testiravintola",
+                "contact" : {
+                  "street" : "Linnanpajantie 1",
+                  "postIndex" : "00950",
+                  "city" : "Helsinki",
+                  "phoneNr" : "+358 29 007 4960",
+                  "wwwAddress" : "soft-contact.fi",
+                  "emailAddress" : "support@soft-contact.fi"
+                },
+                "openHours" : [
+                    {
+                        "hours" : "09:00/02:00"
                     },
-                    "openHours" : [
-                        {
-                            "hours" : "09:00/02:00"
-                        },
-                        {
-                            "day" : "Saturday",
-                            "hours" : "11:00/22:00"
-                        },
-                        {
-                            "day" : "Sunday"
-                        }
-                    ],
-                    "maxCustomers":20,
-                    "printers" : [{
-                            "printerID" : "1",
-                            "name" : "Testiravintola lämmin",
-                            "address" : "10.53.2.71",
-                            "port" : "9100",
-                            "width" : 33
-                        },
-                        {
-                            "printerID" : "2",
-                            "name" : "Testiravintola kylmä",
-                            "address" : "10.53.2.72",
-                            "port" : "9100",
-                            "width" : 33
-                        },
-                        {
-                            "printerID" : "1",
-                            "name" : "Testiravintola baari",
-                            "address" : "10.53.2.73",
-                            "port" : "9100",
-                            "width" : 33
-                        }],
-                    "menus" :  [{
-                        "menuID":50,
-                        "name":"Alkuruoka",
-                        "articles":[
-                            {
-                                "articleID":"9001",
-                                "name":"VIHERSALAATTI",
-                                "description":"",
-                                "prices" : [
-                                    {
-                                    "priceID":"1",
-                                    "price":500,
-                                    "tax":14
-                                    }
-                                ],
-                                "type":"SALE",
-                                "printerIDs" : ["1"]
-                            },{
-                                "articleID":"9002",
-                                "name":"SUOLAKURKKUJA",
-                                "description":"",
-                                "prices" : [
-                                    {
-                                    "priceID":"1",
-                                    "price":600,
-                                    "tax":14
-                                    }
-                                ],
-                                "type":"SALE",
-                                "printerIDs" : ["1"]
-                            }
-                        ]
-                    },{
-                        "menuID":51,
-                        "name":"Pääruoka",
-                        "articles":[
-                            {
-                                "articleID":"9129",
-                                "name":"PIPPURIPIHVI",
-                                "description":"",
-                                "prices" : [
-                                    {
-                                    "priceID":"1",
-                                    "price":1500,
-                                    "tax":14
-                                    }
-                                ],
-                                "type":"SALE",
-                                "includeOptionPrice":true,
-                                "options":[
-                                    {
-                                        "name":"Pottuvalintoja",
-                                        "minSelections":1,
-                                        "maxSelections":1,
-                                        "articleIDs":["9207","9210"]
-                                    }
-                                ],
-                                "printerIDs" : ["1","2"]
-                            },
-                            {
-                                "articleID":"9207",
-                                "name":"VALKOSIPULIPERUNAT",
-                                "description":"",
-                                "prices" : [
-                                    {
-                                        "priceID":"1",
-                                        "price":100,
-                                        "tax":14
-                                    }
-                                ],
-                                "type":"OPTION"
-                            },
-                            {
-                                "articleID":"9210",
-                                "name":"PAISTETUT PERUNAT",
-                                "description":"",
-                                "prices" : [
-                                    {
-                                        "priceID":"1",
-                                        "price":100,
-                                        "tax":14
-                                    }
-                                ],
-                                "type":"OPTION"
-                            }
-                        ]
+                    {
+                        "day" : "Saturday",
+                        "hours" : "11:00/22:00"
+                    },
+                    {
+                        "day" : "Sunday"
+                    }
+                ],
+                "maxCustomers":20,
+                "printers" : [{
+                        "printerID" : "1",
+                        "name" : "Testiravintola lämmin",
+                        "address" : "10.53.2.71",
+                        "port" : "9100",
+                        "width" : 33
+                    },
+                    {
+                        "printerID" : "2",
+                        "name" : "Testiravintola kylmä",
+                        "address" : "10.53.2.72",
+                        "port" : "9100",
+                        "width" : 33
+                    },
+                    {
+                        "printerID" : "1",
+                        "name" : "Testiravintola baari",
+                        "address" : "10.53.2.73",
+                        "port" : "9100",
+                        "width" : 33
                     }],
-                    "customers":[
+                "menus" :  [{
+                    "menuID":50,
+                    "name":"Alkuruoka",
+                    "articles":[
                         {
-                            "customerNumber":"1111",
-                            "customerName":"Pelle Peloton"
-                        },
-                        {
-                            "customerNumber":"2222",
-                            "customerName":"Roope Ankka"
+                            "articleID":"9001",
+                            "name":"VIHERSALAATTI",
+                            "description":"",
+                            "prices" : [
+                                {
+                                "priceID":"1",
+                                "price":500,
+                                "tax":14
+                                }
+                            ],
+                            "type":"SALE",
+                            "printerIDs" : ["1"]
+                        },{
+                            "articleID":"9002",
+                            "name":"SUOLAKURKKUJA",
+                            "description":"",
+                            "prices" : [
+                                {
+                                "priceID":"1",
+                                "price":600,
+                                "tax":14
+                                }
+                            ],
+                            "type":"SALE",
+                            "printerIDs" : ["1"]
                         }
                     ]
-                  }
-            ]
-        }
+                },{
+                    "menuID":51,
+                    "name":"Pääruoka",
+                    "articles":[
+                        {
+                            "articleID":"9129",
+                            "name":"PIPPURIPIHVI",
+                            "description":"",
+                            "prices" : [
+                                {
+                                "priceID":"1",
+                                "price":1500,
+                                "tax":14
+                                }
+                            ],
+                            "type":"SALE",
+                            "includeOptionPrice":true,
+                            "options":[
+                                {
+                                    "name":"Pottuvalintoja",
+                                    "minSelections":1,
+                                    "maxSelections":1,
+                                    "articleIDs":["9207","9210"]
+                                }
+                            ],
+                            "printerIDs" : ["1","2"]
+                        },
+                        {
+                            "articleID":"9207",
+                            "name":"VALKOSIPULIPERUNAT",
+                            "description":"",
+                            "prices" : [
+                                {
+                                    "priceID":"1",
+                                    "price":100,
+                                    "tax":14
+                                }
+                            ],
+                            "type":"OPTION"
+                        },
+                        {
+                            "articleID":"9210",
+                            "name":"PAISTETUT PERUNAT",
+                            "description":"",
+                            "prices" : [
+                                {
+                                    "priceID":"1",
+                                    "price":100,
+                                    "tax":14
+                                }
+                            ],
+                            "type":"OPTION"
+                        }
+                    ]
+                }],
+                "customers":[
+                    {
+                        "customerNumber":"1111",
+                        "customerName":"Pelle Peloton"
+                    },
+                    {
+                        "customerNumber":"2222",
+                        "customerName":"Roope Ankka"
+                    }
+                ]
+              }
+        ]
     }
+}
+```
 
 <a name="getreceipts"></a>
 ### getReceipts
@@ -490,187 +494,191 @@ response:
 
 sample request:
 
-    {
-        "apiKey":"user_321681",
-        "timestamp":"2015-09-16T08:58:40",
-        "requestID":"req_325168426",
-        "method":"getReceipts",
-        "params":{
-            "restaurantIDs":[
-                "101","102"
-            ],
-            "includeSaleRows":true,
-            "includePaymentRows":true,
-            "includeRowComments":true
-        }
+```json
+{
+    "apiKey":"user_321681",
+    "timestamp":"2015-09-16T08:58:40",
+    "requestID":"req_325168426",
+    "method":"getReceipts",
+    "params":{
+        "restaurantIDs":[
+            "101","102"
+        ],
+        "includeSaleRows":true,
+        "includePaymentRows":true,
+        "includeRowComments":true
     }
+}
+```
 
 sample response:
 
-    {
-        "timestamp":"2015-09-16T08:58:40",
-        "success":true,
-        "requestID":"req_325168426",
-        "response":{
-            "receipts":[
-                {
-                    "receiptID":"123456",
-                    "receiptUUID":"a2ba12dd-3adc-431d-ae11-46f6a47ce040",
-                    "receiptType":"NORMAL",
-                    "timestamp":"2015-09-16T08:58:40",
-                    "cashRegisterUUID":"12dad71f-3cb3-4127-a039-81ed6dad2d01",
-                    "cashRegisterName":"Baari kassa 1",
-                    "customerNumber":"1111",
-                    "customerName":"Earl of Grantham",
-                    "cardNumber":"1234567",
-                    "ourReference":"Last time we offered free vodka",
-                    "yourReference":"Best pikkujoulut ever!",
-                    "restaurantID":"101",
-                    "restaurantName":"Kulman Kuppila",
-                    "customerQuantity":1,
-                    "freeText":"Pizzaan saa laittaa valkosipulia",
-                    "quickInvoice":false,
-                    "tableCode":"100",
-                    "receiptRows":[
-                        {
-                            "articleID":"123",
-                            "articleName":"Pizza 3lla täytteellä",
-                            "priceID":"1",
-                            "price":1200,
-                            "quantity":1000,
-                            "amount":1080,
-                            "tax":14,
-                            "timestamp":"2015-09-16T08:58:40",
-                            "unitName":"Baari",
-                            "clerkNumber":"111",
-                            "clerkName":"Thomas Barrow",
-                            "mainGroupNumber":"3",
-                            "mainGroupName":"Ruoka",
-                            "articleGroupNumber":"533",
-                            "articleGroupName":"Pizza",
-                            "rowComment":"tärkeä lisätieto",
-                            "discounts":[
-                                {
-                                    "method":"PERCENT",
-                                    "name":"10% Alennus",
-                                    "code":"ALE10",
-                                    "value":10,
-                                    "amount":120
-                                }
-                            ]
-                        },
-                        {
-                            "articleID":"200",
-                            "articleName":"Cola 0,5l",
-                            "priceID":"1",
-                            "price":600,
-                            "quantity":1000,
-                            "amount":540,
-                            "tax":14,
-                            "timestamp":"2015-09-16T08:58:40",
-                            "unitName":"Baari",
-                            "clerkNumber":"222",
-                            "clerkName":"Daisy Mason",
-                            "mainGroupNumber":"4",
-                            "mainGroupName":"Juomat",
-                            "articleGroupNumber":"200",
-                            "articleGroupName":"Limsat",
-                            "discounts":[
-                                {
-                                    "method":"PERCENT",
-                                    "name":"10% Alennus",
-                                    "code":"ALE10",
-                                    "value":10,
-                                    "amount":60
-                                }
-                            ]
-                        },
-                        {
-                            "articleID": "88",
-                            "articleName": "Teatime Collins",
-                            "priceID": "1",
-                            "price": 0,
-                            "quantity": 1000,
-                            "amount": 0,
-                            "tax": 24,
-                            "timestamp": "2017-10-10T11:37:47",
-                            "unitName": "Baari",
-                            "clerkNumber":"222",
-                            "clerkName":"Daisy Mason",
-                            "mainGroupNumber": "1",
-                            "mainGroupName": "Alko",
-                            "articleGroupNumber": "10",
-                            "articleGroupName": "Drinkit",
-                            "saleID": 1019119287
-                        },
-                        {
-                            "articleID": "85",
-                            "articleName": "Chase rhubard1",
-                            "priceID": "1",
-                            "price": 700,
-                            "quantity": 250,
-                            "amount": 175,
-                            "tax": 24,
-                            "timestamp": "2017-10-10T11:37:47",
-                            "unitName": "Baari",
-                            "clerkNumber":"222",
-                            "clerkName":"Daisy Mason",
-                            "mainGroupNumber": "1",
-                            "mainGroupName": "Alko",
-                            "articleGroupNumber": "14",
-                            "articleGroupName": "Katkerot",
-                            "parentID": 1019119287
-                        },
-                        {
-                            "articleID": "86",
-                            "articleName": "Tanqueray",
-                            "priceID": "1",
-                            "price": 900,
-                            "quantity": 750,
-                            "amount": 675,
-                            "tax": 24,
-                            "timestamp": "2017-10-10T11:37:47",
-                            "unitName": "Baari",
-                            "clerkNumber":"222",
-                            "clerkName":"Daisy Mason",
-                            "mainGroupNumber": "1",
-                            "mainGroupName": "Alko",
-                            "articleGroupNumber": "14",
-                            "articleGroupName": "Katkerot",
-                            "parentID": 1019119287
-                        },
-                        {
-                            "articleID": "87",
-                            "articleName": "Cocktaillisä 2,00",
-                            "priceID": "1",
-                            "price": 200,
-                            "quantity": 2000,
-                            "amount": 400,
-                            "tax": 14,
-                            "timestamp": "2017-10-10T11:37:47",
-                            "unitName": "Baari",
-                            "clerkNumber":"222",
-                            "clerkName":"Daisy Mason",
-                            "mainGroupNumber": "4",
-                            "mainGroupName": "Vesi",
-                            "articleGroupNumber": "62",
-                            "articleGroupName": "Vesi / mehut",
-                            "parentID": 1019119287
-                        }
-                    ],
-                    "paymentRows":[
-                        {
-                            "timestamp":"2015-09-16T08:58:35",
-                            "paymentCode":"CARD",
-                            "paymentName":"Kortti",
-                            "quantity":1000,
-                            "amount":1620
-                        }
-                    ]
-                }
-            ]
-        }
+```json
+{
+    "timestamp":"2015-09-16T08:58:40",
+    "success":true,
+    "requestID":"req_325168426",
+    "response":{
+        "receipts":[
+            {
+                "receiptID":"123456",
+                "receiptUUID":"a2ba12dd-3adc-431d-ae11-46f6a47ce040",
+                "receiptType":"NORMAL",
+                "timestamp":"2015-09-16T08:58:40",
+                "cashRegisterUUID":"12dad71f-3cb3-4127-a039-81ed6dad2d01",
+                "cashRegisterName":"Baari kassa 1",
+                "customerNumber":"1111",
+                "customerName":"Earl of Grantham",
+                "cardNumber":"1234567",
+                "ourReference":"Last time we offered free vodka",
+                "yourReference":"Best pikkujoulut ever!",
+                "restaurantID":"101",
+                "restaurantName":"Kulman Kuppila",
+                "customerQuantity":1,
+                "freeText":"Pizzaan saa laittaa valkosipulia",
+                "quickInvoice":false,
+                "tableCode":"100",
+                "receiptRows":[
+                    {
+                        "articleID":"123",
+                        "articleName":"Pizza 3lla täytteellä",
+                        "priceID":"1",
+                        "price":1200,
+                        "quantity":1000,
+                        "amount":1080,
+                        "tax":14,
+                        "timestamp":"2015-09-16T08:58:40",
+                        "unitName":"Baari",
+                        "clerkNumber":"111",
+                        "clerkName":"Thomas Barrow",
+                        "mainGroupNumber":"3",
+                        "mainGroupName":"Ruoka",
+                        "articleGroupNumber":"533",
+                        "articleGroupName":"Pizza",
+                        "rowComment":"tärkeä lisätieto",
+                        "discounts":[
+                            {
+                                "method":"PERCENT",
+                                "name":"10% Alennus",
+                                "code":"ALE10",
+                                "value":10,
+                                "amount":120
+                            }
+                        ]
+                    },
+                    {
+                        "articleID":"200",
+                        "articleName":"Cola 0,5l",
+                        "priceID":"1",
+                        "price":600,
+                        "quantity":1000,
+                        "amount":540,
+                        "tax":14,
+                        "timestamp":"2015-09-16T08:58:40",
+                        "unitName":"Baari",
+                        "clerkNumber":"222",
+                        "clerkName":"Daisy Mason",
+                        "mainGroupNumber":"4",
+                        "mainGroupName":"Juomat",
+                        "articleGroupNumber":"200",
+                        "articleGroupName":"Limsat",
+                        "discounts":[
+                            {
+                                "method":"PERCENT",
+                                "name":"10% Alennus",
+                                "code":"ALE10",
+                                "value":10,
+                                "amount":60
+                            }
+                        ]
+                    },
+                    {
+                        "articleID": "88",
+                        "articleName": "Teatime Collins",
+                        "priceID": "1",
+                        "price": 0,
+                        "quantity": 1000,
+                        "amount": 0,
+                        "tax": 24,
+                        "timestamp": "2017-10-10T11:37:47",
+                        "unitName": "Baari",
+                        "clerkNumber":"222",
+                        "clerkName":"Daisy Mason",
+                        "mainGroupNumber": "1",
+                        "mainGroupName": "Alko",
+                        "articleGroupNumber": "10",
+                        "articleGroupName": "Drinkit",
+                        "saleID": 1019119287
+                    },
+                    {
+                        "articleID": "85",
+                        "articleName": "Chase rhubard1",
+                        "priceID": "1",
+                        "price": 700,
+                        "quantity": 250,
+                        "amount": 175,
+                        "tax": 24,
+                        "timestamp": "2017-10-10T11:37:47",
+                        "unitName": "Baari",
+                        "clerkNumber":"222",
+                        "clerkName":"Daisy Mason",
+                        "mainGroupNumber": "1",
+                        "mainGroupName": "Alko",
+                        "articleGroupNumber": "14",
+                        "articleGroupName": "Katkerot",
+                        "parentID": 1019119287
+                    },
+                    {
+                        "articleID": "86",
+                        "articleName": "Tanqueray",
+                        "priceID": "1",
+                        "price": 900,
+                        "quantity": 750,
+                        "amount": 675,
+                        "tax": 24,
+                        "timestamp": "2017-10-10T11:37:47",
+                        "unitName": "Baari",
+                        "clerkNumber":"222",
+                        "clerkName":"Daisy Mason",
+                        "mainGroupNumber": "1",
+                        "mainGroupName": "Alko",
+                        "articleGroupNumber": "14",
+                        "articleGroupName": "Katkerot",
+                        "parentID": 1019119287
+                    },
+                    {
+                        "articleID": "87",
+                        "articleName": "Cocktaillisä 2,00",
+                        "priceID": "1",
+                        "price": 200,
+                        "quantity": 2000,
+                        "amount": 400,
+                        "tax": 14,
+                        "timestamp": "2017-10-10T11:37:47",
+                        "unitName": "Baari",
+                        "clerkNumber":"222",
+                        "clerkName":"Daisy Mason",
+                        "mainGroupNumber": "4",
+                        "mainGroupName": "Vesi",
+                        "articleGroupNumber": "62",
+                        "articleGroupName": "Vesi / mehut",
+                        "parentID": 1019119287
+                    }
+                ],
+                "paymentRows":[
+                    {
+                        "timestamp":"2015-09-16T08:58:35",
+                        "paymentCode":"CARD",
+                        "paymentName":"Kortti",
+                        "quantity":1000,
+                        "amount":1620
+                    }
+                ]
+            }
+        ]
     }
+}
+```
 
 <a name="getbookkeepingrows"></a>
 ### getBookkeepingRows
@@ -692,54 +700,58 @@ response:
 
 sample request:
 
-    {
-        "apiKey":"user_321681",
-        "timestamp":"2015-09-16T08:58:40",
-        "requestID":"req_325168426",
-        "method":"getBookkeepingRows",
-        "params":{
-            "costCentreCodes":[
-                "10", "20", "30"
-            ],
-            "receiptTimeFromDate":"2015-08-01T05:00:00",
-            "receiptTimeUntilDate":"2015-08-31T05:00:00",
-            "reconciliatedDatesOnly":true
-        }
+```json
+{
+    "apiKey":"user_321681",
+    "timestamp":"2015-09-16T08:58:40",
+    "requestID":"req_325168426",
+    "method":"getBookkeepingRows",
+    "params":{
+        "costCentreCodes":[
+            "10", "20", "30"
+        ],
+        "receiptTimeFromDate":"2015-08-01T05:00:00",
+        "receiptTimeUntilDate":"2015-08-31T05:00:00",
+        "reconciliatedDatesOnly":true
     }
+}
+```
 
 sample response:
 
-    {
-        "timestamp":"2015-09-16T08:58:40",
-        "success":true,
-        "requestID":"req_325168426",
-        "response":{
-            "bookkeepingRows":[
-                {
-                    "saleDate":"2015-08-01",
-                    "companyCode":"1",
-                    "costCentreCode":"10",
-                    "accountCode":"3010",
-                    "code":"22",
-                    "amount":19230,
-                    "netAmount":16868,
-                    "vatAmount":2362,
-                    "vatCode":"1"
-                },
-                {
-                    "saleDate":"2015-08-01",
-                    "companyCode":"2",
-                    "costCentreCode":"20",
-                    "accountCode":"3020",
-                    "code":"33",
-                    "amount":43320,
-                    "netAmount":38000,
-                    "vatAmount":5320,
-                    "vatCode":"1"
-                }
-            ]
-        }
+```json
+{
+    "timestamp":"2015-09-16T08:58:40",
+    "success":true,
+    "requestID":"req_325168426",
+    "response":{
+        "bookkeepingRows":[
+            {
+                "saleDate":"2015-08-01",
+                "companyCode":"1",
+                "costCentreCode":"10",
+                "accountCode":"3010",
+                "code":"22",
+                "amount":19230,
+                "netAmount":16868,
+                "vatAmount":2362,
+                "vatCode":"1"
+            },
+            {
+                "saleDate":"2015-08-01",
+                "companyCode":"2",
+                "costCentreCode":"20",
+                "accountCode":"3020",
+                "code":"33",
+                "amount":43320,
+                "netAmount":38000,
+                "vatAmount":5320,
+                "vatCode":"1"
+            }
+        ]
     }
+}
+```
 
 <a name="savereceipts"></a>
 ### saveReceipts
@@ -756,66 +768,70 @@ response:
 
 sample request:
 
-    {
-        "apiKey":"user_321681",
-        "timestamp":"2015-09-16T08:58:40",
-        "requestID":"req_325168426",
-        "method":"saveReceipts",
-        "params":{
-            "receipts":[
-                {
-                    "receiptID":"123456",
-                    "receiptUUID":"a2ba12dd-3adc-431d-ae11-46f6a47ce040",
-                    "timestamp":"2015-09-16T08:58:40",
-                    "cashRegisterUUID":"12dad71f-3cb3-4127-a039-81ed6dad2d01",
-                    "customerNumber":"1111",
-                    "cardNumber":"1234567",
-                    "ourReference":"Last time we offer free vodka",
-                    "yourReference":"Best pikkujoulut ever!",
-                    "receiptRows":[
-                        {
-                            "articleID":"123",
-                            "priceID":"2",
-                            "quantity":2000,
-                            "amount":1200,
-                            "tax":14
-                        },
-                        {
-                            "articleID":"666",
-                            "priceID":"1",
-                            "quantity":1000,
-                            "amount":1400
-                        }
-                    ],
-                    "paymentRows":[
-                        {
-                            "timestamp":"2015-09-16T08:58:35",
-                            "paymentCode":"PREPAID",
-                            "amount":2600,
-                            "tip":100
-                        }
-                    ]
-                }
-            ]
-        }
+```json
+{
+    "apiKey":"user_321681",
+    "timestamp":"2015-09-16T08:58:40",
+    "requestID":"req_325168426",
+    "method":"saveReceipts",
+    "params":{
+        "receipts":[
+            {
+                "receiptID":"123456",
+                "receiptUUID":"a2ba12dd-3adc-431d-ae11-46f6a47ce040",
+                "timestamp":"2015-09-16T08:58:40",
+                "cashRegisterUUID":"12dad71f-3cb3-4127-a039-81ed6dad2d01",
+                "customerNumber":"1111",
+                "cardNumber":"1234567",
+                "ourReference":"Last time we offer free vodka",
+                "yourReference":"Best pikkujoulut ever!",
+                "receiptRows":[
+                    {
+                        "articleID":"123",
+                        "priceID":"2",
+                        "quantity":2000,
+                        "amount":1200,
+                        "tax":14
+                    },
+                    {
+                        "articleID":"666",
+                        "priceID":"1",
+                        "quantity":1000,
+                        "amount":1400
+                    }
+                ],
+                "paymentRows":[
+                    {
+                        "timestamp":"2015-09-16T08:58:35",
+                        "paymentCode":"PREPAID",
+                        "amount":2600,
+                        "tip":100
+                    }
+                ]
+            }
+        ]
     }
+}
+```
 
 sample response:
 
-    {
-        "timestamp":"2015-09-16T08:58:40",
-        "success":true,
-        "requestID":"req_325168426",
-        "response":{
-            "savedReceipts":[
-                {
-                    "receiptID": "123456",
-                    "receiptUUID": "cfb62e72-33ea-4152-a40c-ce7c30c147d0",
-                    "timestamp": "2015-09-16T08:58:40"
-                }
-            ]
-        }
+```json
+{
+    "timestamp":"2015-09-16T08:58:40",
+    "success":true,
+    "requestID":"req_325168426",
+    "response":{
+        "savedReceipts":[
+            {
+                "receiptID": "123456",
+                "receiptUUID": "cfb62e72-33ea-4152-a40c-ce7c30c147d0",
+                "timestamp": "2015-09-16T08:58:40"
+            }
+        ]
     }
+}
+```
 
 <a name="listcustomers"></a>
 ### listCustomers
@@ -835,84 +851,88 @@ response:
 
 sample request:
 
-    {
-        "timestamp":"2015-09-16T08:58:40",
-        "apiKey":"user_321681",
-        "requestID":"req_325168426",
-        "method":"listCustomers",
-        "params":{
-            "customerNumbers":[
-                "1", "4", "8"
-            ],
-            "includeContact":true
-        }
+```json
+{
+    "timestamp":"2015-09-16T08:58:40",
+    "apiKey":"user_321681",
+    "requestID":"req_325168426",
+    "method":"listCustomers",
+    "params":{
+        "customerNumbers":[
+            "1", "4", "8"
+        ],
+        "includeContact":true
     }
+}
+```
 
 sample response:
 
-    {
-        "timestamp": "2015-09-16T08:58:40",
-        "success": true,
-        "requestID": "req_325168426",
-        "response": {
-            "customers": [
-                {
-                    "customerNumber": "1",
-                    "customerName": "CUBA IMPORT EXPORT",
-                    "comment": "testikommentti 200",
-                    "allowInvoicing": true,
-                    "referenceNumber": "111",
-                    "type": "LUNCH_AND_LOYALTY",
-                    "additionalName": "testi testi testi",
-                    "contactPerson": "xxxxx",
-                    "nameSendToCashRegister": "C.I.E black market",
-                    "allowCardCrediting": true,
-                    "invoiceMethod": "AUTO_WITH_CONFIRMATION",
-                    "invoicePeriod": "MONTHLY",
-                    "invoiceContent": "ALL_RECEIPTS_IN_SAME",
-                    "subventionsOnceAMonth": true,
-                    "status": "ACTIVE",
-                    "contact": {
-                        "emailAddress": "email@email.com",
-                        "street": "Salakuljettajankatu 8",
-                        "city": "Hki",
-                        "postIndex": "00001",
-                        "mobilePhoneNr": "999999",
-                        "phoneNr": "000000"
-                    }
-                },
-                {
-                    "customerNumber": "4",
-                    "customerName": "MAKKE OY",
-                    "allowInvoicing": true,
-                    "referenceNumber": "123",
-                    "type": "LUNCH",
-                    "additionalName": "MAKKE",
-                    "contactPerson": "MAKKE",
-                    "nameSendToCashRegister": "MAKKE",
-                    "allowCardCrediting": true,
-                    "invoiceMethod": "MANUAL",
-                    "invoicePeriod": "MONTHLY",
-                    "invoiceContent": "ALL_RECEIPTS_IN_SAME",
-                    "subventionsOnceAMonth": false,
-                    "active": true
-                },
-                {
-                    "customerNumber": "8",
-                    "customerName": "VAKIO SÄÄTÄJÄT KY",
-                    "allowInvoicing": false,
-                    "referenceNumber": "124",
-                    "type": "LUNCH_AND_LOYALTY",
-                    "allowCardCrediting": true,
-                    "invoiceMethod": "MANUAL",
-                    "invoicePeriod": "MONTHLY",
-                    "invoiceContent": "ALL_RECEIPTS_IN_SAME",
-                    "subventionsOnceAMonth": false,
-                    "active": true
+```json
+{
+    "timestamp": "2015-09-16T08:58:40",
+    "success": true,
+    "requestID": "req_325168426",
+    "response": {
+        "customers": [
+            {
+                "customerNumber": "1",
+                "customerName": "CUBA IMPORT EXPORT",
+                "comment": "testikommentti 200",
+                "allowInvoicing": true,
+                "referenceNumber": "111",
+                "type": "LUNCH_AND_LOYALTY",
+                "additionalName": "testi testi testi",
+                "contactPerson": "xxxxx",
+                "nameSendToCashRegister": "C.I.E black market",
+                "allowCardCrediting": true,
+                "invoiceMethod": "AUTO_WITH_CONFIRMATION",
+                "invoicePeriod": "MONTHLY",
+                "invoiceContent": "ALL_RECEIPTS_IN_SAME",
+                "subventionsOnceAMonth": true,
+                "status": "ACTIVE",
+                "contact": {
+                    "emailAddress": "email@email.com",
+                    "street": "Salakuljettajankatu 8",
+                    "city": "Hki",
+                    "postIndex": "00001",
+                    "mobilePhoneNr": "999999",
+                    "phoneNr": "000000"
                 }
-            ]
-        }
+            },
+            {
+                "customerNumber": "4",
+                "customerName": "MAKKE OY",
+                "allowInvoicing": true,
+                "referenceNumber": "123",
+                "type": "LUNCH",
+                "additionalName": "MAKKE",
+                "contactPerson": "MAKKE",
+                "nameSendToCashRegister": "MAKKE",
+                "allowCardCrediting": true,
+                "invoiceMethod": "MANUAL",
+                "invoicePeriod": "MONTHLY",
+                "invoiceContent": "ALL_RECEIPTS_IN_SAME",
+                "subventionsOnceAMonth": false,
+                "active": true
+            },
+            {
+                "customerNumber": "8",
+                "customerName": "VAKIO SÄÄTÄJÄT KY",
+                "allowInvoicing": false,
+                "referenceNumber": "124",
+                "type": "LUNCH_AND_LOYALTY",
+                "allowCardCrediting": true,
+                "invoiceMethod": "MANUAL",
+                "invoicePeriod": "MONTHLY",
+                "invoiceContent": "ALL_RECEIPTS_IN_SAME",
+                "subventionsOnceAMonth": false,
+                "active": true
+            }
+        ]
     }
+}
+```
 
 <a name="importcustomers"></a>
 ### importCustomers
@@ -935,86 +955,90 @@ A "savedCustomers" object that contains the following fields:
 
 sample request:
 
-    {
-        "timestamp": "2015-09-16T08:58:40",
-    	"apiKey": "user_321681",
-    	"requestID": "req_325168426",
-    	"method": "importCustomers",
-    	"params": {
-    		"customers": [
-    			{
-    				"customerNumber": "1",
-    				"customerName": "CUBA IMPORT EXPORT",
-    				"comment": "testikommentti 200",
-    				"allowInvoicing": true,
-    				"referencenumber": "111",
-    				"type": "LUNCH_AND_LOYALTY",
-    				"additionalName": "testi testi testi",
-    				"contactPerson": "xxxxx",
-    				"nameSendToCashRegister": "C.I.E black market",
-    				"allowCardCrediting": true,
-    				"invoiceMethod": "AUTO_WITH_CONFIRMATION",
-    				"invoicePeriod": "MONTHLY",
-    				"invoiceContent": "ALL_RECEIPTS_IN_SAME",
-    				"subventionsOnceAMonth": true,
-    				"active": true,
-    				"contact": {
-    					"emailAddress": "email@email.com",
-    					"street": "Salakuljettajankatu 8",
-    					"city": "Hki",
-    					"postIndex": "00001",
-    					"mobilePhoneNr": "999999",
-    					"phoneNr": "000000"
-    				}
-    			},
-    			{
-    				"customerNumber": "4",
-    				"customerName": "MAKKE OY",
-    				"allowInvoicing": true,
-    				"referenceNumber": "123",
-    				"type": "LUNCH",
-    				"additionalName": "MAKKE",
-    				"contactPerson": "MAKKE",
-    				"nameSendToCashRegister": "MAKKE",
-    				"allowCardCrediting": true,
-    				"invoiceMethod": "MANUAL",
-    				"invoicePeriod": "MONTHLY",
-    				"invoiceContent": "ALL_RECEIPTS_IN_SAME",
-    				"subventionsOnceAMonth": false,
-    				"active": true
-    			},
-    			{
-    				"customerNumber": "8",
-    				"customerName": "VAKIO SÄÄTÄJÄT KY",
-    				"allowInvoicing": false,
-    				"referenceNumber": "124",
-    				"type": "LUNCH_AND_LOYALTY",
-    				"allowCardCrediting": true,
-    				"invoiceMethod": "MANUAL",
-    				"invoicePeriod": "MONTHLY",
-    				"invoiceContent": "ALL_RECEIPTS_IN_SAME",
-    				"subventionsOnceAMonth": false,
-    				"active": false
-    			}
-    		]
-    	}
+```json
+{
+    "timestamp": "2015-09-16T08:58:40",
+    "apiKey": "user_321681",
+    "requestID": "req_325168426",
+    "method": "importCustomers",
+    "params": {
+        "customers": [
+            {
+                "customerNumber": "1",
+                "customerName": "CUBA IMPORT EXPORT",
+                "comment": "testikommentti 200",
+                "allowInvoicing": true,
+                "referencenumber": "111",
+                "type": "LUNCH_AND_LOYALTY",
+                "additionalName": "testi testi testi",
+                "contactPerson": "xxxxx",
+                "nameSendToCashRegister": "C.I.E black market",
+                "allowCardCrediting": true,
+                "invoiceMethod": "AUTO_WITH_CONFIRMATION",
+                "invoicePeriod": "MONTHLY",
+                "invoiceContent": "ALL_RECEIPTS_IN_SAME",
+                "subventionsOnceAMonth": true,
+                "active": true,
+                "contact": {
+                    "emailAddress": "email@email.com",
+                    "street": "Salakuljettajankatu 8",
+                    "city": "Hki",
+                    "postIndex": "00001",
+                    "mobilePhoneNr": "999999",
+                    "phoneNr": "000000"
+                }
+            },
+            {
+                "customerNumber": "4",
+                "customerName": "MAKKE OY",
+                "allowInvoicing": true,
+                "referenceNumber": "123",
+                "type": "LUNCH",
+                "additionalName": "MAKKE",
+                "contactPerson": "MAKKE",
+                "nameSendToCashRegister": "MAKKE",
+                "allowCardCrediting": true,
+                "invoiceMethod": "MANUAL",
+                "invoicePeriod": "MONTHLY",
+                "invoiceContent": "ALL_RECEIPTS_IN_SAME",
+                "subventionsOnceAMonth": false,
+                "active": true
+            },
+            {
+                "customerNumber": "8",
+                "customerName": "VAKIO SÄÄTÄJÄT KY",
+                "allowInvoicing": false,
+                "referenceNumber": "124",
+                "type": "LUNCH_AND_LOYALTY",
+                "allowCardCrediting": true,
+                "invoiceMethod": "MANUAL",
+                "invoicePeriod": "MONTHLY",
+                "invoiceContent": "ALL_RECEIPTS_IN_SAME",
+                "subventionsOnceAMonth": false,
+                "active": false
+            }
+        ]
     }
+}
+```
 
 sample response:
 
-    {
-        "timestamp": "2015-09-16T08:58:40",
-    	"success": true,
-    	"requestID": "req_325168426",
-    	"response": {
-    		"savedCustomers": {
-    			"customers": 3,
-    			"added": 1,
-    			"updated": 2,
-    			"clients": 2
-    		}
-    	}
+```json
+{
+    "timestamp": "2015-09-16T08:58:40",
+    "success": true,
+    "requestID": "req_325168426",
+    "response": {
+        "savedCustomers": {
+            "customers": 3,
+            "added": 1,
+            "updated": 2,
+            "clients": 2
+        }
     }
+}
+```
 
 <a name="receipt-types"></a>
 ## Receipt types
