@@ -1118,6 +1118,6 @@ sample response:
 
 | Date        | Author                            | Summary                      |
 | ----------- | --------------------------------- | ---------------------------- |
-| 17.4.12018  | mats.antell@soft-contact.fi       | Initial version              |
-| 18.4.12018  | mats.antell@soft-contact.fi       | Added Receipt.quickInvoice   |
+| 17.4.2018  | mats.antell@soft-contact.fi       | Initial version              |
+| 18.4.2018  | mats.antell@soft-contact.fi       | Added Receipt.quickInvoice   |
 
