@@ -9,7 +9,6 @@ All SoftPos cash registers have a unique identifier (UUID).
 All amounts are represented by cents (integer) and quantities in 1/1000 parts (integer).
 
 All dates and times are represented using [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601).
-All dates and times exported are local timestamps without time zone.
 
 Both request and response messages might get additional (optional) parameters in the future.
 
