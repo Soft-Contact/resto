@@ -2,10 +2,8 @@
 
 ## Technical overview
 
-The requests are made from SoftPos towards the 3rd-party server using HTTP or (preferably) HTTPS POST request using the [JSON](https://en.wikipedia.org/wiki/JSON) based format defined in this document.
+The requests are made towards server using HTTPS POST request using the [JSON](https://en.wikipedia.org/wiki/JSON) based format defined in this document.
  
-All SoftPos cash registers have a unique identifier (UUID).
-
 All amounts are represented by cents (integer) and quantities in 1/1000 parts (integer).
 
 All dates and times are represented using [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601).
@@ -30,12 +28,11 @@ HTTP request contains two parameters:
 
 2. `hash` - [SHA-256](https://en.wikipedia.org/wiki/SHA-256) hash of the JSON request using secret key
 The hash is a hexadecimal representation that can be obtained using 
-for example in Java: org.apache.commons.codec.digest.HmacUtils.hmacSha256Hex:
-<programlisting language="java">
+for example in Java: `org.apache.commons.codec.digest.HmacUtils.hmacSha256Hex`:
+```java
     public static String hmacSha256Hex(byte[] key, byte[] valueToDigest)
-</programlisting>
-    where **key** is the secret key of the api user as a byte array
-    and **valueToDigest** is the JSON message as a byte array
+```
+where `key` is the secret key of the api user as a byte array and `valueToDigest` is the JSON message as a byte array
     
 Generating hashes can be tested online for example at http://www.freeformatter.com/hmac-generator.html 
 3rd-party must verify the hash using the secret key corresponding the api key and **must not** accept the request
@@ -45,23 +42,27 @@ in case verification fails.
 
 JSON request:
 
-    {"apiKey":"1","requestID":"2","cashRegisterUUID":"3","method":"test","params":
-    {"param1":"value"}}
+```json
+{"apiKey":"1","requestID":"2","cashRegisterUUID":"3","method":"test","params":{"param1":"value"}}
+```
 
 Base64 encoded JSON request:
 
-    eyJhcGlLZXkiOiIxIiwicmVxdWVzdElEIjoiMiIsImNhc2hSZWdpc3RlclVVSUQiOiIzIiwibWV0aG9kIjoidGVzd
-    CIsInBhcmFtcyI6eyJwYXJhbTEiOiJ2YWx1ZSJ9fQ==
+```
+eyJhcGlLZXkiOiIxIiwicmVxdWVzdElEIjoiMiIsImNhc2hSZWdpc3RlclVVSUQiOiIzIiwibWV0aG9kIjoidGVzdCIsInBhcmFtcyI6eyJwYXJhbTEiOiJ2YWx1ZSJ9fQ==
+```
 
 SHA-256 hash from JSON request (here using password `hunter2`):
 
-    268b0360dfc7eae551728b28d6c72ad18e76960bbef4a7c6e3fe847093a0e6be
+```
+268b0360dfc7eae551728b28d6c72ad18e76960bbef4a7c6e3fe847093a0e6be
+```
 
 Final HTTP request:
 
-    request=eyJhcGlLZXkiOiIxIiwicmVxdWVzdElEIjoiMiIsImNhc2hSZWdpc3RlclVVSUQiOiIzIiwibWV0aG9
-    kIjoidGVzdCIsInBhcmFtcyI6eyJwYXJhbTEiOiJ2YWx1ZSJ9fQ==&hash=268b0360dfc7eae551728b28d6c
-    72ad18e76960bbef4a7c6e3fe847093a0e6be
+```
+request=eyJhcGlLZXkiOiIxIiwicmVxdWVzdElEIjoiMiIsImNhc2hSZWdpc3RlclVVSUQiOiIzIiwibWV0aG9kIjoidGVzdCIsInBhcmFtcyI6eyJwYXJhbTEiOiJ2YWx1ZSJ9fQ==&hash=268b0360dfc7eae551728b28d6c72ad18e76960bbef4a7c6e3fe847093a0e6be
+```
 
 ## Request message
  
