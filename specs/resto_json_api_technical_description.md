@@ -194,10 +194,6 @@ response structure:
 
 ## Version history
 
-| Version   | Author                              | Summary                     |
-| --------  | ----------------------------------- | --------------------------- |
-| 0.1       | mats.antell@soft-contact.fi         | Initial version, extracted from Soft-Contact payment authorization protocol |
-| 0.2       | indrek.toom@soft-contact.fi         | Added missing cashRegisterUUID parameter |
-| 0.21      | ilkka.hyvarinen@kassamagneetti.fi   | Formatting changes                       |
-| 0.3       | indrek.toom@soft-contact.fi         | Added PAYMENT_TYPE_NOT_FOUND error |
-| 0.4       | indrek.toom@soft-contact.fi         | Added ORDER_ID_MISSING error |
+| Date        | Author                            | Summary                      |
+| ----------- | --------------------------------- | ---------------------------- |
+| 17.4.2018  | mats.antell@soft-contact.fi       | Initial version              |
