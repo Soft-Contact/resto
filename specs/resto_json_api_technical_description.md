@@ -82,7 +82,7 @@ request structure:
 
 ```json
 {
-    "timestamp":"2015-09-16T08:58:40",
+    "timestamp":"2015-09-16T08:58:40.988Z",
     "apiKey":"user_283764",
     "requestID":"req_28376428",
     "cashRegisterUUID":"3aaf2ef6-89ee-4e8f-8191-cbf725435a96",
@@ -108,7 +108,7 @@ response structure:
 
 ```json
 {
-    "timestamp":"2015-09-16T08:58:40",
+    "timestamp":"2015-09-16T08:58:40.988Z",
     "success":true,
     "requestID":"req_28376428",
     "response":{
@@ -133,7 +133,7 @@ response structure:
 
 ```json
 {
-    "timestamp":"2015-09-16T08:58:40",
+    "timestamp":"2015-09-16T08:58:40.988Z",
     "success":false,
     "requestID":"req_28376428",
     "statusCode":"ERR_CODE",
