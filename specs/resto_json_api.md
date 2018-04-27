@@ -289,7 +289,7 @@ sample request:
 
 ```json
 {
-    "timestamp" : "2015-09-16T08:58:40",
+    "timestamp" : "2015-09-16T08:58:40.988Z",
     "apiKey" : "user_321681",
     "requestID" : "req_325168426",
     "method" : "listRestaurants",
@@ -308,7 +308,7 @@ sample response:
 
 ```json
 {
-    "timestamp" : "2015-09-16T08:58:40",
+    "timestamp" : "2015-09-16T08:58:40.988Z",
     "success" : true,
     "requestID" : "req_325168426",
     "response" : {
@@ -497,7 +497,7 @@ sample request:
 ```json
 {
     "apiKey":"user_321681",
-    "timestamp":"2015-09-16T08:58:40",
+    "timestamp":"2015-09-16T08:58:40.988Z",
     "requestID":"req_325168426",
     "method":"getReceipts",
     "params":{
@@ -515,7 +515,7 @@ sample response:
 
 ```json
 {
-    "timestamp":"2015-09-16T08:58:40",
+    "timestamp":"2015-09-16T08:58:40.988Z",
     "success":true,
     "requestID":"req_325168426",
     "response":{
@@ -703,7 +703,7 @@ sample request:
 ```json
 {
     "apiKey":"user_321681",
-    "timestamp":"2015-09-16T08:58:40",
+    "timestamp":"2015-09-16T08:58:40.988Z",
     "requestID":"req_325168426",
     "method":"getBookkeepingRows",
     "params":{
@@ -721,7 +721,7 @@ sample response:
 
 ```json
 {
-    "timestamp":"2015-09-16T08:58:40",
+    "timestamp":"2015-09-16T08:58:40.988Z",
     "success":true,
     "requestID":"req_325168426",
     "response":{
@@ -771,7 +771,7 @@ sample request:
 ```json
 {
     "apiKey":"user_321681",
-    "timestamp":"2015-09-16T08:58:40",
+    "timestamp":"2015-09-16T08:58:40.988Z",
     "requestID":"req_325168426",
     "method":"saveReceipts",
     "params":{
@@ -818,7 +818,7 @@ sample response:
 
 ```json
 {
-    "timestamp":"2015-09-16T08:58:40",
+    "timestamp":"2015-09-16T08:58:40.988Z",
     "success":true,
     "requestID":"req_325168426",
     "response":{
@@ -853,7 +853,7 @@ sample request:
 
 ```json
 {
-    "timestamp":"2015-09-16T08:58:40",
+    "timestamp":"2015-09-16T08:58:40.988Z",
     "apiKey":"user_321681",
     "requestID":"req_325168426",
     "method":"listCustomers",
@@ -870,7 +870,7 @@ sample response:
 
 ```json
 {
-    "timestamp": "2015-09-16T08:58:40",
+    "timestamp": "2015-09-16T08:58:40.988Z",
     "success": true,
     "requestID": "req_325168426",
     "response": {
@@ -957,7 +957,7 @@ sample request:
 
 ```json
 {
-    "timestamp": "2015-09-16T08:58:40",
+    "timestamp": "2015-09-16T08:58:40.988Z",
     "apiKey": "user_321681",
     "requestID": "req_325168426",
     "method": "importCustomers",
@@ -1026,7 +1026,7 @@ sample response:
 
 ```json
 {
-    "timestamp": "2015-09-16T08:58:40",
+    "timestamp": "2015-09-16T08:58:40.988Z",
     "success": true,
     "requestID": "req_325168426",
     "response": {
