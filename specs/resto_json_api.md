@@ -21,6 +21,7 @@
     + [Discount](#discount)
     + [Payment Row](#payment-row)
     + [Customer](#customer)
+    + [Card](#card)
     + [Printer](#printer)
     + [Bookkeeping Row](#bookkeeping-row)
   * [Available Methods](#available-methods)
@@ -30,6 +31,8 @@
     + [saveReceipts](#savereceipts)
     + [listCustomers](#listcustomers)
     + [importCustomers](#importcustomers)
+    + [listCards](#listcards)
+    + [importCards](#importcards)
 
   * [Receipt types](#receipt-types)
   * [Discount methods](#discount-methods)
@@ -37,6 +40,7 @@
   * [Customer invoicing methods](#customer-invoicing-methods)
   * [Customer invoicing periods](#customer-invoicing-periods)
   * [Customer invoice contents](#customer-invoice-contents)
+  * [Card types](#card-types)
   * [Version history](#version-history)
 
 
@@ -243,6 +247,23 @@ See also [listCustomers](#listcustomers).
 * ``subventionsOnceAMonth`` - flag to indicate that subvention and commission invoices should be generated on the 1st day of every month
 * ``subventionInvoiceContent`` - how the subvention and commission receipts should be arranged into invoices, see Customer invoice contents
 * ``contact`` - customer contact information as a Contact object. This object is omitted in results if no contact fields have been set in Restolution.
+
+<a name="card"></a>
+### Card
+See also [listCards](#listcards).
+
+* ``cardNumber`` - card ID, card number in Restolution
+* ``customerNumber`` - customer ID of customer this card belongs to
+* ``type`` - card type, see [Card types](#card-types). Defaults to "LOYALTY" for new card if not given.
+* ``active`` - flag to indicate whether card should be active or not in Restolution
+* ``validUntil`` - optional valid until date for this card
+* ``holderName`` - optional holder name of this card
+* ``personCode`` - optional person code of the card holder
+* ``department`` - optional card department
+* ``departmentName`` - optional card department name
+* ``accountCode`` - optional card account code
+* ``workHoursPerWeek`` - optional card work hours per week
+* ``originalNumber`` - special field, specifies card number of card in Restolution to be replaced with this card. Note: Used only in [importCards](#importcards).
 
 <a name="printer"></a>
 ### Printer
@@ -1043,6 +1064,168 @@ sample response:
 }
 ```
 
+<a name="listcards"></a>
+### listCards
+
+For listing customer cards available to the given API Key.
+If no parameters are given, all cards available to the API key are listed.
+If several Restolution clients share the same API Key, customer cards from all clients will be listed as long as any customer card with same number is identical between clients. If ambiguous cards are found, the method will fail with an error message.
+See also [Card](#card).
+
+parameters:
+
+* ``customerNumbers`` - array of customer numbers whose cards to include
+* ``cardNumbers`` - array of card numbers to include
+* ``includeInactive`` - include not active cards in the results
+
+response:
+
+* ``cards`` - array of [Card](#card) objects
+
+sample request:
+
+```json
+{
+  "timestamp": "2015-09-16T08:58:40.988Z",
+  "apiKey": "user_321681",
+  "requestID": "req_325168426",
+  "method": "listCards",
+  "params": {
+    "customerNumbers": [
+      "1",
+      "4",
+      "8"
+    ],
+    "cardNumbers": [
+      "111122223333",
+      "444455556666"
+    ],
+    "includeInactive": false
+  }
+}
+```
+
+sample response:
+
+```json
+{
+  "timestamp": "2015-09-16T08:58:40.988Z",
+  "success": true,
+  "requestID": "req_325168426",
+  "response": {
+    "cards": [
+      {
+        "cardNumber": "111122223333",
+        "customerNumber": "1",
+        "type": "LOYALTY",
+        "active": true,
+        "validUntil": "2018-10-16T04:59:59",
+        "holderName": "Mia Mallikas",
+        "personCode": "1234567",
+        "department": "1122",
+        "departmentName": "some department",
+        "accountCode": "1234567",
+        "workHoursPerWeek": 40
+      },
+      {
+        "cardNumber": "222233334444",
+        "customerNumber": "4",
+        "type": "LUNCH",
+        "active": true,
+        "validUntil": "2018-12-22T04:59:59",
+        "holderName": "Keijo Korttelin",
+        "personCode": "2345678",
+        "department": "1122",
+        "departmentName": "some department",
+        "accountCode": "1234567",
+        "workHoursPerWeek": 40
+      }
+    ]
+  }
+}
+```
+
+<a name="importcards"></a>
+### importCards
+
+For importing new and editing existing customer cards. If several Restolution clients share the same API Key, the same customer cards will be imported identically to all clients.
+See also [Card](#card).
+
+parameters:
+
+* ``cards`` - array of [Card](#card) objects.
+
+response:
+
+A "savedCards" object that contains the following fields:
+
+* ``cards`` - nr of cards in request
+* ``added`` - nr of new cards added
+* ``updated`` - nr existing cards updated
+* ``customers`` - nr of customers affected
+* ``clients`` - nr of clients affected
+
+sample request:
+
+```json
+{
+  "timestamp": "2015-09-16T08:58:40.988Z",
+  "apiKey": "user_321681",
+  "requestID": "req_325168426",
+  "method": "importCards",
+  "params": {
+    "cards": [
+      {
+        "cardNumber": "111122223333",
+        "customerNumber": "1",
+        "type": "LOYALTY",
+        "active": true,
+        "validUntil": "2018-10-16T04:59:59",
+        "holderName": "Mia Mallikas",
+        "personCode": "1234567",
+        "department": "1122",
+        "departmentName": "some department",
+        "accountCode": "1234567",
+        "workHoursPerWeek": 40
+      },
+      {
+        "cardNumber": "222233334443",
+        "customerNumber": "4",
+        "type": "LUNCH",
+        "active": true,
+        "validUntil": "2018-12-22T04:59:59",
+        "holderName": "Keijo Korttelin",
+        "personCode": "2345678",
+        "originalNumber": "222233334444",
+        "department": "1122",
+        "departmentName": "some department",
+        "accountCode": "1234567",
+        "workHoursPerWeek": 40
+      }
+    ]
+  }
+}
+```
+
+sample response:
+
+```json
+{
+  "timestamp": "2015-09-16T08:58:40.988Z",
+  "success": true,
+  "requestID": "req_325168426",
+  "response": {
+    "savedCards": {
+      "cards": 2,
+      "added": 1,
+      "updated": 1,
+      "customers": 2,
+      "clients": 1
+    }
+  }
+}
+```
+
 <a name="receipt-types"></a>
 ## Receipt types
 
@@ -1139,6 +1322,18 @@ sample response:
 * ALL_RECEIPTS_IN_SAME_FOR_ALL
     For subvention/commission receipts: All receipts are forced to same invoice over all costcentres
     For regular receipts: same as ALL_RECEIPTS_IN_SAME
+    
+<a name="card-types"></a>
+## Card types
+
+* LOYALTY
+    Loyalty customer card
+
+* LUNCH
+    Lunch card
+
+* LUNCH_MULTI
+    Multi lunch card
 
 <a name="version-history"></a>
 ## Version history
