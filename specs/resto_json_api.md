@@ -837,7 +837,7 @@ sample response:
 ### listCustomers
 
 For listing customers available to the given API Key. 
-If serveral Restolution clients share the same API Key, customers from all clients will be listed as long as any customer with same number is identical between clients. If ambiguous customers are found, the method will fail with an error message.
+If several Restolution clients share the same API Key, customers from all clients will be listed as long as any customer with same number is identical between clients. If ambiguous customers are found, the method will fail with an error message.
 
 See also [Customer](#customer).
 
@@ -940,7 +940,7 @@ sample response:
 ### importCustomers
 
 For importing new and editing existing customers. 
-If serveral Restolution clients share the same API Key, the same customers will be imported identically to all clients.
+If several Restolution clients share the same API Key, the same customers will be imported identically to all clients.
 See also [Customer](#customer).
 
 parameters:
