@@ -247,6 +247,7 @@ See also [listCustomers](#listcustomers).
 * ``subventionsOnceAMonth`` - flag to indicate that subvention and commission invoices should be generated on the 1st day of every month
 * ``subventionInvoiceContent`` - how the subvention and commission receipts should be arranged into invoices, see Customer invoice contents
 * ``contact`` - customer contact information as a Contact object. This object is omitted in results if no contact fields have been set in Restolution.
+* ``restaurantIDs`` - special field, array of Restaurant IDs where this Customer is active. Note: Used only in [importCustomers](#importcustomers). If not defined, the customer will be set active in every restaurant.
 
 <a name="card"></a>
 ### Card
@@ -1010,7 +1011,10 @@ sample request:
                     "postIndex": "00001",
                     "mobilePhoneNr": "999999",
                     "phoneNr": "000000"
-                }
+                },
+                "restaurantIDs":[
+                    "101","102"
+                ]
             },
             {
                 "customerNumber": "4",
@@ -1343,4 +1347,5 @@ sample response:
 | 17.4.2018  | mats.antell@soft-contact.fi       | Initial version              |
 | 18.4.2018  | mats.antell@soft-contact.fi       | Added Receipt.quickInvoice   |
 | 3.5.2018   | mats.antell@soft-contact.fi       | Added Card and related methods |
+| 4.5.2018   | mats.antell@soft-contact.fi       | Added Customer.restaurantIDs to importCustomers |
 
