@@ -228,26 +228,26 @@ See also [listCustomers](#listcustomers).
 * ``customerNumber`` - customer ID, customer number in Restolution
 * ``customerName`` - customer name
 * ``active`` - flag to indicate whether customer should be active or not in Restolution
-* ``comment`` - additional comment about customer
-* ``referenceNumber`` - customer reference number
-* ``type`` - customer type, see [Customer types](#customer-types). Defaults to "LUNCH" for new customer if not given.
-* ``additionalName`` - customer additional name
-* ``contactPerson`` - customer contact person
-* ``nameSendToCashRegister`` - customer name that will be sent to cash register
-* ``contractNumber`` - customer contract number
-* ``allowCardCrediting`` - flag to allow/disallow crediting of card balances in cash register
-* ``allowInvoicing`` - flag to allow/disallow customer invoicing
-* ``invoiceMethod`` - how customer invoices should be generated, see Customer invoicing methods
-* ``invoicePeriod`` - how often customer invoices should be generated, see Customer invoicing periods
-* ``invoiceContent`` - how the invoiced receipts should be arranged into invoices, see Customer invoice contents
-* ``invoiceDeliveryAddress`` - customer invoice delivery address
-* ``invoiceDeliveryEmail`` - customer invoice delivery email address
-* ``einvoiceReceiver`` - customer e-invoice receiver
-* ``einvoiceReceiverIntermediator`` - customer e-invoice receiver intermediator
-* ``subventionsOnceAMonth`` - flag to indicate that subvention and commission invoices should be generated on the 1st day of every month
-* ``subventionInvoiceContent`` - how the subvention and commission receipts should be arranged into invoices, see Customer invoice contents
-* ``contact`` - customer contact information as a Contact object. This object is omitted in results if no contact fields have been set in Restolution.
-* ``restaurantIDs`` - special field, array of Restaurant IDs where this Customer is active. Note: Used only in [importCustomers](#importcustomers). If not defined, the customer will be set active in every restaurant.
+* ``type`` - optional customer type, see [Customer types](#customer-types). Defaults to "LUNCH" for new customer if not given.
+* ``comment`` - optional additional comment about customer
+* ``referenceNumber`` - optional customer reference number
+* ``additionalName`` - optional customer additional name
+* ``contactPerson`` - optional customer contact person
+* ``nameSendToCashRegister`` - optional customer name that will be sent to cash register
+* ``contractNumber`` - optional customer contract number
+* ``allowCardCrediting`` - optional flag to allow/disallow crediting of card balances in cash register (default = false)
+* ``allowInvoicing`` - optional flag to allow/disallow customer invoicing (default = false)
+* ``invoiceMethod`` - optional setting how customer invoices should be generated, see [Customer invoicing methods](#customer-invoicing-methods)
+* ``invoicePeriod`` - optional setting how often customer invoices should be generated, see Customer invoicing periods
+* ``invoiceContent`` - optional setting how the invoiced receipts should be arranged into invoices, see [Customer invoice contents](#customer-invoice-contents)
+* ``invoiceDeliveryAddress`` - optional customer invoice delivery address
+* ``invoiceDeliveryEmail`` - optional customer invoice delivery email address
+* ``einvoiceReceiver`` - optional customer e-invoice receiver
+* ``einvoiceReceiverIntermediator`` - optional customer e-invoice receiver intermediator
+* ``subventionsOnceAMonth`` - optional flag to indicate that subvention and commission invoices should be generated on the 1st day of every month
+* ``subventionInvoiceContent`` - optional setting how the subvention and commission receipts should be arranged into invoices, see [Customer invoice contents](#customer-invoice-contents)
+* ``contact`` - optional customer contact information as a Contact object. This object is omitted in results if no contact fields have been set in Restolution. See [Contact](#contact).
+* ``restaurantIDs`` - optional special field, array of Restaurant IDs where this Customer is active. Note: Used only in [importCustomers](#importcustomers). If not defined, the customer will be set active in every restaurant.
 
 <a name="card"></a>
 ### Card
@@ -264,7 +264,7 @@ See also [listCards](#listcards).
 * ``departmentName`` - optional card department name
 * ``accountCode`` - optional card account code
 * ``workHoursPerWeek`` - optional card work hours per week
-* ``originalNumber`` - special field, specifies card number of card in Restolution to be replaced with this card. Note: Used only in [importCards](#importcards).
+* ``originalNumber`` - optional special field, specifies card number of card in Restolution to be replaced with this card. Note: Used only in [importCards](#importcards).
 
 <a name="printer"></a>
 ### Printer
