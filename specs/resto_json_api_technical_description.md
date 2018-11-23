@@ -184,6 +184,7 @@ response structure:
 * DATABASE_LOCK_ERROR
 * CLERK_NOT_FOUND
 * PAYMENT_TYPE_NOT_FOUND
+* TAX_NOT_FOUND
     
 ## Server status codes 
 
