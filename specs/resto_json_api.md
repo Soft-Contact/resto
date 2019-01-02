@@ -10,6 +10,7 @@
   * [Common objects](#common-objects)
     + [Restaurant](#restaurant)
     + [Contact](#contact)
+    + [Open hours](#open-hours)
     + [Open hour](#open-hour)
     + [Menu](#menu)
     + [Article](#article)
@@ -100,11 +101,17 @@ A Restaurant is a BusinessUnit in Restolution.
 * ``wwwAddress`` - www address to e.g. restaurant website
 * ``faxNr`` - fax number
 
+<a name="open-hours"></a>
+### Open hours
+Contains an array of ``<Weekday>`` that can be _"Monday"_, _"Tuesday"_, _"Wednesday"_, _"Thursday"_, _"Friday"_, _"Saturday"_ or _"Sunday"_. All 7 weekdays are always included. 
+
+* ``<Weekday>`` - an array of Open hour objects. An empty array means that the restaurant is closed for that day.
+
 <a name="open-hour"></a>
 ### Open hour
-
-* ``day`` - day of week, empty = default for every day
-* ``hours`` - open hours in the format HH:mm/HH:mm, empty = closed for given day of week
+* ``start`` - time when open hour starts in the format HHmm.
+* ``finish`` - time when open our finishes in the format HHmm. Finish time can extend to the next day by setting it to end at _"2400"_ in an Open Hour and in the next day an Open Hour starting from _"0000"_. If the restaurant is open 24h, start would be _"0000"_ and finish _"2400"_.
+* ``type`` - open hour type, see [Open hour types](#open-hour-types).
 
 <a name="menu"></a>
 ### Menu
@@ -349,15 +356,60 @@ sample response:
                 },
                 "openHours" : [
                     {
-                        "hours" : "09:00/02:00"
-                    },
-                    {
-                        "day" : "Saturday",
-                        "hours" : "11:00/22:00"
-                    },
-                    {
-                        "day" : "Sunday"
-                    }
+                       "Monday": [
+                         {
+                           "type": "RESTAURANT",
+                           "start": "0900",
+                           "finish": "2100"
+                         },
+                         {
+                           "type": "KITCHEN",
+                           "start": "0900",
+                           "finish": "1300"
+                         },
+                         {
+                           "type": "KITCHEN",
+                           "start": "1400",
+                           "finish": "1800"
+                         }
+                       ]
+                     },
+                     {
+                       "Tuesday": []
+                     },
+                     {
+                       "Wednesday": [
+                         {
+                           "type": "RESTAURANT",
+                           "start": "0000",
+                           "finish": "2400"
+                         }
+                       ]
+                     },
+                     {
+                       "Thursday": []
+                     },
+                     {
+                       "Friday": [
+                         {
+                           "type": "RESTAURANT",
+                           "start": "0900",
+                           "finish": "2400"
+                         }
+                       ]
+                     },
+                     {
+                       "Saturday": [
+                        {
+                           "type": "RESTAURANT",
+                           "start": "0000",
+                           "finish": "0230"
+                         }
+                       ]
+                     },
+                     {
+                       "Sunday": []
+                     }
                 ],
                 "maxCustomers":20,
                 "printers" : [{
@@ -1339,6 +1391,15 @@ sample response:
 * LUNCH_MULTI
     Multi lunch card
 
+<a name="open-hour-types"></a>
+## Open hour types
+
+* RESTAURANT
+    Restaurant open hours
+
+* KITCHEN
+    Kitchen open hours
+
 <a name="version-history"></a>
 ## Version history
 
@@ -1348,4 +1409,5 @@ sample response:
 | 18.4.2018  | mats.antell@soft-contact.fi       | Added Receipt.quickInvoice   |
 | 3.5.2018   | mats.antell@soft-contact.fi       | Added Card and related methods |
 | 4.5.2018   | mats.antell@soft-contact.fi       | Added Customer.restaurantIDs to importCustomers |
+| 2.1.2019   | mats.antell@soft-contact.fi       | Modified Restaurants.openHours |
 
