@@ -160,6 +160,8 @@ or read using "getReceipts" method.
 
 * ``receiptID`` - receipt ID, used as receipt number in Restolution
 * ``receiptUUID`` - optional receipt UUID, globally unique identifier for this receipt (a type 4 UUID as specified by RFC 4122)
+* ``sourceHash`` - md5 hash from receipt "source" data to prevent double receipts
+* ``cancelledReceiptSourceHash`` - matches the _sourceHash_ of the receipt cancelled by this receipt, only in receipts of type "VOID"
 * ``receiptType``- receipt type, used in "getReceipts", see Receipt types
 * ``timestamp`` - time when the receipt was created (mandatory field to ensure no duplicate receipts are saved)
 * ``cashRegisterUUID`` - cash register UUID
@@ -597,6 +599,7 @@ sample response:
             {
                 "receiptID":"123456",
                 "receiptUUID":"a2ba12dd-3adc-431d-ae11-46f6a47ce040",
+                "sourceHash":"ebae5a26f8f1e9b7757fc301c3641739",
                 "receiptType":"NORMAL",
                 "timestamp":"2015-09-16T08:58:40",
                 "cashRegisterUUID":"12dad71f-3cb3-4127-a039-81ed6dad2d01",
@@ -1410,4 +1413,5 @@ sample response:
 | 3.5.2018   | mats.antell@soft-contact.fi       | Added Card and related methods |
 | 4.5.2018   | mats.antell@soft-contact.fi       | Added Customer.restaurantIDs to importCustomers |
 | 2.1.2019   | mats.antell@soft-contact.fi       | Modified Restaurants.openHours |
+| 11.1.2019   | mats.antell@soft-contact.fi       | Added Receipt.sourceHash |
 
