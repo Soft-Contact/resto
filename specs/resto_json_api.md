@@ -770,6 +770,8 @@ parameters:
 * ``receiptTimeFromDate`` - include receipts with timestamp equal or later than given date. Overrides ``salesReadingFromDate``
 * ``receiptTimeUntilDate`` - include receipts with timestamp equal or older than given date
 * ``reconciliatedDatesOnly`` - true / false if results should include only reconciliated dates
+* ``includeStorageData`` - true / false if results should include storage changes. Storage data contains transactions from sales and different storage jobs
+* ``excludeSalesData`` - true / false if sales data should be excluded from results
 
 response:
 
@@ -1413,5 +1415,5 @@ sample response:
 | 3.5.2018   | mats.antell@soft-contact.fi       | Added Card and related methods |
 | 4.5.2018   | mats.antell@soft-contact.fi       | Added Customer.restaurantIDs to importCustomers |
 | 2.1.2019   | mats.antell@soft-contact.fi       | Modified Restaurants.openHours |
-| 11.1.2019   | mats.antell@soft-contact.fi       | Added Receipt.sourceHash |
+| 11.1.2019   | mats.antell@soft-contact.fi       | Added Receipt.sourceHash and 2 new parameters to getBookkeepingRows|
 
