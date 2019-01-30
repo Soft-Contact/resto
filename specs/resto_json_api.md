@@ -19,7 +19,6 @@
     + [Receipt](#receipt)
     + [Article Options / Chosen Options](#article-options---chosen-options)
     + [Receipt Row](#receipt-row)
-    + [Additional Name](#additional-name)
     + [Discount](#discount)
     + [Payment Row](#payment-row)
     + [Customer](#customer)
@@ -191,8 +190,8 @@ or read using "getReceipts" method.
 ### Receipt Row
 
 * ``articleID`` - article ID, sale article number in Restolution
-* ``articleName`` - optional article name
-* ``articleNames`` - an array containing translations of article names as AddionalName objects
+* ``articleName`` - optional article name, this is the common article name in Restolution
+* ``additionalArticleName`` - article name as seen on the receipt that this receipt row belongs to, this is the operational unit's article name in Restolution
 * ``priceID`` - price level
 * ``price`` - unit price including VAT in cents
 * ``quantity`` - ordered quantity in 1/1000 parts
@@ -210,11 +209,6 @@ or read using "getReceipts" method.
 * ``parentID`` - parent ID of sale row, foreign key to sale ID of parent sale row
 * ``discounts`` - an array of discounts
 * ``rowComment`` - optional row comment
-
-<a name="additional-name"></a>
-### Additional Name
-* ``language`` - language of the name as an [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1) code
-* ``name`` - the name in the specified language
 
 <a name="discount"></a>
 ### Discount
@@ -562,7 +556,6 @@ parameters:
 * ``invoiceReceiptsOnly`` - true / false to include only invoice receipts
 * ``reconciliatedDatesOnly`` - true / false if results should include only reconciliated dates. Can be used only when ``invoiceReceiptsOnly`` = true.
 * ``includeRowComments`` - true / false if row comments should be included (included by default if ``invoiceReceiptsOnly`` = true)
-* ``includeNamesInLanguages`` - array containing [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1) language codes, includes translated names for fields where supported in the given languages. For example: _["fi","sv","en"]_. The translated names in requested languages will be given in a plural form of the original field name, e.g. ``articleName`` will have translations in ``articleNames``.
 
 Note 1: If no date parameters are given, the default value for ``salesReadingFromDate`` will be used. Default value is kept by Restolution.
 
@@ -590,8 +583,7 @@ sample request:
         ],
         "includeSaleRows":true,
         "includePaymentRows":true,
-        "includeRowComments":true,
-        "includeNamesInLanguages":["fi","en"]
+        "includeRowComments":true
     }
 }
 ```
@@ -628,10 +620,7 @@ sample response:
                     {
                         "articleID":"123",
                         "articleName":"Pizza 3lla täytteellä",
-                        "articleNames": [
-                           { "language": "fi", "name": "Pizza 3:lla täytteellä"},
-                           { "language": "en", "name": "Pizza with 3 toppings"} 
-                        ],
+                        "additionalArticleName":"Peltileipä 3lla täytteellä",
                         "priceID":"1",
                         "price":1200,
                         "quantity":1000,
@@ -659,10 +648,7 @@ sample response:
                     {
                         "articleID":"200",
                         "articleName":"Cola 0,5l",
-                        "articleNames": [
-                           { "language": "fi", "name": "Cola 0,5l"},
-                           { "language": "en", "name": "Coke 0,5l"} 
-                        ],
+                        "additionalArticleName": "Limsa 0,5l",
                         "priceID":"1",
                         "price":600,
                         "quantity":1000,
@@ -689,10 +675,7 @@ sample response:
                     {
                         "articleID": "88",
                         "articleName": "Teatime Collins",
-                        "articleNames": [
-                           { "language": "fi", "name": "Teatime Collins"},
-                           { "language": "en", "name": "Teatime Collins"} 
-                        ],
+                        "additionalArticleName": "Teatime Collins",
                         "priceID": "1",
                         "price": 0,
                         "quantity": 1000,
@@ -711,10 +694,7 @@ sample response:
                     {
                         "articleID": "85",
                         "articleName": "Chase rhubard1",
-                        "articleNames": [
-                           { "language": "fi", "name": "Chase rhubard1"},
-                           { "language": "en", "name": "Chase rhubard1"} 
-                        ],
+                        "additionalArticleName": "Raparperilikööri",
                         "priceID": "1",
                         "price": 700,
                         "quantity": 250,
@@ -733,10 +713,7 @@ sample response:
                     {
                         "articleID": "86",
                         "articleName": "Tanqueray",
-                        "articleNames": [
-                           { "language": "fi", "name": "Tanqueray"},
-                           { "language": "en", "name": "Tanqueray"} 
-                        ],
+                        "additionalArticleName": "Giniä",
                         "priceID": "1",
                         "price": 900,
                         "quantity": 750,
@@ -755,10 +732,7 @@ sample response:
                     {
                         "articleID": "87",
                         "articleName": "Cocktaillisä 2,00",
-                        "articleNames": [
-                           { "language": "fi", "name": "Cocktaillisä 2,00"},
-                           { "language": "en", "name": "Cocktail additive  2,00"} 
-                        ],
+                        "additionalArticleName": "Cocktaillisä 2,00",
                         "priceID": "1",
                         "price": 200,
                         "quantity": 2000,
@@ -1449,5 +1423,5 @@ sample response:
 | 4.5.2018   | mats.antell@soft-contact.fi       | Added Customer.restaurantIDs to importCustomers |
 | 2.1.2019   | mats.antell@soft-contact.fi       | Modified Restaurants.openHours |
 | 11.1.2019   | mats.antell@soft-contact.fi       | Added Receipt.sourceHash and 2 new parameters to getBookkeepingRows|
-| 29.1.2019   | mats.antell@soft-contact.fi       | Added new getReceipts parameter: includeNamesInLanguages |
+| 30.1.2019   | mats.antell@soft-contact.fi       | Added ReceiptRow.additionalArticleName |
 
