@@ -82,6 +82,7 @@ A Restaurant is a BusinessUnit in Restolution.
 
 * ``restaurantID`` - restaurant ID, business unit code in Restolution
 * ``cashRegisterUUID`` - cash register UUID of cash register where restaurant orders are directed
+* ``businessUnitUUID`` - business unit UUID of this restaurant, globally unique identifier for this restaurant
 * ``name`` - restaurant name
 * ``contact`` - restaurant contact information as a Contact object
 * ``openHours`` - restaurant open hours as an array of Open hours objects
@@ -165,6 +166,7 @@ or read using "getReceipts" method.
 * ``receiptType``- receipt type, used in "getReceipts", see Receipt types
 * ``timestamp`` - time when the receipt was created (mandatory field to ensure no duplicate receipts are saved)
 * ``cashRegisterUUID`` - cash register UUID
+* ``businessUnitUUID`` - business unit UUID
 * ``cashRegisterName`` - optional cash register name
 * ``customerNumber`` - customer number
 * ``customerName`` - optional customer name
@@ -308,7 +310,8 @@ For listing all restaurants available to the given API Key.
 
 parameters:
 
-* ``cashRegisterUUIDs`` - optional array of cash register ids, if missing all restaurants will be listed
+* ``cashRegisterUUIDs`` - optional array of cash register UUIDs, if missing all restaurants will be listed overrides parameter _businessUnitUUIDs_
+* ``businessUnitUUIDs`` - optional array of business unit UUIDs, ignored if parameter _cashRegisterUUIDs_ is given
 * ``includeArticles`` - flag for including articles in results
 * ``includeCustomers`` - flag for including customers in results
 * ``includeBaseData`` - flag for including restaurant base data (contact and open hours) in results
@@ -347,6 +350,7 @@ sample response:
         "restaurants" : [
             {
                 "cashRegisterUUID" : "12dad71f-3cb3-4127-a039-81ed6dad2d01",
+                "businessUnitUUID" : "4a67c7a2-bbf6-4130-be16-f4f7b2571d91",
                 "restaurantID" : "1",
                 "name" : "S&C Testiravintola",
                 "contact" : {
@@ -546,7 +550,8 @@ For getting sales from back office.
 
 parameters:
 
-* ``restaurantIDs`` - array containing restaurantIDs
+* ``restaurantIDs`` - array containing restaurantIDs, ignored if parameter _businessUnitUUIDs_ is given
+* ``businessUnitUUIDs`` - array containing business unit UUIDs, overrides parameter _restaurantIDs_
 * ``salesReadFromDate`` - include sales read to back office since given date,
         if not given, sales read to back office since last call to ``getReceipts`` will be returned
 * ``receiptTimeFromDate`` - include receipts with timestamp equal or later than given date. Overrides ``salesReadingFromDate``.
@@ -604,6 +609,7 @@ sample response:
                 "receiptType":"NORMAL",
                 "timestamp":"2015-09-16T08:58:40",
                 "cashRegisterUUID":"12dad71f-3cb3-4127-a039-81ed6dad2d01",
+                "businessUnitUUID" : "4a67c7a2-bbf6-4130-be16-f4f7b2571d91",
                 "cashRegisterName":"Baari kassa 1",
                 "customerNumber":"1111",
                 "customerName":"Earl of Grantham",
@@ -1424,4 +1430,5 @@ sample response:
 | 2.1.2019   | mats.antell@soft-contact.fi       | Modified Restaurants.openHours |
 | 11.1.2019   | mats.antell@soft-contact.fi       | Added Receipt.sourceHash and 2 new parameters to getBookkeepingRows|
 | 30.1.2019   | mats.antell@soft-contact.fi       | Added ReceiptRow.additionalArticleName |
+| 14.3.2019   | mats.antell@soft-contact.fi       | Added businessUnitUUID to Restaurant and Receipt |
 
