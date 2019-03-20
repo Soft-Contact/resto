@@ -101,6 +101,8 @@ A Restaurant is a BusinessUnit in Restolution.
 * ``mobilePhoneNr`` - mobile phone number
 * ``wwwAddress`` - www address to e.g. restaurant website
 * ``faxNr`` - fax number
+* ``registrationNr`` - company registration number of the business unit in Restolution
+* ``companyName`` - company name, then name of the company of the business unit in Restolution
 
 <a name="open-hours"></a>
 ### Open hours
@@ -359,7 +361,9 @@ sample response:
                   "city" : "Helsinki",
                   "phoneNr" : "+358 29 007 4960",
                   "wwwAddress" : "soft-contact.fi",
-                  "emailAddress" : "support@soft-contact.fi"
+                  "emailAddress" : "support@soft-contact.fi",
+                  "registrationNr" : "2220310-8",
+                  "companyName" : "Soft-Contact Oy"
                 },
                 "openHours" : [
                     {
@@ -1431,4 +1435,5 @@ sample response:
 | 11.1.2019   | mats.antell@soft-contact.fi       | Added Receipt.sourceHash and 2 new parameters to getBookkeepingRows|
 | 30.1.2019   | mats.antell@soft-contact.fi       | Added ReceiptRow.additionalArticleName |
 | 14.3.2019   | mats.antell@soft-contact.fi       | Added businessUnitUUID to Restaurant and Receipt |
+| 20.3.2019   | mats.antell@soft-contact.fi       | Added registrationNr and companyName to Restaurant |
 
