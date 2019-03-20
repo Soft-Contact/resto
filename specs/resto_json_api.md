@@ -101,8 +101,8 @@ A Restaurant is a BusinessUnit in Restolution.
 * ``mobilePhoneNr`` - mobile phone number
 * ``wwwAddress`` - www address to e.g. restaurant website
 * ``faxNr`` - fax number
-* ``registrationNr`` - company registration number of the business unit in Restolution
-* ``companyName`` - company name, then name of the company of the business unit in Restolution
+* ``registrationNr`` - registration number of the business unit
+* ``companyName`` - company name, the name of the company linked to the business unit
 
 <a name="open-hours"></a>
 ### Open hours
