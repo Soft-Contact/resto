@@ -103,6 +103,7 @@ common parameters:
 * `success` - shows whether the request was processed successfully (i.e. `true`)
 * `message` - optional human readable message which can be shown to user
 * `response` - optional method specific result
+* `cashRegisterVersion` - optional version of the cash register that processed the request
 
 response structure:
 
@@ -115,7 +116,8 @@ response structure:
         "field1":"value",
         "field2":"value"
     },
-    "message":"optional human readable message"
+    "message":"optional human readable message",
+    "cashRegisterVersion":"19.03.2.36141"
 }
 ```
 
