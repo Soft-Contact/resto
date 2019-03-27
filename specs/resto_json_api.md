@@ -172,6 +172,7 @@ or read using "getReceipts" method.
 * ``cashRegisterName`` - optional cash register name
 * ``customerNumber`` - customer number
 * ``customerName`` - optional customer name
+* ``customerUUID`` - customer UUID
 * ``cardNumber`` - optional card number
 * ``ourReference`` - Restaurant's own reference information
 * ``yourReference`` - Restaurant customer's reference information
@@ -241,6 +242,8 @@ See also [listCustomers](#listcustomers).
 
 * ``customerNumber`` - customer ID, customer number in Restolution
 * ``customerName`` - customer name
+* ``clientName`` - client name that this customer belongs to. If used in [importCustomers](#importcustomers), the customer will only be imported to this client and respectively if missing, the customer will be imported to all clients.
+* ``customerUUID`` - customer UUID. If used in [importCustomers](#importcustomers), the import will only affect a customer with this customer UUID in Restolution. If used in [saveReciepts](#saveReceipts), this will override customerNumber when selecting customer for imported receipt.
 * ``active`` - flag to indicate whether customer should be active or not in Restolution
 * ``type`` - optional customer type, see [Customer types](#customer-types). Defaults to "LUNCH" for new customer if not given.
 * ``comment`` - optional additional comment about customer
@@ -262,6 +265,7 @@ See also [listCustomers](#listcustomers).
 * ``subventionInvoiceContent`` - optional setting how the subvention and commission receipts should be arranged into invoices, see [Customer invoice contents](#customer-invoice-contents)
 * ``contact`` - optional customer contact information as a Contact object. This object is omitted in results if no contact fields have been set in Restolution. See [Contact](#contact).
 * ``restaurantIDs`` - optional special field, array of Restaurant IDs where this Customer is active. Note: Used only in [importCustomers](#importcustomers). If not defined, the customer will be set active in every restaurant.
+* ``businessUnitUUIDs`` - optional special field, array of Business Unit UUIDs of restaurants where this Customer is active. Note: Used only in [importCustomers](#importcustomers). If not defined, the customer will be set active in every restaurant.
 
 <a name="card"></a>
 ### Card
@@ -534,11 +538,13 @@ sample response:
                 "customers":[
                     {
                         "customerNumber":"1111",
-                        "customerName":"Pelle Peloton"
+                        "customerName":"Pelle Peloton",
+                        "customerUUID":"00951a0e-e74e-4a09-82f6-bc36109df2be"
                     },
                     {
                         "customerNumber":"2222",
-                        "customerName":"Roope Ankka"
+                        "customerName":"Roope Ankka",
+                        "customerUUID":"0304a579-9630-4ab9-8d9f-12031e7c832f"
                     }
                 ]
               }
@@ -617,6 +623,7 @@ sample response:
                 "cashRegisterName":"Baari kassa 1",
                 "customerNumber":"1111",
                 "customerName":"Earl of Grantham",
+                "customerUUID":"012531ec-ebc1-432d-96c7-2367994c1ccb",
                 "cardNumber":"1234567",
                 "ourReference":"Last time we offered free vodka",
                 "yourReference":"Best pikkujoulut ever!",
@@ -878,6 +885,7 @@ sample request:
                 "timestamp":"2015-09-16T08:58:40",
                 "cashRegisterUUID":"12dad71f-3cb3-4127-a039-81ed6dad2d01",
                 "customerNumber":"1111",
+                "customerUUID":"00ecd260-3a52-4aa6-aecc-f63d10cf913a",
                 "cardNumber":"1234567",
                 "ourReference":"Last time we offer free vodka",
                 "yourReference":"Best pikkujoulut ever!",
@@ -933,15 +941,19 @@ sample response:
 ### listCustomers
 
 For listing customers available to the given API Key. 
-If several Restolution clients share the same API Key, customers from all clients will be listed as long as any customer with same number is identical between clients. If ambiguous customers are found, the method will fail with an error message.
+If several Restolution clients share the same API Key, customers from all clients will be listed. Customers with same number will be listed as separate objects.
 
 See also [Customer](#customer).
 
 parameters:
 
-* ``restaurantIDs`` - array of Restaurant IDs whose active customers to include
+* ``restaurantIDs`` - array of Restaurant IDs whose customers to include
+* ``businessUnitUUIDs`` - array containing business unit UUIDs whose customers to include, overrides parameter restaurantIDs
 * ``customerNumbers`` - array of customer numbers to include
+* ``customerUUIDs`` - array of customer UUIDs to include, overrides parameter customerNumbers
 * ``includeContact`` - flag to indicate whether customer contact information should be included
+* ``activeOnly`` - flag to indicate whether only active customers should be included
+* ``modifiedSince`` - include only customers modified since this timestamp
 
 response:
 
@@ -959,7 +971,8 @@ sample request:
         "customerNumbers":[
             "1", "4", "8"
         ],
-        "includeContact":true
+        "includeContact":true,
+        "modifiedSince":"2015-01-01T03:00:00.000Z"
     }
 }
 ```
@@ -976,6 +989,8 @@ sample response:
             {
                 "customerNumber": "1",
                 "customerName": "CUBA IMPORT EXPORT",
+                "customerUUID": "a1ad841e-b7f6-472d-b795-95d075929ef7",
+				            "clientName": "S&C Testiravintola",
                 "comment": "testikommentti 200",
                 "allowInvoicing": true,
                 "referenceNumber": "111",
@@ -988,7 +1003,7 @@ sample response:
                 "invoicePeriod": "MONTHLY",
                 "invoiceContent": "ALL_RECEIPTS_IN_SAME",
                 "subventionsOnceAMonth": true,
-                "status": "ACTIVE",
+                "active": true
                 "contact": {
                     "emailAddress": "email@email.com",
                     "street": "Salakuljettajankatu 8",
@@ -1001,6 +1016,8 @@ sample response:
             {
                 "customerNumber": "4",
                 "customerName": "MAKKE OY",
+                "customerUUID": "35c21d34-e5c1-45b0-b6b8-a0db9f645fb4",
+				            "clientName": "S&C Testiravintola",
                 "allowInvoicing": true,
                 "referenceNumber": "123",
                 "type": "LUNCH",
@@ -1017,6 +1034,8 @@ sample response:
             {
                 "customerNumber": "8",
                 "customerName": "VAKIO SÄÄTÄJÄT KY",
+                "customerUUID": "a21cedb0-5a07-4edd-951b-06e960f44100",
+				            "clientName": "Il Pastarito",
                 "allowInvoicing": false,
                 "referenceNumber": "124",
                 "type": "LUNCH_AND_LOYALTY",
@@ -1042,6 +1061,7 @@ See also [Customer](#customer).
 parameters:
 
 * ``customers`` - array of Customer objects
+* ``clientNames`` - array of Client names of clients where the customers should be imported. Note: If this parameter is used, an imported customer can still have the clientName field to limit import of that particular customer to only one client, but the value has to be one of the clientNames values, otherwise an error will be returned.
 
 response:
 
@@ -1061,6 +1081,7 @@ sample request:
     "requestID": "req_325168426",
     "method": "importCustomers",
     "params": {
+        "clientNames" : ["S&C Testiravintola","Il Pastarito"],
         "customers": [
             {
                 "customerNumber": "1",
@@ -1104,11 +1125,15 @@ sample request:
                 "invoicePeriod": "MONTHLY",
                 "invoiceContent": "ALL_RECEIPTS_IN_SAME",
                 "subventionsOnceAMonth": false,
-                "active": true
+                "active": true,
+                "businessUnitUUIDs":[
+                     "4a67c7a2-bbf6-4130-be16-f4f7b2571d91", "02462343-eeca-4bec-89cf-be411e98ce01"
+                ]
             },
             {
                 "customerNumber": "8",
                 "customerName": "VAKIO SÄÄTÄJÄT KY",
+                "clientName":"Il Pastarito",
                 "allowInvoicing": false,
                 "referenceNumber": "124",
                 "type": "LUNCH_AND_LOYALTY",
@@ -1427,13 +1452,14 @@ sample response:
 
 | Date        | Author                            | Summary                      |
 | ----------- | --------------------------------- | ---------------------------- |
-| 17.4.2018  | mats.antell@soft-contact.fi       | Initial version              |
-| 18.4.2018  | mats.antell@soft-contact.fi       | Added Receipt.quickInvoice   |
-| 3.5.2018   | mats.antell@soft-contact.fi       | Added Card and related methods |
-| 4.5.2018   | mats.antell@soft-contact.fi       | Added Customer.restaurantIDs to importCustomers |
-| 2.1.2019   | mats.antell@soft-contact.fi       | Modified Restaurants.openHours |
-| 11.1.2019   | mats.antell@soft-contact.fi       | Added Receipt.sourceHash and 2 new parameters to getBookkeepingRows|
-| 30.1.2019   | mats.antell@soft-contact.fi       | Added ReceiptRow.additionalArticleName |
-| 14.3.2019   | mats.antell@soft-contact.fi       | Added businessUnitUUID to Restaurant and Receipt |
-| 20.3.2019   | mats.antell@soft-contact.fi       | Added registrationNr and companyName to Restaurant |
+| 17.4.2018  | mats.antell@soft-contact.fi        | Initial version              |
+| 18.4.2018  | mats.antell@soft-contact.fi        | Added Receipt.quickInvoice   |
+| 3.5.2018   | mats.antell@soft-contact.fi        | Added Card and related methods |
+| 4.5.2018   | mats.antell@soft-contact.fi        | Added Customer.restaurantIDs to importCustomers |
+| 2.1.2019   | mats.antell@soft-contact.fi        | Modified Restaurants.openHours |
+| 11.1.2019  | mats.antell@soft-contact.fi        | Added Receipt.sourceHash and 2 new parameters to getBookkeepingRows|
+| 30.1.2019  | mats.antell@soft-contact.fi        | Added ReceiptRow.additionalArticleName |
+| 14.3.2019  | mats.antell@soft-contact.fi        | Added businessUnitUUID to Restaurant and Receipt |
+| 20.3.2019  | mats.antell@soft-contact.fi        | Added registrationNr and companyName to Restaurant |
+| 27.3.2019  | mats.antell@soft-contact.fi        | Added customerUUID, removed customer import/export merging |
 
