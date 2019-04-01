@@ -164,7 +164,7 @@ response structure:
 * INVALID_PERIOD
 * UNEXPECTED_VALUE_TYPE
 * MISSING_PARAMETERS
-* INTERNAL_ERROR
+* INTERNAL_ERROR - the server or cash register failed to process the request. contact the service provider.
 * UNKNOWN_METHOD
 * METHOD_MISSING
 * ORDER_ROWS_MISSING
