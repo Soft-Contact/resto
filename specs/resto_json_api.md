@@ -564,7 +564,7 @@ parameters:
 * ``businessUnitUUIDs`` - array containing business unit UUIDs, overrides parameter _restaurantIDs_
 * ``salesReadFromDate`` - include sales read to back office since given date,
         if not given, sales read to back office since last call to ``getReceipts`` will be returned
-* ``receiptTimeFromDate`` - include receipts with timestamp equal or later than given date. Overrides ``salesReadingFromDate``.
+* ``receiptTimeFromDate`` - include receipts with timestamp equal or later than given date. Overrides ``salesReadFromDate``.
 * ``receiptTimeUntilDate`` - include receipts with timestamp equal or older than given date
 * ``includeSaleRows`` - include sales receipt rows in the results
 * ``includePaymentRows`` - include payment receipt rows in the results
@@ -572,7 +572,7 @@ parameters:
 * ``reconciliatedDatesOnly`` - true / false if results should include only reconciliated dates. Can be used only when ``invoiceReceiptsOnly`` = true.
 * ``includeRowComments`` - true / false if row comments should be included (included by default if ``invoiceReceiptsOnly`` = true)
 
-Note 1: If no date parameters are given, the default value for ``salesReadingFromDate`` will be used. Default value is kept by Restolution.
+Note 1: If no date parameters are given, the default value for ``salesReadFromDate`` will be used. Default value is kept by Restolution.
 
 Note 2: Use receipt date parameters when data from specified dates should be exported.
 
@@ -791,7 +791,7 @@ parameters:
 * ``costCentreCodes`` - array containing cost centre codes
 * ``salesReadFromDate`` - include sales read to back office since given date
         if not given, sales read to back office since last call to ``getBookkeepingRows`` will be returned
-* ``receiptTimeFromDate`` - include receipts with timestamp equal or later than given date. Overrides ``salesReadingFromDate``
+* ``receiptTimeFromDate`` - include receipts with timestamp equal or later than given date. Overrides ``salesReadFromDate``
 * ``receiptTimeUntilDate`` - include receipts with timestamp equal or older than given date
 * ``reconciliatedDatesOnly`` - true / false if results should include only reconciliated dates
 * ``includeStorageData`` - true / false if results should include storage changes. Storage data contains transactions from sales and different storage jobs
