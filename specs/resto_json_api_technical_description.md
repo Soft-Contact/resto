@@ -165,7 +165,8 @@ response structure:
 * UNEXPECTED_VALUE_TYPE
 * MISSING_PARAMETERS
 * INTERNAL_ERROR - the server or cash register failed to process the request. contact the service provider.
-* UNKNOWN_METHOD
+* UNKNOWN_METHOD - the server or cash register does not recognize the method
+* NOT_IMPLEMENTED - the server or cash register recognizes, but has not (yet) implemented the method
 * METHOD_MISSING
 * ORDER_ROWS_MISSING
 * ORDER_ROWS_EMPTY
