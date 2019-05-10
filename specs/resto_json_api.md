@@ -556,7 +556,9 @@ sample response:
 <a name="getreceipts"></a>
 ### getReceipts
 
-For getting sales from back office.
+For getting sales from back office. If a request takes long time, please try a shorter period or fewer business units. It is also recommended to use a unique _requestID_ per request to make it easier to combine the results from multiple requests.
+
+<b>Note: The RESTO JSON API is not intended for bulk receipt transfer, if the goal is to get all historic receipts then please consult with our support/sales for alternative options.</b>
 
 parameters:
 
