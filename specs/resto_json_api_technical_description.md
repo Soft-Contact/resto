@@ -146,6 +146,7 @@ response structure:
 ### Error codes
 
 * UNKNOWN_ERROR - not listed error code with details in `message` field
+* METHOD_MISSING - required parameter `method` not provided in the request
 * AMOUNT_MISSING
 * TRANSACTION_UUID_MISSING
 * CARD_NOT_FOUND
@@ -167,7 +168,6 @@ response structure:
 * INTERNAL_ERROR - the server or cash register failed to process the request. contact the service provider.
 * UNKNOWN_METHOD - the server or cash register does not recognize the method
 * NOT_IMPLEMENTED - the server or cash register recognizes, but has not (yet) implemented the method
-* METHOD_MISSING
 * ORDER_ROWS_MISSING
 * ORDER_ROWS_EMPTY
 * ORDER_ID_MISSING
