@@ -89,6 +89,7 @@ A Restaurant is a BusinessUnit in Restolution.
 * ``menus`` - array of Menu objects (empty if articles are not included)
 * ``customers`` - array of Customer objects (empty if customers are not included)
 * ``printers`` - array of Printer objects
+* ``status`` - status of restaurant.  Can be one of ``ACTIVE``, ``NEW``, ``DISABLED``. Included only if ``includeAllRestaurants`` is ``true``.
 
 <a name="contact"></a>
 ### Contact
@@ -321,6 +322,7 @@ parameters:
 * ``includeArticles`` - flag for including articles in results
 * ``includeCustomers`` - flag for including customers in results
 * ``includeBaseData`` - flag for including restaurant base data (contact and open hours) in results
+* ``includeAllRestaurants`` - flag for including all restaurants with status field shown. If not defined, lists only ACTIVE restaurants.
 
 response:
 
@@ -1464,4 +1466,5 @@ sample response:
 | 14.3.2019  | mats.antell@soft-contact.fi        | Added businessUnitUUID to Restaurant and Receipt |
 | 20.3.2019  | mats.antell@soft-contact.fi        | Added registrationNr and companyName to Restaurant |
 | 27.3.2019  | mats.antell@soft-contact.fi        | Added customerUUID, removed customer import/export merging |
+| 28.10.2019 | ilkka.hyvarinen@kassamagneetti.fi  | Added status, includeAllRestaurants to Restaurant and listRestaurants |
 
