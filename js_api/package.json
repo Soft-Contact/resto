@@ -1,0 +1,14 @@
+{
+"name": "@jaakaru/softpos_api",
+"version": "0.0.6",
+"description": "Kassamagneetti SoftPoS Javascript API",
+  "license": "MIT",
+  "repository": "Soft-Contact/resto",
+  "main": "index.js",
+  "keywords": [
+    "softpos",
+    "kassamagneetti",
+    "soft-contact",
+    "cashregister"
+  ]
+}
