@@ -1,3 +1,4 @@
+
 function isCalledFromSoftPos() {
     return navigator.userAgent.indexOf("SoftPos") !== -1;
 }
@@ -34,7 +35,6 @@ softPos = {
             }
             if (apiVersion == "HTMLVIEW_LEGACY") {
                 let resp = JSON.parse(window.softPosApi424242.jsonPlaceOrder(JSON.stringify(order)));
-                console.log("Sent to CR_2 " + JSON.stringify(resp) + " " + failureCallback + " " + successCallback);
                 if (!resp.success) {
                     if (failureCallback) {
                         failureCallback(resp);
@@ -46,7 +46,9 @@ softPos = {
                 window.softPosPlaceOrder({
                         request: JSON.stringify(order),
                         onSuccess: successCallback,
-                        onFailure: failureCallback
+                        onFailure: function(dummy, responseStr) {
+                            failureCallback(JSON.parse(responseStr));
+                        }
                     }
                 );
             }
@@ -64,7 +66,7 @@ softPos = {
         getApiType : getApiType,
         /**
          * Gets the SoftPoS version
-         * @returns {string} one of NONE/HTMLVIEW_LEGACY/HTMLVIEW_JCEF
+         * @returns {string} SoftPoS version
          */
         getSoftPosVersion: function() {
             return navigator.userAgent;
