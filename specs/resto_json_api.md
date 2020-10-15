@@ -34,7 +34,8 @@
     + [importCustomers](#importcustomers)
     + [listCards](#listcards)
     + [importCards](#importcards)
-
+    + [listCampaigns](#listCampaigns)
+    
   * [Receipt types](#receipt-types)
   * [Discount methods](#discount-methods)
   * [Customer types](#customer-types)
@@ -306,6 +307,41 @@ See also [listCards](#listcards).
 * ``netAmount`` - amount without VAT in cents
 * ``vatAmount`` - VAT amount in cents
 * ``vatCode`` - VAT code
+
+<a name="campaign"></a>
+### Campaign
+See also [listCampaigns](#listcampaigns).
+
+* ``campaignName`` - campaign Name
+* ``goal`` - text describing goal of this campaign
+* ``comment`` - comment of this campaign
+* ``campaignType`` - campaign type, see [Campaign types](#campaign-types)
+* ``campaignSubType`` - campaign subordinate type, see [Campaign Sub types](#campaign-sub-types)
+* ``weekdayMon``,``weekdayTue``,``weekdayWed``,``weekdayThu``,``weekdayFri``,``weekdaySat``,``weekdaySun`` - flags indicating weekdays when when this campaign is active during the ``fromDate``-``untilDate``
+* ``startTime``,``endTime`` - time period of the saleday in form of ``hh:mm`` when this campaign is active, if not set then campaign is active for whole saleday
+* ``fromDate`` - date when the campaign begins
+* ``untilDate`` - date when the campaign ends 
+* ``units`` - an array of [Campaign Unit Row](#campaign-unit-row) objects, showing units where this campaign is used
+* ``articles`` - an array of [Campaign Article Row](#campaign-article-row) objects, showing articles included in this campaign
+
+<a name="campaign-unit-row"></a>
+### Campaign Unit Row
+
+* ``unitName`` - unit name, operational unit name in Restolution
+* ``restaurantID`` - restaurant ID, business unit code in Restolution
+* ``businessUnitUUID`` - globally unique identifier for this restaurant
+
+<a name="campaign-article-row"></a>
+### Campaign Article Row
+
+* ``articleID`` - sale article number
+* ``name`` - sale article name
+* ``campaignArticleType`` - campaign article type, see [Campaign Article types](#campaign-article-types)
+* ``priceGroup`` - number of the price group
+* ``quantity`` - quantity of the price group, in 1/1000 parts
+* ``maxQuantity`` - maximum allowed quantity of the price group, in 1/1000 parts
+* ``price`` - price group total price in cents
+* ``articleGroupName`` - article group name this salearticle is belonging to
 
 <a name="available-methods"></a>
 ## Available Methods
@@ -1332,6 +1368,114 @@ sample response:
   }
 }
 ```
+<a name="listcampaigns"></a>
+### listCampaigns
+
+For listing campaigns available to the given API Key by given from-to time filter:
+* if no parameters are given, all campaigns available to the API key are listed;
+* if both parameters are set and equals then campaigns active for that provided time are returned;
+* if providing only from time filter then campaigns active after given time (or equal) are returned;
+* if providing only until time filter then campaigns active before given time (or equal) are returned.
+
+If several Restolution clients share the same API Key, campaigns from all clients will be listed.
+See also [Campaign](#campaign).
+
+parameters:
+* ``campaignFromDate`` - for filtering campaign ``fromDate`` 
+* ``campaignUntilDate`` - for filtering campaign ``untilDate`` 
+
+response:
+
+* ``campaigns`` - array of [Campaign](#campaign) objects
+
+sample request:
+
+```json
+{
+	"timestamp": "2017-03-10T14:41:40Z",
+	"apiKey": "user_321681",
+	"requestID": "req_3251234234",
+	"method": "listCampaigns",
+	"params": {
+		"campaignFromDate": "2020-10-05T00:00:00Z",
+		"campaignUntilDate": "2020-10-05T00:00:00Z"
+	}
+}
+```
+
+sample response:
+
+```json
+{
+	"success": true,
+	"timestamp": "2020-10-15T12:27:02.509Z",
+	"requestID": "req_3251234234",
+	"response": [
+		{
+			"campaigns": [
+				{
+					"goal": "Myydä paljon",
+					"comment": "No comments",
+					"endTime": "23:00",
+					"articles": [
+						{
+							"name": "TOTIVESI",
+							"price": 500,
+							"quantity": 3000,
+							"articleID": 9407,
+							"priceGroup": 1,
+							"maxQuantity": 1000,
+							"articleGroupName": "Vesi / mehut",
+							"campaignArticleType": "CAMPAIGN"
+						},
+						{
+							"name": "VESIKANNU",
+							"price": 500,
+							"quantity": 3000,
+							"articleID": 9426,
+							"priceGroup": 1,
+							"maxQuantity": 1000,
+							"articleGroupName": "Vesi / mehut",
+							"campaignArticleType": "CAMPAIGN"
+						},
+						{
+							"name": "VESIPULLO",
+							"price": 500,
+							"quantity": 3000,
+							"articleID": 6026,
+							"priceGroup": 1,
+							"maxQuantity": 1000,
+							"articleGroupName": "Vesi / mehut",
+							"campaignArticleType": "CAMPAIGN"
+						}
+					],
+					"fromDate": "2017-03-28T05:00:00+03:00",
+					"startTime": "03:00",
+					"untilDate": "2025-04-01T04:59:59+03:00",
+					"weekdayFri": true,
+					"weekdayMon": true,
+					"weekdaySat": true,
+					"weekdaySun": true,
+					"weekdayThu": true,
+					"weekdayTue": true,
+					"weekdayWed": true,
+					"campaignName": "juomia",
+					"campaignType": "CUSTOM_PRICE",
+					"campaignSubType": "SET_AMOUNT",
+					"operationalUnits": [
+						{
+							"unitName": "SC TEST",
+							"restaurantID": "1",
+							"businessUnitUUID": "dc06fe0e-b68b-4f66-a48e-2adc0ce56ffa"
+						}
+					]
+				}
+			],
+			"campaignsActiveForDate": "2020-10-05T00:00:00+03:00"
+		}
+	]
+}
+```
 
 <a name="receipt-types"></a>
 ## Receipt types
@@ -1451,6 +1595,80 @@ sample response:
 * KITCHEN
     Kitchen open hours
 
+<a name="campaign-types"></a>
+## Campaign types
+
+* CUSTOM_PRICE
+    Special together price: 
+    When all articles of this campaign are sold together
+    they will use the prices defined in this campaign.
+
+* RECOMMENDATION
+    Recommendation:
+    When article(s) of this campaign are sold, the recommendation articles
+    of this campaign are presented to clerk in a list from which they can be
+    recommended to client and added to receipt.
+    All articles can be assigned custom prices.
+
+* CHEAPEST_FOR_FREE
+    Cheapest for free:
+    When all articles of this campaign are sold together
+    the client will get the cheapest one for free.
+    
+* FREE_ARTICLE
+    Free article:
+    When all articles of this campaign are sold together
+    a defined free article is added to the receipt.
+
+* ADDITIONAL_SALE
+    Additional sale:
+    When the triggering articles are sold in specified amounts
+    a defined additional sale article will be added to the receipt with current price level.
+
+* REPORT
+    Report:
+    This campaign is for reporting purposes only.
+    
+<a name="campaign-sub-types"></a>
+## Campaign Sub types
+
+* SET_AMOUNT
+    Set amount indicates that campaign is triggered only for set amount of sold articles (of a price group).
+
+* MAX_AMOUNT
+    Max amount indicated that campaign is allowed for a defined maximum amount of articles (of a price group).
+
+* SET_AMOUNT_PER_ARTICLE
+    Set amount indicates that campaign is triggered only for set amount of same sold articles (of a price group).
+
+* DESCENDING_PRICE
+    Multiple set prices per article triggered when the set threshold article amount is sold.
+    For example:
+    * One slice: 4,90€
+    * Two slices: 8,90€ so it is 4,45€ per slice
+    * Three to seven slices: 12,90€, = 4,30€ per slice
+    * Eight or more slices: 31,90 = 3,99€ per slice
+
+<a name="campaign-article-types"></a>
+## Campaign Article types
+
+* CAMPAIGN
+    Article that belongs to campaign.
+    Used with campaign types: CUSTOM_PRICE, RECOMMENDATION,
+    CHEAPEST_FOR_FREE and REPORT.
+
+* RECOMMENDATION
+    Article that can be recommended in a campaign.
+    Used in campaign type RECOMMENDATION.
+     
+* FREE
+    Free article that can be added to receipt in a campaign.
+    Used in campaign type FREE_ARTICLE.
+         
+* ADDITIONAL_SALE
+    Additional sale article that can be added to receipt in a campaign.
+    Used in campaign type ADDITIONAL_SALE.
+     
 <a name="version-history"></a>
 ## Version history
 
@@ -1467,4 +1685,4 @@ sample response:
 | 20.3.2019  | mats.antell@soft-contact.fi        | Added registrationNr and companyName to Restaurant |
 | 27.3.2019  | mats.antell@soft-contact.fi        | Added customerUUID, removed customer import/export merging |
 | 28.10.2019 | ilkka.hyvarinen@kassamagneetti.fi  | Added status, includeAllRestaurants to Restaurant and listRestaurants |
-
+| 14.10.2020   | tt@soft-contact.fi       | Added Campaign and related methods |
