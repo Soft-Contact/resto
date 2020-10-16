@@ -25,6 +25,9 @@
     + [Card](#card)
     + [Printer](#printer)
     + [Bookkeeping Row](#bookkeeping-row)
+    + [Campaign](#campaign)
+    + [Campaign Unit Row](#campaign-unit-row)
+    + [Campaign Article Row](#campaign-article-row)
   * [Available Methods](#available-methods)
     + [listRestaurants](#listrestaurants)
     + [getReceipts](#getreceipts)
@@ -310,9 +313,9 @@ See also [listCards](#listcards).
 
 <a name="campaign"></a>
 ### Campaign
-See also [listCampaigns](#listcampaigns).
+See also [listCampaigns](#listCampaigns).
 
-* ``campaignName`` - campaign Name
+* ``campaignName`` - campaign name
 * ``goal`` - text describing goal of this campaign
 * ``comment`` - comment of this campaign
 * ``campaignType`` - campaign type, see [Campaign types](#campaign-types)
@@ -335,7 +338,7 @@ See also [listCampaigns](#listcampaigns).
 ### Campaign Article Row
 
 * ``articleID`` - sale article number
-* ``name`` - sale article name
+* ``articleName`` - sale article name
 * ``campaignArticleType`` - campaign article type, see [Campaign Article types](#campaign-article-types)
 * ``priceGroup`` - number of the price group
 * ``quantity`` - quantity of the price group, in 1/1000 parts
@@ -1368,14 +1371,15 @@ sample response:
   }
 }
 ```
-<a name="listcampaigns"></a>
+<a name="listCampaigns"></a>
 ### listCampaigns
 
 For listing campaigns available to the given API Key by given from-to time filter:
-* if no parameters are given, all campaigns available to the API key are listed;
-* if both parameters are set and equals then campaigns active for that provided time are returned;
-* if providing only from time filter then campaigns active after given time (or equal) are returned;
-* if providing only until time filter then campaigns active before given time (or equal) are returned.
+* (1) if no parameters are given, all campaigns available to the API key are listed;
+* (2) if both parameters are set and equals then campaigns active for that provided time are returned;
+* (3) if providing only from time filter then campaigns active after given time (or equal) are returned;
+* (4) if providing only until time filter then campaigns active before given time (or equal) are returned;
+* (5) otherwise active campaigns for given from-to time are returned.
 
 If several Restolution clients share the same API Key, campaigns from all clients will be listed.
 See also [Campaign](#campaign).
@@ -1387,6 +1391,9 @@ parameters:
 response:
 
 * ``campaigns`` - array of [Campaign](#campaign) objects
+* ``campaignsActiveForDate`` - returned in case of (2), showing time for which active campaigns are returned  
+* ``campaignsFromDate`` - returned in case of (3),(4),(5), showing used from time for filtering 
+* ``campaignsUntilDate`` - returned in case of (3),(4),(5), showing used to time for filtering
 
 sample request:
 
@@ -1419,7 +1426,7 @@ sample response:
 					"endTime": "23:00",
 					"articles": [
 						{
-							"name": "TOTIVESI",
+							"articleName": "TOTIVESI",
 							"price": 500,
 							"quantity": 3000,
 							"articleID": 9407,
@@ -1429,7 +1436,7 @@ sample response:
 							"campaignArticleType": "CAMPAIGN"
 						},
 						{
-							"name": "VESIKANNU",
+							"articleName": "VESIKANNU",
 							"price": 500,
 							"quantity": 3000,
 							"articleID": 9426,
@@ -1439,7 +1446,7 @@ sample response:
 							"campaignArticleType": "CAMPAIGN"
 						},
 						{
-							"name": "VESIPULLO",
+							"articleName": "VESIPULLO",
 							"price": 500,
 							"quantity": 3000,
 							"articleID": 6026,
