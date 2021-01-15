@@ -37,7 +37,7 @@ Returns **[string][8]** one of NONE/HTMLVIEW_LEGACY/HTMLVIEW_JCEF
 
 Gets the SoftPoS version
 
-Returns **[string][8]** one of NONE/HTMLVIEW_LEGACY/HTMLVIEW_JCEF
+Returns **[string][8]** containing "SoftPos version.number"
 
 [1]: #jsonapi
 
