@@ -32,7 +32,6 @@ softPos = {
          */
         placeOrder: function (order, successCallback, failureCallback) {
             const apiVersion = getApiType();
-            console.log("Version 0.1.8 " + window.softPos);
             if (!apiVersion || apiVersion == 'NONE') {
                 alert("SoftPoS API not supported on standalone web applications, please consult Kassamagneetti support")
             }
@@ -82,9 +81,6 @@ softPos = {
          */
         getSoftPosVersion: function() {
             return navigator.userAgent;
-        },
-        getVersion : function() {
-            return "0.1.8";
         }
     }
 };
