@@ -11,6 +11,8 @@ function getApiType() {
     if (window.softPosApi424242) {
         //old synchronous Jfx HtmlView
         return "HTMLVIEW_LEGACY";
+    } else if (window.softPos && window.softPos.placeOrder) {
+        return "HTMLVIEW_JXBROWSER";
     } else {
         //New JCEF
         return "HTMLVIEW_JCEF";
@@ -42,6 +44,9 @@ softPos = {
                 } else if (successCallback) {
                     successCallback(resp);
                 }
+            } else if (apiVersion == "HTMLVIEW_JXBROWSER") {
+                let result = window.softPos.placeOrder(JSON.stringify(order));
+                console.log("Result " + JSON.stringify(result));
             } else if (apiVersion == "HTMLVIEW_JCEF") {
                 window.softPosPlaceOrder({
                         request: JSON.stringify(order),
