@@ -32,6 +32,7 @@ softPos = {
          */
         placeOrder: function (order, successCallback, failureCallback) {
             const apiVersion = getApiType();
+            console.log("Version 0.1.8 " + window.softPos);
             if (!apiVersion || apiVersion == 'NONE') {
                 alert("SoftPoS API not supported on standalone web applications, please consult Kassamagneetti support")
             }
@@ -46,7 +47,13 @@ softPos = {
                 }
             } else if (apiVersion == "HTMLVIEW_JXBROWSER") {
                 let result = window.softPos.placeOrder(JSON.stringify(order));
-                console.log("Result " + JSON.stringify(result));
+                if (!result.success) {
+                    if (failureCallback) {
+                        failureCallback(result);
+                    }
+                } else if (successCallback) {
+                    successCallback(result);
+                }
             } else if (apiVersion == "HTMLVIEW_JCEF") {
                 window.softPosPlaceOrder({
                         request: JSON.stringify(order),
@@ -75,6 +82,9 @@ softPos = {
          */
         getSoftPosVersion: function() {
             return navigator.userAgent;
+        },
+        getVersion : function() {
+            return "0.1.8";
         }
     }
 };
