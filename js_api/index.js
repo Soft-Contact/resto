@@ -46,6 +46,9 @@ softPos = {
                 }
             } else if (apiVersion == "HTMLVIEW_JXBROWSER") {
                 let result = window.softPos.placeOrder(JSON.stringify(order));
+                if (typeof result === 'string' || result instanceof String) {
+                    result = JSON.parse(result);
+                }
                 if (!result.success) {
                     if (failureCallback) {
                         failureCallback(result);
