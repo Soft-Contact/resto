@@ -18,6 +18,19 @@ function getApiType() {
         return "HTMLVIEW_JCEF";
     }
 }
+
+let parseResultAndMakeCallbacks = function (result, failureCallback, successCallback) {
+    if (typeof result === 'string' || result instanceof String) {
+        result = JSON.parse(result);
+    }
+    if (!result.success) {
+        if (failureCallback) {
+            failureCallback(result);
+        }
+    } else if (successCallback) {
+        successCallback(result);
+    }
+};
 softPos = {
     /**
      * JSON API methods to control the SoftPoS CashRegister, see also https://github.com/Soft-Contact/resto/issues/2#placeorder
@@ -46,16 +59,7 @@ softPos = {
                 }
             } else if (apiVersion == "HTMLVIEW_JXBROWSER") {
                 let result = window.softPos.placeOrder(JSON.stringify(order));
-                if (typeof result === 'string' || result instanceof String) {
-                    result = JSON.parse(result);
-                }
-                if (!result.success) {
-                    if (failureCallback) {
-                        failureCallback(result);
-                    }
-                } else if (successCallback) {
-                    successCallback(result);
-                }
+                parseResultAndMakeCallbacks(result, failureCallback, successCallback);
             } else if (apiVersion == "HTMLVIEW_JCEF") {
                 window.softPosPlaceOrder({
                         request: JSON.stringify(order),
@@ -65,6 +69,20 @@ softPos = {
                         }
                     }
                 );
+            }
+        },
+        addToOpenTable: function (openTable, successCallback, failureCallback) {
+            const apiVersion = getApiType();
+            if (!apiVersion || apiVersion == 'NONE') {
+                alert("SoftPoS API not supported on standalone web applications, please consult Kassamagneetti support")
+            }
+            if (apiVersion == "HTMLVIEW_LEGACY") {
+                alert("SoftPoS API supported only on JxBrowser");
+            } else if (apiVersion == "HTMLVIEW_JCEF") {
+                alert("SoftPoS API supported only on JxBrowser");
+            } else if (apiVersion == "HTMLVIEW_JXBROWSER") {
+                let result = window.softPos.addToOpenTable(JSON.stringify(openTable));
+                parseResultAndMakeCallbacks(result, failureCallback, successCallback);
             }
         }
     },

@@ -23,6 +23,17 @@ Place order
 -   `successCallback`  as a function for successful callback
 -   `failureCallback`  as a function for failure callback
 
+### addToOpenTable
+
+Add to open table, see also [https://github.com/Soft-Contact/resto/issues/2#addtoopentable][8]
+
+#### Parameters
+
+-   `table`  as a JSON object
+-   `successCallback`  as a function for successful callback
+-   `failureCallback`  as a function for failure callback
+
+
 ## utils
 
 Utility methods
