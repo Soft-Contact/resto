@@ -84,6 +84,20 @@ softPos = {
                 let result = window.softPos.addToOpenTable(JSON.stringify(openTable));
                 parseResultAndMakeCallbacks(result, failureCallback, successCallback);
             }
+        },
+        getActiveTransaction: function(successCallback, failureCallback){
+            const apiVersion = getApiType();
+            if (!apiVersion || apiVersion == 'NONE') {
+                alert("SoftPoS API not supported on standalone web applications, please consult Kassamagneetti support")
+            }
+            if (apiVersion == "HTMLVIEW_LEGACY") {
+                alert("SoftPoS API supported only on JxBrowser");
+            } else if (apiVersion == "HTMLVIEW_JCEF") {
+                alert("SoftPoS API supported only on JxBrowser");
+            } else if (apiVersion == "HTMLVIEW_JXBROWSER") {
+                let result = window.softPos.getActiveTransaction();
+                parseResultAndMakeCallbacks(result, failureCallback, successCallback);
+            }
         }
     },
     /**
