@@ -98,6 +98,20 @@ softPos = {
                 let result = window.softPos.getActiveTransaction();
                 parseResultAndMakeCallbacks(result, failureCallback, successCallback);
             }
+        },
+        executeLisp: function(cmd, successCallback, failureCallback) {
+            const apiVersion = getApiType();
+            if (!apiVersion || apiVersion == 'NONE') {
+                alert("SoftPoS API not supported on standalone web applications, please consult Kassamagneetti support")
+            }
+            if (apiVersion == "HTMLVIEW_LEGACY") {
+                alert("SoftPoS API supported only on JxBrowser");
+            } else if (apiVersion == "HTMLVIEW_JCEF") {
+                alert("SoftPoS API supported only on JxBrowser");
+            } else if (apiVersion == "HTMLVIEW_JXBROWSER") {
+                let result = window.softPos.executeLisp(cmd);
+                parseResultAndMakeCallbacks(result, failureCallback, successCallback);
+            }
         }
     },
     /**
