@@ -143,6 +143,8 @@ Articles correspond to active sale articles in Restolution, belonging to the ass
 * ``options`` - array of (type = OPTION) option article IDs
 * ``prices`` - array of Price objects valid for this article
 * ``printerIDs`` - array printer IDs
+* ``structure`` - array of Articles if this is a link article
+* ``amount`` - amount of this article in link article structure in in 1/1000 parts
 
 <a name="price"></a>
 ### Price
@@ -1693,3 +1695,4 @@ sample response:
 | 27.3.2019  | mats.antell@soft-contact.fi        | Added customerUUID, removed customer import/export merging |
 | 28.10.2019 | ilkka.hyvarinen@kassamagneetti.fi  | Added status, includeAllRestaurants to Restaurant and listRestaurants |
 | 14.10.2020   | tt@soft-contact.fi       | Added Campaign and related methods |
+| 31.08.2021 | mats.antell@kassamagneetti.fi      | Added Article.structure and Article.amount |  
