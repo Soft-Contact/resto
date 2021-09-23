@@ -5,13 +5,20 @@
 -   [jsonApi][1]
     -   [placeOrder][2]
         -   [Parameters][3]
--   [utils][4]
-    -   [getApiType][5]
-    -   [getSoftPosVersion][6]
+    -   [addToOpenTable][4]
+        -   [Parameters][5]
+    -   [getActiveTransaction][6]
+        -   [Parameters][7]
+    -   [executeLisp][8]
+        -   [Parameters][9]
+-   [utils][10]
+    -   [getApiType][11]
+    -   [getSoftPosVersion][12]
+    -   [getSoftPosInfo][13]
 
 ## jsonApi
 
-JSON API methods to control the SoftPoS CashRegister, see also [https://github.com/Soft-Contact/resto/issues/2#placeorder][7]
+JSON API methods to control the SoftPoS CashRegister, see also [https://github.com/Soft-Contact/resto/issues/2#placeorder][14]
 
 ### placeOrder
 
@@ -25,14 +32,32 @@ Place order
 
 ### addToOpenTable
 
-Add to open table, see also [https://github.com/Soft-Contact/resto/issues/2#addtoopentable][8]
+addToOpenTable
 
 #### Parameters
 
--   `table`  as a JSON object
+-   `openTable`  as a JSON object from [https://github.com/Soft-Contact/resto/issues/2#addtoopentable][15]
 -   `successCallback`  as a function for successful callback
 -   `failureCallback`  as a function for failure callback
 
+### getActiveTransaction
+
+get currently on cashregister screen active transaction
+
+#### Parameters
+
+-   `successCallback`  
+-   `failureCallback`  
+
+### executeLisp
+
+Execute lisp macro on cashregister side
+
+#### Parameters
+
+-   `cmd`  lisp macro to execute
+-   `successCallback`  
+-   `failureCallback`  
 
 ## utils
 
@@ -42,13 +67,19 @@ Utility methods
 
 Gets the SoftPoS API type depending on which environment is used to run it
 
-Returns **[string][8]** one of NONE/HTMLVIEW_LEGACY/HTMLVIEW_JCEF
+Returns **[string][16]** one of NONE/HTMLVIEW_LEGACY/HTMLVIEW_JCEF
 
 ### getSoftPosVersion
 
 Gets the SoftPoS version
 
-Returns **[string][8]** containing "SoftPos version.number"
+Returns **[string][16]** SoftPoS version
+
+### getSoftPosInfo
+
+Get the SoftPos info JSON
+
+Returns **[json][17]** with fields "success" and "data", where data contains the SoftPosInfo object
 
 [1]: #jsonapi
 
@@ -56,12 +87,30 @@ Returns **[string][8]** containing "SoftPos version.number"
 
 [3]: #parameters
 
-[4]: #utils
+[4]: #addtoopentable
 
-[5]: #getapitype
+[5]: #parameters-1
 
-[6]: #getsoftposversion
+[6]: #getactivetransaction
 
-[7]: https://github.com/Soft-Contact/resto/issues/2#placeorder
+[7]: #parameters-2
 
-[8]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[8]: #executelisp
+
+[9]: #parameters-3
+
+[10]: #utils
+
+[11]: #getapitype
+
+[12]: #getsoftposversion
+
+[13]: #getsoftposinfo
+
+[14]: https://github.com/Soft-Contact/resto/issues/2#placeorder
+
+[15]: https://github.com/Soft-Contact/resto/issues/2#addtoopentable
+
+[16]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+
+[17]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/JSON

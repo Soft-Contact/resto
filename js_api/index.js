@@ -19,6 +19,20 @@ function getApiType() {
     }
 }
 
+function onlyJfxSupported(actionFn) {
+    const apiVersion = getApiType();
+    if (!apiVersion || apiVersion == 'NONE') {
+        alert("SoftPoS API not supported on standalone web applications, please consult Kassamagneetti support")
+    }
+    if (apiVersion == "HTMLVIEW_LEGACY") {
+        alert("SoftPoS API supported only on JxBrowser");
+    } else if (apiVersion == "HTMLVIEW_JCEF") {
+        alert("SoftPoS API supported only on JxBrowser");
+    } else if (apiVersion == "HTMLVIEW_JXBROWSER") {
+        actionFn();
+    }
+}
+
 let parseResultAndMakeCallbacks = function (result, failureCallback, successCallback) {
     if (typeof result === 'string' || result instanceof String) {
         result = JSON.parse(result);
@@ -30,7 +44,9 @@ let parseResultAndMakeCallbacks = function (result, failureCallback, successCall
     } else if (successCallback) {
         successCallback(result);
     }
-};
+}
+
+
 softPos = {
     /**
      * JSON API methods to control the SoftPoS CashRegister, see also https://github.com/Soft-Contact/resto/issues/2#placeorder
@@ -71,6 +87,12 @@ softPos = {
                 );
             }
         },
+        /**
+         * addToOpenTable
+         * @param openTable as a JSON object from https://github.com/Soft-Contact/resto/issues/2#addtoopentable
+         * @param successCallback as a function for successful callback
+         * @param failureCallback as a function for failure callback
+         */
         addToOpenTable: function (openTable, successCallback, failureCallback) {
             const apiVersion = getApiType();
             if (!apiVersion || apiVersion == 'NONE') {
@@ -85,6 +107,11 @@ softPos = {
                 parseResultAndMakeCallbacks(result, failureCallback, successCallback);
             }
         },
+        /**
+         * get currently on cashregister screen active transaction
+         * @param successCallback
+         * @param failureCallback
+         */
         getActiveTransaction: function(successCallback, failureCallback){
             const apiVersion = getApiType();
             if (!apiVersion || apiVersion == 'NONE') {
@@ -99,6 +126,12 @@ softPos = {
                 parseResultAndMakeCallbacks(result, failureCallback, successCallback);
             }
         },
+        /**
+         * Execute lisp macro on cashregister side
+         * @param cmd lisp macro to execute
+         * @param successCallback
+         * @param failureCallback
+         */
         executeLisp: function(cmd, successCallback, failureCallback) {
             const apiVersion = getApiType();
             if (!apiVersion || apiVersion == 'NONE') {
@@ -130,7 +163,19 @@ softPos = {
          */
         getSoftPosVersion: function() {
             return navigator.userAgent;
+        },
+        /**
+         * Get the SoftPos info JSON
+         * @requires SoftPoS
+         * @returns {json} with fields "success" and "data", where data contains the SoftPosInfo object
+         */
+        getSoftPosInfo: function() {
+            onlyJfxSupported(()=> {
+                let result = window.softPos.getSoftPosInfo();
+                parseResultAndMakeCallbacks(result, failureCallback, successCallback);
+            });
         }
+
     }
 };
 
