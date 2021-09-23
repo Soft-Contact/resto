@@ -166,10 +166,10 @@ softPos = {
         },
         /**
          * Get the SoftPos info JSON
-         * @requires SoftPoS
+         * @requires SoftPoS 21.09.4 at least
          * @returns {json} with fields "success" and "data", where data contains the SoftPosInfo object
          */
-        getSoftPosInfo: function() {
+        getSoftPosInfo: function(successCallback, failureCallback) {
             onlyJfxSupported(()=> {
                 let result = window.softPos.getSoftPosInfo();
                 parseResultAndMakeCallbacks(result, failureCallback, successCallback);
