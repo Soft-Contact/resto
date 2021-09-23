@@ -143,6 +143,8 @@ Articles correspond to active sale articles in Restolution, belonging to the ass
 * ``options`` - array of (type = OPTION) option article IDs
 * ``prices`` - array of Price objects valid for this article
 * ``printerIDs`` - array printer IDs
+* ``structure`` - array of Articles if this is a link article
+* ``amount`` - amount of this article in link article structure in in 1/1000 parts
 
 <a name="price"></a>
 ### Price
@@ -390,207 +392,302 @@ sample response:
 
 ```json
 {
-    "timestamp" : "2015-09-16T08:58:40.988Z",
-    "success" : true,
-    "requestID" : "req_325168426",
-    "response" : {
-        "restaurants" : [
-            {
-                "cashRegisterUUID" : "12dad71f-3cb3-4127-a039-81ed6dad2d01",
-                "businessUnitUUID" : "4a67c7a2-bbf6-4130-be16-f4f7b2571d91",
-                "restaurantID" : "1",
-                "name" : "S&C Testiravintola",
-                "contact" : {
-                  "street" : "Linnanpajantie 1",
-                  "postIndex" : "00950",
-                  "city" : "Helsinki",
-                  "phoneNr" : "+358 29 007 4960",
-                  "wwwAddress" : "soft-contact.fi",
-                  "emailAddress" : "support@soft-contact.fi",
-                  "registrationNr" : "2220310-8",
-                  "companyName" : "Soft-Contact Oy"
-                },
-                "openHours" : [
-                    {
-                       "Monday": [
-                         {
-                           "type": "RESTAURANT",
-                           "start": "0900",
-                           "finish": "2100"
-                         },
-                         {
-                           "type": "KITCHEN",
-                           "start": "0900",
-                           "finish": "1300"
-                         },
-                         {
-                           "type": "KITCHEN",
-                           "start": "1400",
-                           "finish": "1800"
-                         }
-                       ]
-                     },
-                     {
-                       "Tuesday": []
-                     },
-                     {
-                       "Wednesday": [
-                         {
-                           "type": "RESTAURANT",
-                           "start": "0000",
-                           "finish": "2400"
-                         }
-                       ]
-                     },
-                     {
-                       "Thursday": []
-                     },
-                     {
-                       "Friday": [
-                         {
-                           "type": "RESTAURANT",
-                           "start": "0900",
-                           "finish": "2400"
-                         }
-                       ]
-                     },
-                     {
-                       "Saturday": [
-                        {
-                           "type": "RESTAURANT",
-                           "start": "0000",
-                           "finish": "0230"
-                         }
-                       ]
-                     },
-                     {
-                       "Sunday": []
-                     }
+  "timestamp": "2015-09-16T08:58:40.988Z",
+  "success": true,
+  "requestID": "req_325168426",
+  "response": {
+    "restaurants": [
+      {
+        "cashRegisterUUID": "12dad71f-3cb3-4127-a039-81ed6dad2d01",
+        "businessUnitUUID": "4a67c7a2-bbf6-4130-be16-f4f7b2571d91",
+        "restaurantID": "1",
+        "name": "S&C Testiravintola",
+        "contact": {
+          "street": "Linnanpajantie 1",
+          "postIndex": "00950",
+          "city": "Helsinki",
+          "phoneNr": "+358 29 007 4960",
+          "wwwAddress": "soft-contact.fi",
+          "emailAddress": "support@soft-contact.fi",
+          "registrationNr": "2220310-8",
+          "companyName": "Soft-Contact Oy"
+        },
+        "openHours": [
+          {
+            "Monday": [
+              {
+                "type": "RESTAURANT",
+                "start": "0900",
+                "finish": "2100"
+              },
+              {
+                "type": "KITCHEN",
+                "start": "0900",
+                "finish": "1300"
+              },
+              {
+                "type": "KITCHEN",
+                "start": "1400",
+                "finish": "1800"
+              }
+            ]
+          },
+          {
+            "Tuesday": []
+          },
+          {
+            "Wednesday": [
+              {
+                "type": "RESTAURANT",
+                "start": "0000",
+                "finish": "2400"
+              }
+            ]
+          },
+          {
+            "Thursday": []
+          },
+          {
+            "Friday": [
+              {
+                "type": "RESTAURANT",
+                "start": "0900",
+                "finish": "2400"
+              }
+            ]
+          },
+          {
+            "Saturday": [
+              {
+                "type": "RESTAURANT",
+                "start": "0000",
+                "finish": "0230"
+              }
+            ]
+          },
+          {
+            "Sunday": []
+          }
+        ],
+        "maxCustomers": 20,
+        "printers": [
+          {
+            "printerID": "1",
+            "name": "Testiravintola lämmin",
+            "address": "10.53.2.71",
+            "port": "9100",
+            "width": 33
+          },
+          {
+            "printerID": "2",
+            "name": "Testiravintola kylmä",
+            "address": "10.53.2.72",
+            "port": "9100",
+            "width": 33
+          },
+          {
+            "printerID": "1",
+            "name": "Testiravintola baari",
+            "address": "10.53.2.73",
+            "port": "9100",
+            "width": 33
+          }
+        ],
+        "menus": [
+          {
+            "menuID": 50,
+            "name": "Alkuruoka",
+            "articles": [
+              {
+                "articleID": "9001",
+                "name": "VIHERSALAATTI",
+                "description": "",
+                "prices": [
+                  {
+                    "priceID": "1",
+                    "price": 500,
+                    "tax": 14
+                  }
                 ],
-                "maxCustomers":20,
-                "printers" : [{
-                        "printerID" : "1",
-                        "name" : "Testiravintola lämmin",
-                        "address" : "10.53.2.71",
-                        "port" : "9100",
-                        "width" : 33
-                    },
-                    {
-                        "printerID" : "2",
-                        "name" : "Testiravintola kylmä",
-                        "address" : "10.53.2.72",
-                        "port" : "9100",
-                        "width" : 33
-                    },
-                    {
-                        "printerID" : "1",
-                        "name" : "Testiravintola baari",
-                        "address" : "10.53.2.73",
-                        "port" : "9100",
-                        "width" : 33
-                    }],
-                "menus" :  [{
-                    "menuID":50,
-                    "name":"Alkuruoka",
-                    "articles":[
-                        {
-                            "articleID":"9001",
-                            "name":"VIHERSALAATTI",
-                            "description":"",
-                            "prices" : [
-                                {
-                                "priceID":"1",
-                                "price":500,
-                                "tax":14
-                                }
-                            ],
-                            "type":"SALE",
-                            "printerIDs" : ["1"]
-                        },{
-                            "articleID":"9002",
-                            "name":"SUOLAKURKKUJA",
-                            "description":"",
-                            "prices" : [
-                                {
-                                "priceID":"1",
-                                "price":600,
-                                "tax":14
-                                }
-                            ],
-                            "type":"SALE",
-                            "printerIDs" : ["1"]
-                        }
-                    ]
-                },{
-                    "menuID":51,
-                    "name":"Pääruoka",
-                    "articles":[
-                        {
-                            "articleID":"9129",
-                            "name":"PIPPURIPIHVI",
-                            "description":"",
-                            "prices" : [
-                                {
-                                "priceID":"1",
-                                "price":1500,
-                                "tax":14
-                                }
-                            ],
-                            "type":"SALE",
-                            "includeOptionPrice":true,
-                            "options":[
-                                {
-                                    "name":"Pottuvalintoja",
-                                    "minSelections":1,
-                                    "maxSelections":1,
-                                    "articleIDs":["9207","9210"]
-                                }
-                            ],
-                            "printerIDs" : ["1","2"]
-                        },
-                        {
-                            "articleID":"9207",
-                            "name":"VALKOSIPULIPERUNAT",
-                            "description":"",
-                            "prices" : [
-                                {
-                                    "priceID":"1",
-                                    "price":100,
-                                    "tax":14
-                                }
-                            ],
-                            "type":"OPTION"
-                        },
-                        {
-                            "articleID":"9210",
-                            "name":"PAISTETUT PERUNAT",
-                            "description":"",
-                            "prices" : [
-                                {
-                                    "priceID":"1",
-                                    "price":100,
-                                    "tax":14
-                                }
-                            ],
-                            "type":"OPTION"
-                        }
-                    ]
-                }],
-                "customers":[
-                    {
-                        "customerNumber":"1111",
-                        "customerName":"Pelle Peloton",
-                        "customerUUID":"00951a0e-e74e-4a09-82f6-bc36109df2be"
-                    },
-                    {
-                        "customerNumber":"2222",
-                        "customerName":"Roope Ankka",
-                        "customerUUID":"0304a579-9630-4ab9-8d9f-12031e7c832f"
-                    }
+                "type": "SALE",
+                "printerIDs": [
+                  "1"
+                ]
+              },
+              {
+                "articleID": "9002",
+                "name": "SUOLAKURKKUJA",
+                "description": "",
+                "prices": [
+                  {
+                    "priceID": "1",
+                    "price": 600,
+                    "tax": 14
+                  }
+                ],
+                "type": "SALE",
+                "printerIDs": [
+                  "1"
                 ]
               }
+            ]
+          },
+          {
+            "menuID": 51,
+            "name": "Pääruoka",
+            "articles": [
+              {
+                "articleID": "9129",
+                "name": "PIPPURIPIHVI",
+                "description": "",
+                "prices": [
+                  {
+                    "priceID": "1",
+                    "price": 1500,
+                    "tax": 14
+                  }
+                ],
+                "type": "SALE",
+                "includeOptionPrice": true,
+                "options": [
+                  {
+                    "name": "Pottuvalintoja",
+                    "minSelections": 1,
+                    "maxSelections": 1,
+                    "articleIDs": [
+                      "9207",
+                      "9210"
+                    ]
+                  }
+                ],
+                "printerIDs": [
+                  "1",
+                  "2"
+                ]
+              },
+              {
+                "articleID": "9207",
+                "name": "VALKOSIPULIPERUNAT",
+                "description": "",
+                "prices": [
+                  {
+                    "priceID": "1",
+                    "price": 100,
+                    "tax": 14
+                  }
+                ],
+                "type": "OPTION"
+              },
+              {
+                "articleID": "9210",
+                "name": "PAISTETUT PERUNAT",
+                "description": "",
+                "prices": [
+                  {
+                    "priceID": "1",
+                    "price": 100,
+                    "tax": 14
+                  }
+                ],
+                "type": "OPTION"
+              }
+            ]
+          },
+          {
+            "menuID": "13",
+            "name": "Cocktailit",
+            "articles": [
+              {
+                "articleID": "1301",
+                "name": "Drinkki",
+                "type": "SALE",
+                "restrictedItem": true,
+                "includeOptionPrice": false,
+                "prices": [
+                  {
+                    "priceID": "1",
+                    "price": 1748,
+                    "tax": 24,
+                    "priceWithoutTax": 1410
+                  }
+                ],
+                "structure": [
+                  {
+                    "articleID": "703",
+                    "name": "Whisky 1cl",
+                    "type": "SALE",
+                    "amount": 8000,
+		    "prices": [
+                      {
+                        "priceID": "1",
+                        "price": 112,
+                        "tax": 24,
+                        "priceWithoutTax": 90
+                      }
+                    ]
+                  },
+                  {
+                    "articleID": "1034",
+                    "name": "Liquor 1cl",
+                    "type": "SALE",
+                    "amount": 750,
+		    "prices": [
+                      {
+                        "priceID": "1",
+                        "price": 210,
+                        "tax": 24,
+                        "priceWithoutTax": 169
+                      }
+                    ]
+                  },
+                  {
+                    "articleID": "4001",
+                    "name": "Drink addition",
+                    "type": "SALE",
+                    "amount": 1680,
+		    "prices": [
+                      {
+                        "priceID": "1",
+                        "price": 100,
+                        "tax": 14,
+                        "priceWithoutTax": 88
+                      }
+                    ]
+                  },
+                  {
+                    "articleID": "1066",
+                    "name": "Red wine 1cl",
+                    "type": "SALE",
+                    "amount": 2250,
+		    "prices": [
+                      {
+                        "priceID": "1",
+                        "price": 234,
+                        "tax": 24,
+                        "priceWithoutTax": 189
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "customers": [
+          {
+            "customerNumber": "1111",
+            "customerName": "Pelle Peloton",
+            "customerUUID": "00951a0e-e74e-4a09-82f6-bc36109df2be"
+          },
+          {
+            "customerNumber": "2222",
+            "customerName": "Roope Ankka",
+            "customerUUID": "0304a579-9630-4ab9-8d9f-12031e7c832f"
+          }
         ]
-    }
+      }
+    ]
+  }
 }
 ```
 
@@ -1693,3 +1790,4 @@ sample response:
 | 27.3.2019  | mats.antell@soft-contact.fi        | Added customerUUID, removed customer import/export merging |
 | 28.10.2019 | ilkka.hyvarinen@kassamagneetti.fi  | Added status, includeAllRestaurants to Restaurant and listRestaurants |
 | 14.10.2020   | tt@soft-contact.fi       | Added Campaign and related methods |
+| 31.08.2021 | mats.antell@kassamagneetti.fi      | Added Article.structure and Article.amount |  
