@@ -94,18 +94,10 @@ softPos = {
          * @param failureCallback as a function for failure callback
          */
         addToOpenTable: function (openTable, successCallback, failureCallback) {
-            const apiVersion = getApiType();
-            if (!apiVersion || apiVersion == 'NONE') {
-                alert("SoftPoS API not supported on standalone web applications, please consult Kassamagneetti support")
-            }
-            if (apiVersion == "HTMLVIEW_LEGACY") {
-                alert("SoftPoS API supported only on JxBrowser");
-            } else if (apiVersion == "HTMLVIEW_JCEF") {
-                alert("SoftPoS API supported only on JxBrowser");
-            } else if (apiVersion == "HTMLVIEW_JXBROWSER") {
+            onlyJfxSupported(() => {
                 let result = window.softPos.addToOpenTable(JSON.stringify(openTable));
                 parseResultAndMakeCallbacks(result, failureCallback, successCallback);
-            }
+            });
         },
         /**
          * get currently on cashregister screen active transaction
@@ -113,18 +105,10 @@ softPos = {
          * @param failureCallback
          */
         getActiveTransaction: function(successCallback, failureCallback){
-            const apiVersion = getApiType();
-            if (!apiVersion || apiVersion == 'NONE') {
-                alert("SoftPoS API not supported on standalone web applications, please consult Kassamagneetti support")
-            }
-            if (apiVersion == "HTMLVIEW_LEGACY") {
-                alert("SoftPoS API supported only on JxBrowser");
-            } else if (apiVersion == "HTMLVIEW_JCEF") {
-                alert("SoftPoS API supported only on JxBrowser");
-            } else if (apiVersion == "HTMLVIEW_JXBROWSER") {
+            onlyJfxSupported(()=> {
                 let result = window.softPos.getActiveTransaction();
                 parseResultAndMakeCallbacks(result, failureCallback, successCallback);
-            }
+            });
         },
         /**
          * Execute lisp macro on cashregister side
@@ -133,18 +117,10 @@ softPos = {
          * @param failureCallback
          */
         executeLisp: function(cmd, successCallback, failureCallback) {
-            const apiVersion = getApiType();
-            if (!apiVersion || apiVersion == 'NONE') {
-                alert("SoftPoS API not supported on standalone web applications, please consult Kassamagneetti support")
-            }
-            if (apiVersion == "HTMLVIEW_LEGACY") {
-                alert("SoftPoS API supported only on JxBrowser");
-            } else if (apiVersion == "HTMLVIEW_JCEF") {
-                alert("SoftPoS API supported only on JxBrowser");
-            } else if (apiVersion == "HTMLVIEW_JXBROWSER") {
+            onlyJfxSupported(()=> {
                 let result = window.softPos.executeLisp(cmd);
                 parseResultAndMakeCallbacks(result, failureCallback, successCallback);
-            }
+            });
         }
     },
     /**
