@@ -123,6 +123,29 @@ softPos = {
             });
         }
     },
+    payments: {
+        /**
+         * Get the SoftPos info JSON
+         * @requires SoftPoS 21.09.4 at least
+         * @returns {json} with fields "success" and "data", where data contains the SoftPosInfo object
+         */
+        authorizePayment: function(payment, successCallback, failureCallback) {
+            onlyJfxSupported(()=> {
+                window.softPos.authorizePayment(payment, function(result) {
+                    if (typeof result === 'string' || result instanceof String) {
+                        result = JSON.parse(result);
+                    }
+                    if (!result.success) {
+                        if (failureCallback) {
+                            failureCallback(result);
+                        }
+                    } else if (successCallback) {
+                        successCallback(result);
+                    }
+                });
+            });
+        }
+    },
     /**
      *  Utility methods
      *  @namespace utils
