@@ -11,17 +11,18 @@
         *   [Parameters][7]
     *   [executeLisp][8]
         *   [Parameters][9]
-*   [authorizePayment][10]
-    *   [Parameters][11]
-*   [utils][12]
-    *   [getApiType][13]
-    *   [getSoftPosVersion][14]
-    *   [getSoftPosInfo][15]
-        *   [Parameters][16]
+*   [payments][10]
+    *   [authorizePayment][11]
+        *   [Parameters][12]
+*   [utils][13]
+    *   [getApiType][14]
+    *   [getSoftPosVersion][15]
+    *   [getSoftPosInfo][16]
+        *   [Parameters][17]
 
 ## jsonApi
 
-JSON API methods to control the SoftPoS CashRegister, see also [https://github.com/Soft-Contact/resto/issues/2#placeorder][17]
+JSON API methods to control the SoftPoS CashRegister, see also [https://github.com/Soft-Contact/resto/issues/2#placeorder][18]
 
 ### placeOrder
 
@@ -39,7 +40,7 @@ addToOpenTable
 
 #### Parameters
 
-*   `openTable`  as a JSON object from [https://github.com/Soft-Contact/resto/issues/2#addtoopentable][18]
+*   `openTable`  as a JSON object from [https://github.com/Soft-Contact/resto/issues/2#addtoopentable][19]
 *   `successCallback`  as a function for successful callback
 *   `failureCallback`  as a function for failure callback
 
@@ -62,11 +63,15 @@ Execute lisp macro on cashregister side
 *   `successCallback`  
 *   `failureCallback`  
 
-## authorizePayment
+## payments
+
+JSON API methods to control the SoftPoS CashRegister payment terminal
+
+### authorizePayment
 
 Authorize payment on SoftPoS side using SoftPos configured payment device
 
-### Parameters
+#### Parameters
 
 *   `payment`  
 *   `successCallback`  
@@ -80,13 +85,13 @@ Utility methods
 
 Gets the SoftPoS API type depending on which environment is used to run it
 
-Returns **[string][19]** one of NONE/HTMLVIEW_LEGACY/HTMLVIEW_JCEF
+Returns **[string][20]** one of NONE/HTMLVIEW_LEGACY/HTMLVIEW_JCEF
 
 ### getSoftPosVersion
 
 Gets the SoftPoS version
 
-Returns **[string][19]** SoftPoS version
+Returns **[string][20]** SoftPoS version
 
 ### getSoftPosInfo
 
@@ -97,7 +102,7 @@ Get the SoftPos info JSON
 *   `successCallback`  
 *   `failureCallback`  
 
-Returns **[json][20]** with fields "success" and "data", where data contains the SoftPosInfo object
+Returns **[json][21]** with fields "success" and "data", where data contains the SoftPosInfo object
 
 [1]: #jsonapi
 
@@ -117,24 +122,26 @@ Returns **[json][20]** with fields "success" and "data", where data contains the
 
 [9]: #parameters-3
 
-[10]: #authorizepayment
+[10]: #payments
 
-[11]: #parameters-4
+[11]: #authorizepayment
 
-[12]: #utils
+[12]: #parameters-4
 
-[13]: #getapitype
+[13]: #utils
 
-[14]: #getsoftposversion
+[14]: #getapitype
 
-[15]: #getsoftposinfo
+[15]: #getsoftposversion
 
-[16]: #parameters-5
+[16]: #getsoftposinfo
 
-[17]: https://github.com/Soft-Contact/resto/issues/2#placeorder
+[17]: #parameters-5
 
-[18]: https://github.com/Soft-Contact/resto/issues/2#addtoopentable
+[18]: https://github.com/Soft-Contact/resto/issues/2#placeorder
 
-[19]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[19]: https://github.com/Soft-Contact/resto/issues/2#addtoopentable
 
-[20]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/JSON
+[20]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+
+[21]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/JSON

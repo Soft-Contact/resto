@@ -123,6 +123,10 @@ softPos = {
             });
         }
     },
+    /**
+     * JSON API methods to control the SoftPoS CashRegister payment terminal
+     *  @namespace payments
+     **/
     payments: {
         /**
          * Authorize payment on SoftPoS side using SoftPos configured payment device
