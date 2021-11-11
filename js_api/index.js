@@ -125,9 +125,8 @@ softPos = {
     },
     payments: {
         /**
-         * Get the SoftPos info JSON
-         * @requires SoftPoS 21.09.4 at least
-         * @returns {json} with fields "success" and "data", where data contains the SoftPosInfo object
+         * Authorize payment on SoftPoS side using SoftPos configured payment device
+         * @requires SoftPoS 21.11.2 at least
          */
         authorizePayment: function(payment, successCallback, failureCallback) {
             onlyJfxSupported(()=> {

@@ -2,23 +2,26 @@
 
 ### Table of Contents
 
--   [jsonApi][1]
-    -   [placeOrder][2]
-        -   [Parameters][3]
-    -   [addToOpenTable][4]
-        -   [Parameters][5]
-    -   [getActiveTransaction][6]
-        -   [Parameters][7]
-    -   [executeLisp][8]
-        -   [Parameters][9]
--   [utils][10]
-    -   [getApiType][11]
-    -   [getSoftPosVersion][12]
-    -   [getSoftPosInfo][13]
+*   [jsonApi][1]
+    *   [placeOrder][2]
+        *   [Parameters][3]
+    *   [addToOpenTable][4]
+        *   [Parameters][5]
+    *   [getActiveTransaction][6]
+        *   [Parameters][7]
+    *   [executeLisp][8]
+        *   [Parameters][9]
+*   [authorizePayment][10]
+    *   [Parameters][11]
+*   [utils][12]
+    *   [getApiType][13]
+    *   [getSoftPosVersion][14]
+    *   [getSoftPosInfo][15]
+        *   [Parameters][16]
 
 ## jsonApi
 
-JSON API methods to control the SoftPoS CashRegister, see also [https://github.com/Soft-Contact/resto/issues/2#placeorder][14]
+JSON API methods to control the SoftPoS CashRegister, see also [https://github.com/Soft-Contact/resto/issues/2#placeorder][17]
 
 ### placeOrder
 
@@ -26,9 +29,9 @@ Place order
 
 #### Parameters
 
--   `order`  as a JSON object
--   `successCallback`  as a function for successful callback
--   `failureCallback`  as a function for failure callback
+*   `order`  as a JSON object
+*   `successCallback`  as a function for successful callback
+*   `failureCallback`  as a function for failure callback
 
 ### addToOpenTable
 
@@ -36,9 +39,9 @@ addToOpenTable
 
 #### Parameters
 
--   `openTable`  as a JSON object from [https://github.com/Soft-Contact/resto/issues/2#addtoopentable][15]
--   `successCallback`  as a function for successful callback
--   `failureCallback`  as a function for failure callback
+*   `openTable`  as a JSON object from [https://github.com/Soft-Contact/resto/issues/2#addtoopentable][18]
+*   `successCallback`  as a function for successful callback
+*   `failureCallback`  as a function for failure callback
 
 ### getActiveTransaction
 
@@ -46,8 +49,8 @@ get currently on cashregister screen active transaction
 
 #### Parameters
 
--   `successCallback`  
--   `failureCallback`  
+*   `successCallback`  
+*   `failureCallback`  
 
 ### executeLisp
 
@@ -55,9 +58,19 @@ Execute lisp macro on cashregister side
 
 #### Parameters
 
--   `cmd`  lisp macro to execute
--   `successCallback`  
--   `failureCallback`  
+*   `cmd`  lisp macro to execute
+*   `successCallback`  
+*   `failureCallback`  
+
+## authorizePayment
+
+Authorize payment on SoftPoS side using SoftPos configured payment device
+
+### Parameters
+
+*   `payment`  
+*   `successCallback`  
+*   `failureCallback`  
 
 ## utils
 
@@ -67,19 +80,24 @@ Utility methods
 
 Gets the SoftPoS API type depending on which environment is used to run it
 
-Returns **[string][16]** one of NONE/HTMLVIEW_LEGACY/HTMLVIEW_JCEF
+Returns **[string][19]** one of NONE/HTMLVIEW_LEGACY/HTMLVIEW_JCEF
 
 ### getSoftPosVersion
 
 Gets the SoftPoS version
 
-Returns **[string][16]** SoftPoS version
+Returns **[string][19]** SoftPoS version
 
 ### getSoftPosInfo
 
 Get the SoftPos info JSON
 
-Returns **[json][17]** with fields "success" and "data", where data contains the SoftPosInfo object
+#### Parameters
+
+*   `successCallback`  
+*   `failureCallback`  
+
+Returns **[json][20]** with fields "success" and "data", where data contains the SoftPosInfo object
 
 [1]: #jsonapi
 
@@ -99,18 +117,24 @@ Returns **[json][17]** with fields "success" and "data", where data contains the
 
 [9]: #parameters-3
 
-[10]: #utils
+[10]: #authorizepayment
 
-[11]: #getapitype
+[11]: #parameters-4
 
-[12]: #getsoftposversion
+[12]: #utils
 
-[13]: #getsoftposinfo
+[13]: #getapitype
 
-[14]: https://github.com/Soft-Contact/resto/issues/2#placeorder
+[14]: #getsoftposversion
 
-[15]: https://github.com/Soft-Contact/resto/issues/2#addtoopentable
+[15]: #getsoftposinfo
 
-[16]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[16]: #parameters-5
 
-[17]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/JSON
+[17]: https://github.com/Soft-Contact/resto/issues/2#placeorder
+
+[18]: https://github.com/Soft-Contact/resto/issues/2#addtoopentable
+
+[19]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+
+[20]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/JSON
