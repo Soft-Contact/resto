@@ -1,4 +1,3 @@
-
 function isCalledFromSoftPos() {
     return navigator.userAgent.indexOf("SoftPos") !== -1;
 }
@@ -80,7 +79,7 @@ softPos = {
                 window.softPosPlaceOrder({
                         request: JSON.stringify(order),
                         onSuccess: successCallback,
-                        onFailure: function(dummy, responseStr) {
+                        onFailure: function (dummy, responseStr) {
                             failureCallback(JSON.parse(responseStr));
                         }
                     }
@@ -104,8 +103,8 @@ softPos = {
          * @param successCallback
          * @param failureCallback
          */
-        getActiveTransaction: function(successCallback, failureCallback){
-            onlyJfxSupported(()=> {
+        getActiveTransaction: function (successCallback, failureCallback) {
+            onlyJfxSupported(() => {
                 let result = window.softPos.getActiveTransaction();
                 parseResultAndMakeCallbacks(result, failureCallback, successCallback);
             });
@@ -116,13 +115,47 @@ softPos = {
          * @param successCallback
          * @param failureCallback
          */
-        executeLisp: function(cmd, successCallback, failureCallback) {
-            onlyJfxSupported(()=> {
+        executeLisp: function (cmd, successCallback, failureCallback) {
+            onlyJfxSupported(() => {
                 let result = window.softPos.executeLisp(cmd);
                 parseResultAndMakeCallbacks(result, failureCallback, successCallback);
             });
         }
     },
+    /**
+     * JSON API methods to control the SoftPoS CashRegister printing
+     *  @namespace printer
+     **/
+    printer: {
+
+        /**
+         * Print data to the printer
+         * @example
+         let printData =
+         {
+         lines: [
+
+         { type: "TEXT", contents: "test string"},
+         { type: "TEXT", contents: "text\non\nmultiple\nlines"},
+         { type: "QR_CODE", contents: "sample code", alignment: "RIGHT"},
+         { type: "BAR_CODE", contents: "1234567890123"},
+         { type: "QR_CODE", contents: "another code"},
+         ]
+         }
+         * @requires SoftPoS 21.11.2 at least
+         * @todo experimental
+         */
+        print: function (printData, successCallback) {
+            onlyJfxSupported(() => {
+                let resp = window.softPos.print(JSON.stringify(printData));
+                if (successCallback) {
+                    successCallback(resp);
+                }
+            });
+        }
+
+    },
+
     /**
      * JSON API methods to control the SoftPoS CashRegister payment terminal
      *  @namespace payments
@@ -131,10 +164,11 @@ softPos = {
         /**
          * Authorize payment on SoftPoS side using SoftPos configured payment device
          * @requires SoftPoS 21.11.2 at least
+         * @todo experimental
          */
-        authorizePayment: function(payment, successCallback, failureCallback) {
-            onlyJfxSupported(()=> {
-                window.softPos.authorizePayment(payment, function(result) {
+        authorizePayment: function (payment, successCallback, failureCallback, statusCallback) {
+            onlyJfxSupported(() => {
+                window.softPos.authorizePayment(payment, function (result) {
                     if (typeof result === 'string' || result instanceof String) {
                         result = JSON.parse(result);
                     }
@@ -145,40 +179,60 @@ softPos = {
                     } else if (successCallback) {
                         successCallback(result);
                     }
+                }, function (status) {
+                    if (statusCallback) {
+                        statusCallback(status);
+                    }
                 });
+            });
+        },
+
+        /**
+         * Abort currently active payment
+         * @requires SoftPoS 21.11.2 at least
+         * @todo experimental
+         */
+        abortAuthorization(successCallback) {
+            onlyJfxSupported(() => {
+                let resp = window.softPos.abortAuthorization();
+                if (successCallback) {
+                    successCallback(resp);
+                }
             });
         }
     },
+
     /**
      *  Utility methods
      *  @namespace utils
      **/
-    utils: {
-        /**
-         * Gets the SoftPoS API type depending on which environment is used to run it
-         * @returns {string} one of NONE/HTMLVIEW_LEGACY/HTMLVIEW_JCEF
-         */
-        getApiType : getApiType,
-        /**
-         * Gets the SoftPoS version
-         * @returns {string} SoftPoS version
-         */
-        getSoftPosVersion: function() {
-            return navigator.userAgent;
-        },
-        /**
-         * Get the SoftPos info JSON
-         * @requires SoftPoS 21.09.4 at least
-         * @returns {json} with fields "success" and "data", where data contains the SoftPosInfo object
-         */
-        getSoftPosInfo: function(successCallback, failureCallback) {
-            onlyJfxSupported(()=> {
-                let result = window.softPos.getSoftPosInfo();
-                parseResultAndMakeCallbacks(result, failureCallback, successCallback);
-            });
-        }
+    utils:
+        {
+            /**
+             * Gets the SoftPoS API type depending on which environment is used to run it
+             * @returns {string} one of NONE/HTMLVIEW_LEGACY/HTMLVIEW_JCEF
+             */
+            getApiType: getApiType,
+            /**
+             * Gets the SoftPoS version
+             * @returns {string} SoftPoS version
+             */
+            getSoftPosVersion: function () {
+                return navigator.userAgent;
+            },
+            /**
+             * Get the SoftPos info JSON
+             * @requires SoftPoS 21.09.4 at least
+             * @returns {json} with fields "success" and "data", where data contains the SoftPosInfo object
+             */
+            getSoftPosInfo: function (successCallback, failureCallback) {
+                onlyJfxSupported(() => {
+                    let result = window.softPos.getSoftPosInfo();
+                    parseResultAndMakeCallbacks(result, failureCallback, successCallback);
+                });
+            }
 
-    }
+        }
 };
 
 module.exports = softPos;
