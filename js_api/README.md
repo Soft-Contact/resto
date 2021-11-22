@@ -75,7 +75,7 @@ JSON API methods to control the SoftPoS CashRegister printing
 
 ### print
 
-Print data to the printer
+Experimental: Print data to the printer
 
 #### Parameters
 
@@ -104,7 +104,7 @@ JSON API methods to control the SoftPoS CashRegister payment terminal
 
 ### authorizePayment
 
-Authorize payment on SoftPoS side using SoftPos configured payment device
+Experimental: Authorize payment on SoftPoS side using SoftPos configured payment device
 
 #### Parameters
 
@@ -115,7 +115,7 @@ Authorize payment on SoftPoS side using SoftPos configured payment device
 
 ### abortAuthorization
 
-Abort currently active payment
+Experimental: Abort currently active payment
 
 #### Parameters
 

@@ -129,7 +129,7 @@ softPos = {
     printer: {
 
         /**
-         * Print data to the printer
+         * Experimental: Print data to the printer
          * @example
          let printData =
          {
@@ -162,7 +162,7 @@ softPos = {
      **/
     payments: {
         /**
-         * Authorize payment on SoftPoS side using SoftPos configured payment device
+         * Experimental: Authorize payment on SoftPoS side using SoftPos configured payment device
          * @requires SoftPoS 21.11.2 at least
          * @todo experimental
          */
@@ -188,7 +188,7 @@ softPos = {
         },
 
         /**
-         * Abort currently active payment
+         * Experimental: Abort currently active payment
          * @requires SoftPoS 21.11.2 at least
          * @todo experimental
          */
