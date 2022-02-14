@@ -18,7 +18,7 @@ function getApiType() {
     }
 }
 
-function onlyJfxSupported(actionFn) {
+function onlyJxSupported(actionFn) {
     const apiVersion = getApiType();
     if (!apiVersion || apiVersion == 'NONE') {
         alert("SoftPoS API not supported on standalone web applications, please consult Kassamagneetti support")
@@ -93,7 +93,7 @@ softPos = {
          * @param failureCallback as a function for failure callback
          */
         addToOpenTable: function (openTable, successCallback, failureCallback) {
-            onlyJfxSupported(() => {
+            onlyJxSupported(() => {
                 let result = window.softPos.addToOpenTable(JSON.stringify(openTable));
                 parseResultAndMakeCallbacks(result, failureCallback, successCallback);
             });
@@ -104,7 +104,7 @@ softPos = {
          * @param failureCallback
          */
         getActiveTransaction: function (successCallback, failureCallback) {
-            onlyJfxSupported(() => {
+            onlyJxSupported(() => {
                 let result = window.softPos.getActiveTransaction();
                 parseResultAndMakeCallbacks(result, failureCallback, successCallback);
             });
@@ -116,7 +116,7 @@ softPos = {
          * @param failureCallback
          */
         executeLisp: function (cmd, successCallback, failureCallback) {
-            onlyJfxSupported(() => {
+            onlyJxSupported(() => {
                 let result = window.softPos.executeLisp(cmd);
                 parseResultAndMakeCallbacks(result, failureCallback, successCallback);
             });
@@ -146,7 +146,7 @@ softPos = {
          * @todo experimental
          */
         print: function (printData, successCallback) {
-            onlyJfxSupported(() => {
+            onlyJxSupported(() => {
                 let resp = window.softPos.print(JSON.stringify(printData));
                 if (successCallback) {
                     successCallback(resp);
@@ -167,7 +167,7 @@ softPos = {
          * @todo experimental
          */
         authorizePayment: function (payment, successCallback, failureCallback, statusCallback) {
-            onlyJfxSupported(() => {
+            onlyJxSupported(() => {
                 window.softPos.authorizePayment(payment, function (result) {
                     if (typeof result === 'string' || result instanceof String) {
                         result = JSON.parse(result);
@@ -193,10 +193,35 @@ softPos = {
          * @todo experimental
          */
         abortAuthorization(successCallback) {
-            onlyJfxSupported(() => {
+            onlyJxSupported(() => {
                 let resp = window.softPos.abortAuthorization();
                 if (successCallback) {
                     successCallback(resp);
+                }
+            });
+        }
+    },
+
+    /**
+     * JSON API methods to get article and article group data
+     */
+    articles: {
+        /**
+         * Get all articles from SoftPos
+         * @requires SoftPoS 21.12.15 at least
+         */
+        listAll: function (successCallback, errorCallback) {
+            onlyJxSupported(() => {
+                try{
+                    let resp = window.softPos.getArticles();
+                    if (successCallback) {
+                        successCallback(JSON.parse(resp));
+                    }
+                } catch (e) {
+                    console.error("Error in listAll", e);
+                    if (errorCallback) {
+                        errorCallback(e);
+                    }
                 }
             });
         }
@@ -226,7 +251,7 @@ softPos = {
              * @returns {json} with fields "success" and "data", where data contains the SoftPosInfo object
              */
             getSoftPosInfo: function (successCallback, failureCallback) {
-                onlyJfxSupported(() => {
+                onlyJxSupported(() => {
                     let result = window.softPos.getSoftPosInfo();
                     parseResultAndMakeCallbacks(result, failureCallback, successCallback);
                 });
