@@ -189,6 +189,7 @@ response structure:
 * CLERK_NOT_FOUND
 * PAYMENT_TYPE_NOT_FOUND
 * TAX_NOT_FOUND
+* PAYMENT_ERROR
     
 ## Server status codes 
 
