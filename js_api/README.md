@@ -20,15 +20,34 @@
         -   [Parameters][16]
     -   [abortAuthorization][17]
         -   [Parameters][18]
--   [utils][19]
-    -   [getApiType][20]
-    -   [getSoftPosVersion][21]
-    -   [getSoftPosInfo][22]
-        -   [Parameters][23]
+-   [articles][19]
+    -   [listAll][20]
+        -   [Parameters][21]
+-   [utils][22]
+    -   [getApiType][23]
+    -   [getSoftPosVersion][24]
+    -   [getSoftPosInfo][25]
+        -   [Parameters][26]
+    -   [log][27]
+        -   [log][28]
+            -   [Parameters][29]
+            -   [Examples][30]
+        -   [trace][31]
+            -   [Parameters][32]
+        -   [debug][33]
+            -   [Parameters][34]
+        -   [info][35]
+            -   [Parameters][36]
+        -   [warn][37]
+            -   [Parameters][38]
+        -   [error][39]
+            -   [Parameters][40]
+        -   [fatal][41]
+            -   [Parameters][42]
 
 ## jsonApi
 
-JSON API methods to control the SoftPoS CashRegister, see also [https://github.com/Soft-Contact/resto/issues/2#placeorder][24]
+JSON API methods to control the SoftPoS CashRegister, see also [https://github.com/Soft-Contact/resto/issues/2#placeorder][43]
 
 ### placeOrder
 
@@ -46,7 +65,7 @@ addToOpenTable
 
 #### Parameters
 
--   `openTable`  as a JSON object from [https://github.com/Soft-Contact/resto/issues/2#addtoopentable][25]
+-   `openTable`  as a JSON object from [https://github.com/Soft-Contact/resto/issues/2#addtoopentable][44]
 -   `successCallback`  as a function for successful callback
 -   `failureCallback`  as a function for failure callback
 
@@ -121,6 +140,19 @@ Experimental: Abort currently active payment
 
 -   `successCallback`  
 
+## articles
+
+JSON API methods to get article and article group data
+
+### listAll
+
+Get all articles from SoftPos
+
+#### Parameters
+
+-   `successCallback`  
+-   `errorCallback`  
+
 ## utils
 
 Utility methods
@@ -129,13 +161,13 @@ Utility methods
 
 Gets the SoftPoS API type depending on which environment is used to run it
 
-Returns **[string][26]** one of NONE/HTMLVIEW_LEGACY/HTMLVIEW_JCEF
+Returns **[string][45]** one of NONE/HTMLVIEW_LEGACY/HTMLVIEW_JCEF
 
 ### getSoftPosVersion
 
 Gets the SoftPoS version
 
-Returns **[string][26]** SoftPoS version
+Returns **[string][45]** SoftPoS version
 
 ### getSoftPosInfo
 
@@ -146,7 +178,77 @@ Get the SoftPos info JSON
 -   `successCallback`  
 -   `failureCallback`  
 
-Returns **[json][27]** with fields "success" and "data", where data contains the SoftPosInfo object
+Returns **[json][46]** with fields "success" and "data", where data contains the SoftPosInfo object
+
+### log
+
+Utility methods for logging
+
+#### log
+
+##### Parameters
+
+-   `logRecord`  
+
+##### Examples
+
+```javascript
+window.softPos.log({level: 'INFO', msg:'Info message'});
+```
+
+#### trace
+
+Log TRACE message
+
+##### Parameters
+
+-   `msg`  
+-   `obj`  
+
+#### debug
+
+Log DEBUG message
+
+##### Parameters
+
+-   `msg`  
+-   `obj`  
+
+#### info
+
+Log INFO message
+
+##### Parameters
+
+-   `msg`  
+-   `obj`  
+
+#### warn
+
+Log WARN message
+
+##### Parameters
+
+-   `msg`  
+-   `obj`  
+
+#### error
+
+Log ERROR message
+
+##### Parameters
+
+-   `msg`  
+-   `obj`  
+
+#### fatal
+
+Log FATAL message
+
+##### Parameters
+
+-   `msg`  
+-   `obj`  
 
 [1]: #jsonapi
 
@@ -184,20 +286,58 @@ Returns **[json][27]** with fields "success" and "data", where data contains the
 
 [18]: #parameters-6
 
-[19]: #utils
+[19]: #articles
 
-[20]: #getapitype
+[20]: #listall
 
-[21]: #getsoftposversion
+[21]: #parameters-7
 
-[22]: #getsoftposinfo
+[22]: #utils
 
-[23]: #parameters-7
+[23]: #getapitype
 
-[24]: https://github.com/Soft-Contact/resto/issues/2#placeorder
+[24]: #getsoftposversion
 
-[25]: https://github.com/Soft-Contact/resto/issues/2#addtoopentable
+[25]: #getsoftposinfo
 
-[26]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[26]: #parameters-8
 
-[27]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/JSON
+[27]: #log
+
+[28]: #log-1
+
+[29]: #parameters-9
+
+[30]: #examples-1
+
+[31]: #trace
+
+[32]: #parameters-10
+
+[33]: #debug
+
+[34]: #parameters-11
+
+[35]: #info
+
+[36]: #parameters-12
+
+[37]: #warn
+
+[38]: #parameters-13
+
+[39]: #error
+
+[40]: #parameters-14
+
+[41]: #fatal
+
+[42]: #parameters-15
+
+[43]: https://github.com/Soft-Contact/resto/issues/2#placeorder
+
+[44]: https://github.com/Soft-Contact/resto/issues/2#addtoopentable
+
+[45]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+
+[46]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/JSON

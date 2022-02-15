@@ -18,17 +18,34 @@ function getApiType() {
     }
 }
 
-function onlyJxSupported(actionFn) {
+function onlyJxSupported(actionFn, errorFn) {
     const apiVersion = getApiType();
+
+    function errorResponse(msg) {
+        if (errorFn) {
+            errorFn(msg);
+        } else {
+            alert(msg);
+        }
+    }
+
     if (!apiVersion || apiVersion == 'NONE') {
-        alert("SoftPoS API not supported on standalone web applications, please consult Kassamagneetti support")
+        errorResponse("SoftPoS API not supported on standalone web applications, please consult Kassamagneetti support");
     }
     if (apiVersion == "HTMLVIEW_LEGACY") {
-        alert("SoftPoS API supported only on JxBrowser");
+        errorResponse("SoftPoS API supported only on JxBrowser");
     } else if (apiVersion == "HTMLVIEW_JCEF") {
-        alert("SoftPoS API supported only on JxBrowser");
+        errorResponse("SoftPoS API supported only on JxBrowser");
     } else if (apiVersion == "HTMLVIEW_JXBROWSER") {
         actionFn();
+    }
+}
+
+function compileLogMessage(msg, obj) {
+    if (obj === undefined) {
+        return msg;
+    } else {
+        return msg + ": " + JSON.stringify(obj);
     }
 }
 
@@ -255,6 +272,82 @@ softPos = {
                     let result = window.softPos.getSoftPosInfo();
                     parseResultAndMakeCallbacks(result, failureCallback, successCallback);
                 });
+            },
+
+            /**
+             *  Utility methods for logging
+             *  @namespace utils.log
+             **/
+            log: {
+
+                /**
+                 *
+                 * @param logRecord
+                 * @example
+                 window.softPos.log({level: 'INFO', msg:'Info message'});
+                 */
+                log: function (logRecord) {
+                    onlyJxSupported(() => {
+                        window.softPos.log(JSON.stringify(logRecord));
+                    }, (error) => {
+                        console.log(logRecord.msg);
+                    });
+                },
+
+                /**
+                 * Log TRACE message
+                 * @param msg
+                 * @param obj
+                 */
+                trace: function (msg, obj) {
+                    this.log({message: compileLogMessage(msg, obj), level: "TRACE"});
+                },
+
+                /**
+                 * Log DEBUG message
+                 * @param msg
+                 * @param obj
+                 */
+                debug: function (msg, obj) {
+                    this.log({message: compileLogMessage(msg, obj), level: "DEBUG"});
+                },
+
+                /**
+                 * Log INFO message
+                 * @param msg
+                 * @param obj
+                 */
+                info: function (msg, obj) {
+                    this.log({message: compileLogMessage(msg, obj), level: "INFO"});
+                },
+
+                /**
+                 * Log WARN message
+                 * @param msg
+                 * @param obj
+                 */
+                warn: function (msg, obj) {
+                    this.log({message: compileLogMessage(msg, obj), level: "WARN"});
+                },
+
+                /**
+                 * Log ERROR message
+                 * @param msg
+                 * @param obj
+                 */
+                error: function (msg, obj) {
+                    this.log({message: compileLogMessage(msg, obj), level: "ERROR"});
+                },
+
+                /**
+                 * Log FATAL message
+                 * @param msg
+                 * @param obj
+                 */
+                fatal: function (msg, obj) {
+                    this.log({message: compileLogMessage(msg, obj), level: "FATAL"});
+                }
+
             }
 
         }
