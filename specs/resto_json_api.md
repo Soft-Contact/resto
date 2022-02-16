@@ -241,6 +241,8 @@ Every third party has a reserved payment code (or codes) for any payments they h
 * ``paymentName`` - optional payment type name, transaction type name in Restolution
 * ``amount`` - amount in cents
 * ``quantity`` - optional quantity of payments in 1/1000 parts
+* ``transactionId`` - optional transaction ID from payment authorizer
+* ``transactionTimestamp`` - optional timestamp from payment authorizer
 
 <a name="customer"></a>
 ### Customer
