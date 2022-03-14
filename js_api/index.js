@@ -30,11 +30,14 @@ function onlyJxSupported(actionFn, errorFn) {
     }
 
     if (!apiVersion || apiVersion == 'NONE') {
+        console.trace("API not supported");
         errorResponse("SoftPoS API not supported on standalone web applications, please consult Kassamagneetti support");
     }
     if (apiVersion == "HTMLVIEW_LEGACY") {
+        console.trace("API not supported in legacy");
         errorResponse("SoftPoS API supported only on JxBrowser");
     } else if (apiVersion == "HTMLVIEW_JCEF") {
+        console.trace("API not supported in jcef");
         errorResponse("SoftPoS API supported only on JxBrowser");
     } else if (apiVersion == "HTMLVIEW_JXBROWSER") {
         actionFn();
