@@ -11,43 +11,45 @@
         -   [Parameters][7]
     -   [executeLisp][8]
         -   [Parameters][9]
--   [printer][10]
-    -   [print][11]
-        -   [Parameters][12]
-        -   [Examples][13]
--   [payments][14]
-    -   [authorizePayment][15]
-        -   [Parameters][16]
-    -   [abortAuthorization][17]
+    -   [evalLisp][10]
+        -   [Parameters][11]
+-   [printer][12]
+    -   [print][13]
+        -   [Parameters][14]
+        -   [Examples][15]
+-   [payments][16]
+    -   [authorizePayment][17]
         -   [Parameters][18]
--   [articles][19]
-    -   [listAll][20]
-        -   [Parameters][21]
--   [utils][22]
-    -   [getApiType][23]
-    -   [getSoftPosVersion][24]
-    -   [getSoftPosInfo][25]
-        -   [Parameters][26]
-    -   [log][27]
-        -   [log][28]
-            -   [Parameters][29]
-            -   [Examples][30]
-        -   [trace][31]
-            -   [Parameters][32]
-        -   [debug][33]
+    -   [abortAuthorization][19]
+        -   [Parameters][20]
+-   [articles][21]
+    -   [listAll][22]
+        -   [Parameters][23]
+-   [utils][24]
+    -   [getApiType][25]
+    -   [getSoftPosVersion][26]
+    -   [getSoftPosInfo][27]
+        -   [Parameters][28]
+    -   [log][29]
+        -   [log][30]
+            -   [Parameters][31]
+            -   [Examples][32]
+        -   [trace][33]
             -   [Parameters][34]
-        -   [info][35]
+        -   [debug][35]
             -   [Parameters][36]
-        -   [warn][37]
+        -   [info][37]
             -   [Parameters][38]
-        -   [error][39]
+        -   [warn][39]
             -   [Parameters][40]
-        -   [fatal][41]
+        -   [error][41]
             -   [Parameters][42]
+        -   [fatal][43]
+            -   [Parameters][44]
 
 ## jsonApi
 
-JSON API methods to control the SoftPoS CashRegister, see also [https://github.com/Soft-Contact/resto/issues/2#placeorder][43]
+JSON API methods to control the SoftPoS CashRegister, see also [https://github.com/Soft-Contact/resto/issues/2#placeorder][45]
 
 ### placeOrder
 
@@ -65,7 +67,7 @@ addToOpenTable
 
 #### Parameters
 
--   `openTable`  as a JSON object from [https://github.com/Soft-Contact/resto/issues/2#addtoopentable][44]
+-   `openTable`  as a JSON object from [https://github.com/Soft-Contact/resto/issues/2#addtoopentable][46]
 -   `successCallback`  as a function for successful callback
 -   `failureCallback`  as a function for failure callback
 
@@ -85,6 +87,21 @@ Execute lisp macro on cashregister side
 #### Parameters
 
 -   `cmd`  lisp macro to execute
+-   `successCallback`  
+-   `failureCallback`  
+
+**Meta**
+
+-   **deprecated**: use evalLisp instead, kept some time for backwards compatibility
+
+
+### evalLisp
+
+Evaluate lisp macro on cashregister side
+
+#### Parameters
+
+-   `cmd`  lisp macro to evaluate
 -   `successCallback`  
 -   `failureCallback`  
 
@@ -161,13 +178,13 @@ Utility methods
 
 Gets the SoftPoS API type depending on which environment is used to run it
 
-Returns **[string][45]** one of NONE/HTMLVIEW_LEGACY/HTMLVIEW_JCEF
+Returns **[string][47]** one of NONE/HTMLVIEW_LEGACY/HTMLVIEW_JCEF
 
 ### getSoftPosVersion
 
 Gets the SoftPoS version
 
-Returns **[string][45]** SoftPoS version
+Returns **[string][47]** SoftPoS version
 
 ### getSoftPosInfo
 
@@ -178,7 +195,7 @@ Get the SoftPos info JSON
 -   `successCallback`  
 -   `failureCallback`  
 
-Returns **[json][46]** with fields "success" and "data", where data contains the SoftPosInfo object
+Returns **[json][48]** with fields "success" and "response", where response contains the SoftPosInfo object
 
 ### log
 
@@ -268,76 +285,80 @@ Log FATAL message
 
 [9]: #parameters-3
 
-[10]: #printer
+[10]: #evallisp
 
-[11]: #print
+[11]: #parameters-4
 
-[12]: #parameters-4
+[12]: #printer
 
-[13]: #examples
+[13]: #print
 
-[14]: #payments
+[14]: #parameters-5
 
-[15]: #authorizepayment
+[15]: #examples
 
-[16]: #parameters-5
+[16]: #payments
 
-[17]: #abortauthorization
+[17]: #authorizepayment
 
 [18]: #parameters-6
 
-[19]: #articles
+[19]: #abortauthorization
 
-[20]: #listall
+[20]: #parameters-7
 
-[21]: #parameters-7
+[21]: #articles
 
-[22]: #utils
+[22]: #listall
 
-[23]: #getapitype
+[23]: #parameters-8
 
-[24]: #getsoftposversion
+[24]: #utils
 
-[25]: #getsoftposinfo
+[25]: #getapitype
 
-[26]: #parameters-8
+[26]: #getsoftposversion
 
-[27]: #log
+[27]: #getsoftposinfo
 
-[28]: #log-1
+[28]: #parameters-9
 
-[29]: #parameters-9
+[29]: #log
 
-[30]: #examples-1
+[30]: #log-1
 
-[31]: #trace
+[31]: #parameters-10
 
-[32]: #parameters-10
+[32]: #examples-1
 
-[33]: #debug
+[33]: #trace
 
 [34]: #parameters-11
 
-[35]: #info
+[35]: #debug
 
 [36]: #parameters-12
 
-[37]: #warn
+[37]: #info
 
 [38]: #parameters-13
 
-[39]: #error
+[39]: #warn
 
 [40]: #parameters-14
 
-[41]: #fatal
+[41]: #error
 
 [42]: #parameters-15
 
-[43]: https://github.com/Soft-Contact/resto/issues/2#placeorder
+[43]: #fatal
 
-[44]: https://github.com/Soft-Contact/resto/issues/2#addtoopentable
+[44]: #parameters-16
 
-[45]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[45]: https://github.com/Soft-Contact/resto/issues/2#placeorder
 
-[46]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/JSON
+[46]: https://github.com/Soft-Contact/resto/issues/2#addtoopentable
+
+[47]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+
+[48]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/JSON

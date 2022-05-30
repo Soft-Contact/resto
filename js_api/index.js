@@ -134,13 +134,28 @@ softPos = {
          * @param cmd lisp macro to execute
          * @param successCallback
          * @param failureCallback
+         * @deprecated use evalLisp instead, kept some time for backwards compatibility
          */
         executeLisp: function (cmd, successCallback, failureCallback) {
             onlyJxSupported(() => {
-                let result = window.softPos.executeLisp(cmd);
+                let result = window.softPos.evalLisp(cmd);
+                parseResultAndMakeCallbacks(result, failureCallback, successCallback);
+            });
+        },
+
+        /**
+         * Evaluate lisp macro on cashregister side
+         * @param cmd lisp macro to evaluate
+         * @param successCallback
+         * @param failureCallback
+         */
+        evalLisp: function (cmd, successCallback, failureCallback) {
+            onlyJxSupported(() => {
+                let result = window.softPos.evalLisp(cmd);
                 parseResultAndMakeCallbacks(result, failureCallback, successCallback);
             });
         }
+
     },
     /**
      * JSON API methods to control the SoftPoS CashRegister printing
@@ -268,7 +283,7 @@ softPos = {
             /**
              * Get the SoftPos info JSON
              * @requires SoftPoS 21.09.4 at least
-             * @returns {json} with fields "success" and "data", where data contains the SoftPosInfo object
+             * @returns {json} with fields "success" and "response", where response contains the SoftPosInfo object
              */
             getSoftPosInfo: function (successCallback, failureCallback) {
                 onlyJxSupported(() => {
