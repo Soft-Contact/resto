@@ -247,7 +247,7 @@ softPos = {
          */
         listAll: function (successCallback, errorCallback) {
             onlyJxSupported(() => {
-                try{
+                try {
                     let resp = window.softPos.getArticles();
                     if (successCallback) {
                         successCallback(JSON.parse(resp));
@@ -261,6 +261,103 @@ softPos = {
             });
         }
     },
+
+    /**
+     * API methods needed by various separate displays (KitchenDisplay, OrderDisplay).
+     */
+    displays: {
+        /**
+         * Experimental: List all transactions based on jobOrderSystemId
+         * @param jobOrderSystemId Job order system id from which to list transactions
+         * @todo experimental
+         */
+        listAllKitchenSystemTransactions: function (jobOrderSystemId, successCallback, errorCallback) {
+            onlyJxSupported(() => {
+                try {
+                    let resp = window.softPos.getKitchenSystemTransactions(jobOrderSystemId);
+                    if (successCallback) {
+                        successCallback(JSON.parse(resp));
+                    }
+                } catch (e) {
+                    if (errorCallback) {
+                        errorCallback(e);
+                    } else {
+                        log.error("Error in listAllKitchenSystemTransactions", e);
+                    }
+                }
+            });
+            //
+        },
+
+        /**
+         * Experimental: Remove transactions based on jobOrderSystemId and transactionUuid
+         * @param jobOrderSystemId Job order system id from which to remove transaction
+         * @param transactionUuid transcation to remove
+         * @todo experimental
+         */
+        removeTransactionFromKitchenSystem: function (jobOrderSystemId, transactionUuid, successCallback, errorCallback) {
+            onlyJxSupported(() => {
+                try {
+                    let resp = window.softPos.removeTransactionFromKitchenSystem(jobOrderSystemId, transactionUuid);
+                    if (successCallback) {
+                        successCallback(JSON.parse(resp));
+                    }
+                } catch (e) {
+                    if (errorCallback) {
+                        errorCallback(e);
+                    } else {
+                        log.error("Error in removeTransactionFromKitchenSystem", e);
+                    }
+                }
+            });
+        },
+
+
+        /**
+         * Experimental: Change transactionsline state
+         * @param jobOrderSystemId Job order system id from which to remove transaction
+         * @param transactionUuid transcation to modify
+         * @param lineStateName   Ordered, Ready, Prepared, Served, Deleted, Other
+         * @todo experimental
+         */
+        setLineStateInKitchenSystem: function (jobOrderSystemId, transactionUuid, lineStateName, successCallback, errorCallback) {
+            onlyJxSupported(() => {
+                try {
+                    let resp = window.softPos.setLineStateInKitchenSystem(jobOrderSystemId, transactionUuid, lineStateName);
+                    if (successCallback) {
+                        successCallback(JSON.parse(resp));
+                    }
+                } catch (e) {
+                    if (errorCallback) {
+                        errorCallback(e);
+                    } else {
+                        log.error("Error in setLineStateInKitchenSystem", e);
+                    }
+                }
+            });
+        }
+
+    },
+
+    /**
+     * Methods related to messages from SoftPos
+     */
+    messages:
+        {
+            /**
+             * Experimental: Listen for all messages
+             * @example
+            { type: "COMMAND", data: "REFRESH_KITCHEN_DISPLAY"}
+             * @param listenCallbackFn   callback fn where all SoftPoS side asynchronous messages are passed
+             * @todo experimental
+             */
+            listenAll(listenCallbackFn) {
+                if (!this.listeners) {
+                    this.listeners = [];
+                }
+                this.listeners.push(listenCallbackFn);
+            }
+        },
 
     /**
      *  Utility methods
@@ -369,6 +466,16 @@ softPos = {
             }
 
         }
+
 };
 
 module.exports = softPos;
+window.softPosAsyncMsgHandler = function (data) {
+    console.warn("Async data from SoftPoS", data);
+    if (!softPos.messages.listeners) {
+        softPos.messages.listeners = [];
+    }
+    for (const listenerFn of softPos.messages.listeners) {
+        listenerFn(data);
+    }
+}
