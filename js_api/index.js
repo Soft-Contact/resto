@@ -56,7 +56,7 @@ let parseResultAndMakeCallbacks = function (result, failureCallback, successCall
     if (typeof result === 'string' || result instanceof String) {
         result = JSON.parse(result);
     }
-    if (!result.success) {
+    if (!result.success && (result.statusCode || result.message)) {
         if (failureCallback) {
             failureCallback(result);
         }
@@ -66,7 +66,7 @@ let parseResultAndMakeCallbacks = function (result, failureCallback, successCall
 }
 
 
-softPos = {
+const softPos = {
     /**
      * JSON API methods to control the SoftPoS CashRegister, see also https://github.com/Soft-Contact/resto/issues/2#placeorder
      *  @namespace jsonApi
@@ -275,14 +275,12 @@ softPos = {
             onlyJxSupported(() => {
                 try {
                     let resp = window.softPos.getKitchenSystemTransactions(jobOrderSystemId);
-                    if (successCallback) {
-                        successCallback(JSON.parse(resp));
-                    }
+                    parseResultAndMakeCallbacks(resp, errorCallback, successCallback);
                 } catch (e) {
                     if (errorCallback) {
                         errorCallback(e);
                     } else {
-                        log.error("Error in listAllKitchenSystemTransactions", e);
+                        console.error("Error in listAllKitchenSystemTransactions", e);
                     }
                 }
             });
@@ -299,14 +297,12 @@ softPos = {
             onlyJxSupported(() => {
                 try {
                     let resp = window.softPos.removeTransactionFromKitchenSystem(jobOrderSystemId, transactionUuid);
-                    if (successCallback) {
-                        successCallback(JSON.parse(resp));
-                    }
+                    parseResultAndMakeCallbacks(resp, errorCallback, successCallback);
                 } catch (e) {
                     if (errorCallback) {
                         errorCallback(e);
                     } else {
-                        log.error("Error in removeTransactionFromKitchenSystem", e);
+                        console.error("Error in removeTransactionFromKitchenSystem", e);
                     }
                 }
             });
@@ -324,14 +320,12 @@ softPos = {
             onlyJxSupported(() => {
                 try {
                     let resp = window.softPos.setLineStateInKitchenSystem(jobOrderSystemId, transactionUuid, lineStateName);
-                    if (successCallback) {
-                        successCallback(JSON.parse(resp));
-                    }
+                    parseResultAndMakeCallbacks(resp, errorCallback, successCallback);
                 } catch (e) {
                     if (errorCallback) {
                         errorCallback(e);
                     } else {
-                        log.error("Error in setLineStateInKitchenSystem", e);
+                        console.error("Error in setLineStateInKitchenSystem", e);
                     }
                 }
             });
@@ -469,7 +463,8 @@ softPos = {
 
 };
 
-module.exports = softPos;
+export default softPos;
+
 window.softPosAsyncMsgHandler = function (data) {
     console.warn("Async data from SoftPoS", data);
     if (!softPos.messages.listeners) {
