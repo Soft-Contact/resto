@@ -32,34 +32,39 @@
         -   [Parameters][28]
     -   [setLineStateInKitchenSystem][29]
         -   [Parameters][30]
--   [messages][31]
-    -   [listenAllMessages][32]
-        -   [Parameters][33]
--   [utils][34]
-    -   [getApiType][35]
-    -   [getSoftPosVersion][36]
-    -   [getSoftPosInfo][37]
-        -   [Parameters][38]
-    -   [log][39]
-        -   [log][40]
-            -   [Parameters][41]
-            -   [Examples][42]
-        -   [trace][43]
-            -   [Parameters][44]
-        -   [debug][45]
+    -   [getConfiguration][31]
+        -   [Parameters][32]
+    -   [saveCustomConfiguration][33]
+        -   [Parameters][34]
+-   [messages][35]
+    -   [listenAll][36]
+        -   [Parameters][37]
+        -   [Examples][38]
+-   [utils][39]
+    -   [getApiType][40]
+    -   [getSoftPosVersion][41]
+    -   [getSoftPosInfo][42]
+        -   [Parameters][43]
+    -   [log][44]
+        -   [log][45]
             -   [Parameters][46]
-        -   [info][47]
-            -   [Parameters][48]
-        -   [warn][49]
-            -   [Parameters][50]
-        -   [error][51]
-            -   [Parameters][52]
-        -   [fatal][53]
-            -   [Parameters][54]
+            -   [Examples][47]
+        -   [trace][48]
+            -   [Parameters][49]
+        -   [debug][50]
+            -   [Parameters][51]
+        -   [info][52]
+            -   [Parameters][53]
+        -   [warn][54]
+            -   [Parameters][55]
+        -   [error][56]
+            -   [Parameters][57]
+        -   [fatal][58]
+            -   [Parameters][59]
 
 ## jsonApi
 
-JSON API methods to control the SoftPoS CashRegister, see also [https://github.com/Soft-Contact/resto/issues/2#placeorder][55]
+JSON API methods to control the SoftPoS CashRegister, see also [https://github.com/Soft-Contact/resto/issues/2#placeorder][60]
 
 ### placeOrder
 
@@ -77,7 +82,7 @@ addToOpenTable
 
 #### Parameters
 
--   `openTable`  as a JSON object from [https://github.com/Soft-Contact/resto/issues/2#addtoopentable][56]
+-   `openTable`  as a JSON object from [https://github.com/Soft-Contact/resto/issues/2#addtoopentable][61]
 -   `successCallback`  as a function for successful callback
 -   `failureCallback`  as a function for failure callback
 
@@ -217,17 +222,42 @@ Experimental: Change transactionsline state
 -   `successCallback`  
 -   `errorCallback`  
 
+### getConfiguration
+
+Experimental: Get map of configuration parameters, including custom configuration
+
+#### Parameters
+
+-   `successCallback`  
+-   `errorCallback`  
+
+### saveCustomConfiguration
+
+Experimental: Save custom configuration
+
+#### Parameters
+
+-   `conf`  custom configuration
+-   `successCallback`  
+-   `errorCallback`  
+
 ## messages
 
 Methods related to messages from SoftPos
 
-### listenAllMessages
+### listenAll
 
-Experimental: Listen for messages
+Experimental: Listen for all messages
 
 #### Parameters
 
 -   `listenCallbackFn`  callback fn where all SoftPoS side asynchronous messages are passed
+
+#### Examples
+
+```javascript
+{ type: "COMMAND", data: "REFRESH_KITCHEN_DISPLAY"}
+```
 
 ## utils
 
@@ -237,13 +267,13 @@ Utility methods
 
 Gets the SoftPoS API type depending on which environment is used to run it
 
-Returns **[string][57]** one of NONE/HTMLVIEW_LEGACY/HTMLVIEW_JCEF
+Returns **[string][62]** one of NONE/HTMLVIEW_LEGACY/HTMLVIEW_JCEF
 
 ### getSoftPosVersion
 
 Gets the SoftPoS version
 
-Returns **[string][57]** SoftPoS version
+Returns **[string][62]** SoftPoS version
 
 ### getSoftPosInfo
 
@@ -254,7 +284,7 @@ Get the SoftPos info JSON
 -   `successCallback`  
 -   `failureCallback`  
 
-Returns **[json][58]** with fields "success" and "response", where response contains the SoftPosInfo object
+Returns **[json][63]** with fields "success" and "response", where response contains the SoftPosInfo object
 
 ### log
 
@@ -386,58 +416,68 @@ Log FATAL message
 
 [30]: #parameters-11
 
-[31]: #messages
+[31]: #getconfiguration
 
-[32]: #listenallmessages
+[32]: #parameters-12
 
-[33]: #parameters-12
+[33]: #savecustomconfiguration
 
-[34]: #utils
+[34]: #parameters-13
 
-[35]: #getapitype
+[35]: #messages
 
-[36]: #getsoftposversion
+[36]: #listenall
 
-[37]: #getsoftposinfo
+[37]: #parameters-14
 
-[38]: #parameters-13
+[38]: #examples-1
 
-[39]: #log
+[39]: #utils
 
-[40]: #log-1
+[40]: #getapitype
 
-[41]: #parameters-14
+[41]: #getsoftposversion
 
-[42]: #examples-1
+[42]: #getsoftposinfo
 
-[43]: #trace
+[43]: #parameters-15
 
-[44]: #parameters-15
+[44]: #log
 
-[45]: #debug
+[45]: #log-1
 
 [46]: #parameters-16
 
-[47]: #info
+[47]: #examples-2
 
-[48]: #parameters-17
+[48]: #trace
 
-[49]: #warn
+[49]: #parameters-17
 
-[50]: #parameters-18
+[50]: #debug
 
-[51]: #error
+[51]: #parameters-18
 
-[52]: #parameters-19
+[52]: #info
 
-[53]: #fatal
+[53]: #parameters-19
 
-[54]: #parameters-20
+[54]: #warn
 
-[55]: https://github.com/Soft-Contact/resto/issues/2#placeorder
+[55]: #parameters-20
 
-[56]: https://github.com/Soft-Contact/resto/issues/2#addtoopentable
+[56]: #error
 
-[57]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[57]: #parameters-21
 
-[58]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/JSON
+[58]: #fatal
+
+[59]: #parameters-22
+
+[60]: https://github.com/Soft-Contact/resto/issues/2#placeorder
+
+[61]: https://github.com/Soft-Contact/resto/issues/2#addtoopentable
+
+[62]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+
+[63]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/JSON

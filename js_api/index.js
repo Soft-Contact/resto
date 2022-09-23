@@ -329,6 +329,45 @@ const softPos = {
                     }
                 }
             });
+        },
+
+        /**
+         * Experimental: Get map of configuration parameters, including custom configuration
+         * @todo experimental
+         */
+        getConfiguration(successCallback, errorCallback) {
+            onlyJxSupported(() => {
+                try {
+                    let resp = window.softPos.getDisplayConfigurations();
+                    parseResultAndMakeCallbacks(resp, errorCallback, successCallback);
+                } catch (e) {
+                    if (errorCallback) {
+                        errorCallback(e);
+                    } else {
+                        console.error("Error in getConfiguration", e);
+                    }
+                }
+            });
+        },
+
+        /**
+         * Experimental: Save custom configuration
+         * @param conf custom configuration
+         * @todo experimental
+         */
+        saveCustomConfiguration(conf, successCallback, errorCallback) {
+            onlyJxSupported(() => {
+                try {
+                    let resp = window.softPos.saveCustomDisplayConfiguration(conf);
+                    parseResultAndMakeCallbacks(resp, errorCallback, successCallback);
+                } catch (e) {
+                    if (errorCallback) {
+                        errorCallback(e);
+                    } else {
+                        console.error("Error in saveCustomConfiguration", e);
+                    }
+                }
+            });
         }
 
     },
