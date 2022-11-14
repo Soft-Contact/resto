@@ -703,6 +703,7 @@ sample response:
             "unitName": "Dining room",
             "unitUUID": "68884762-1d63-4c4f-81b1-dda39f69c643"
           }
+	]  
       }
     ]
   }
