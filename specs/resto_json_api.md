@@ -194,6 +194,7 @@ or read using "getReceipts" method.
 * ``restaurantName`` - restaurant name, used in  "getReceipts".
 * ``customerQuantity`` - customer quantity, used in  "getReceipts".
 * ``freeText`` - receipt free text, used in "getReceipts"
+* ``memoInfo`` - receipt memo info, used in "getReceipts"
 * ``quickInvoice`` - true if receipt has been finalized as a quick invoice in cash register
 * ``tableCode`` - optional table code
 * ``receiptRows`` - an array of [Receipt Row](#receipt-row) objects
@@ -790,6 +791,7 @@ sample response:
                 "restaurantName":"Kulman Kuppila",
                 "customerQuantity":1,
                 "freeText":"Pizzaan saa laittaa valkosipulia",
+		"memoInfo":"Tänne voi laittaa muistion",
                 "quickInvoice":false,
                 "tableCode":"100",
                 "receiptRows":[
