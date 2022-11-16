@@ -94,6 +94,7 @@ A Restaurant is a BusinessUnit in Restolution.
 * ``customers`` - array of Customer objects (empty if customers are not included)
 * ``printers`` - array of Printer objects
 * ``status`` - status of restaurant.  Can be one of ``ACTIVE``, ``NEW``, ``DISABLED``. Included only if ``includeAllRestaurants`` is ``true``.
+* ``units`` - array of Unit objects, operational units in Restolution.
 
 <a name="contact"></a>
 ### Contact
@@ -162,6 +163,12 @@ Articles correspond to active sale articles in Restolution, belonging to the ass
 * ``maxSelection`` - maximum number of allowed selections
 * ``articleIDs`` - array of article IDs to select from
 
+<a name="unit"></a>
+### Unit
+
+* ``unitName`` - unit name
+* ``unitUUID`` - unit UUID of this unit, globally unique identifier for this unit
+
 <a name="receipt"></a>
 ### Receipt
 
@@ -187,6 +194,7 @@ or read using "getReceipts" method.
 * ``restaurantName`` - restaurant name, used in  "getReceipts".
 * ``customerQuantity`` - customer quantity, used in  "getReceipts".
 * ``freeText`` - receipt free text, used in "getReceipts"
+* ``memoInfo`` - receipt memo info, used in "getReceipts"
 * ``quickInvoice`` - true if receipt has been finalized as a quick invoice in cash register
 * ``tableCode`` - optional table code
 * ``receiptRows`` - an array of [Receipt Row](#receipt-row) objects
@@ -686,7 +694,17 @@ sample response:
             "customerName": "Roope Ankka",
             "customerUUID": "0304a579-9630-4ab9-8d9f-12031e7c832f"
           }
-        ]
+        ],
+	"units": [
+          {
+            "unitName": "Bar",
+            "unitUUID": "74df21c3-b4b9-405c-8f21-0909986e0d78"
+          },
+          {
+            "unitName": "Dining room",
+            "unitUUID": "68884762-1d63-4c4f-81b1-dda39f69c643"
+          }
+	]  
       }
     ]
   }
@@ -773,6 +791,7 @@ sample response:
                 "restaurantName":"Kulman Kuppila",
                 "customerQuantity":1,
                 "freeText":"Pizzaan saa laittaa valkosipulia",
+		"memoInfo":"Tänne voi laittaa muistion",
                 "quickInvoice":false,
                 "tableCode":"100",
                 "receiptRows":[
@@ -1793,3 +1812,4 @@ sample response:
 | 28.10.2019 | ilkka.hyvarinen@kassamagneetti.fi  | Added status, includeAllRestaurants to Restaurant and listRestaurants |
 | 14.10.2020   | tt@soft-contact.fi       | Added Campaign and related methods |
 | 31.08.2021 | mats.antell@kassamagneetti.fi      | Added Article.structure and Article.amount |  
+| 14.11.2022 | mats.antell@restolution.fi         | Added Restaurant.units and Unit | 
