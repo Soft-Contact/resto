@@ -229,6 +229,7 @@ or read using "getReceipts" method.
 * ``parentID`` - parent ID of sale row, foreign key to sale ID of parent sale row
 * ``discounts`` - an array of discounts
 * ``rowComment`` - optional row comment
+* ``accountCode`` - optional code of the Bookkeeping account that this receipt row belongs to, see also ``includeAccountingInfo`` in [getReceipts](#getreceipts)
 
 <a name="discount"></a>
 ### Discount
@@ -251,6 +252,7 @@ Every third party has a reserved payment code (or codes) for any payments they h
 * ``quantity`` - optional quantity of payments in 1/1000 parts
 * ``transactionId`` - optional transaction ID from payment authorizer
 * ``transactionTimestamp`` - optional timestamp from payment authorizer
+* ``accountCode`` - optional code of the Bookkeeping account that this payment row belongs to, see also ``includeAccountingInfo`` in [getReceipts](#getreceipts) 
 
 <a name="customer"></a>
 ### Customer
@@ -731,6 +733,7 @@ parameters:
 * ``invoiceReceiptsOnly`` - true / false to include only invoice receipts
 * ``reconciliatedDatesOnly`` - true / false if results should include only reconciliated dates. Can be used only when ``invoiceReceiptsOnly`` = true.
 * ``includeRowComments`` - true / false if row comments should be included (included by default if ``invoiceReceiptsOnly`` = true)
+* ``includeAccountingInfo`` - true / false if Bookkeeping account codes should be included on sale and payment rows (also requires either ``includeSaleRows`` or ``includePaymentRows``)
 
 Note 1: If no date parameters are given, the default value for ``salesReadFromDate`` will be used. Default value is kept by Restolution.
 
