@@ -761,7 +761,8 @@ sample request:
         ],
         "includeSaleRows":true,
         "includePaymentRows":true,
-        "includeRowComments":true
+        "includeRowComments":true,
+	"includeAccountingInfo:true
     }
 }
 ```
@@ -824,7 +825,8 @@ sample response:
                                 "value":10,
                                 "amount":120
                             }
-                        ]
+                        ],
+			"accountCode":"1234"
                     },
                     {
                         "articleID":"200",
@@ -851,7 +853,8 @@ sample response:
                                 "value":10,
                                 "amount":60
                             }
-                        ]
+                        ],
+			"accountCode": "1234"
                     },
                     {
                         "articleID": "88",
@@ -870,7 +873,8 @@ sample response:
                         "mainGroupName": "Alko",
                         "articleGroupNumber": "10",
                         "articleGroupName": "Drinkit",
-                        "saleID": 1019119287
+                        "saleID": 1019119287,
+			"accountCode": "1234"
                     },
                     {
                         "articleID": "85",
@@ -889,7 +893,8 @@ sample response:
                         "mainGroupName": "Alko",
                         "articleGroupNumber": "14",
                         "articleGroupName": "Katkerot",
-                        "parentID": 1019119287
+                        "parentID": 1019119287,
+			"accountCode": "1234"
                     },
                     {
                         "articleID": "86",
@@ -908,7 +913,8 @@ sample response:
                         "mainGroupName": "Alko",
                         "articleGroupNumber": "14",
                         "articleGroupName": "Katkerot",
-                        "parentID": 1019119287
+                        "parentID": 1019119287,
+			"accountCode": "1234"
                     },
                     {
                         "articleID": "87",
@@ -927,7 +933,8 @@ sample response:
                         "mainGroupName": "Vesi",
                         "articleGroupNumber": "62",
                         "articleGroupName": "Vesi / mehut",
-                        "parentID": 1019119287
+                        "parentID": 1019119287,
+			"accountCode": "1234"
                     }
                 ],
                 "paymentRows":[
@@ -936,7 +943,8 @@ sample response:
                         "paymentCode":"CARD",
                         "paymentName":"Kortti",
                         "quantity":1000,
-                        "amount":1620
+                        "amount":1620,
+			"accountCode":"4567"
                     }
                 ]
             }
