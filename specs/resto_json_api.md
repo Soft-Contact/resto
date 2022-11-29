@@ -229,6 +229,7 @@ or read using "getReceipts" method.
 * ``parentID`` - parent ID of sale row, foreign key to sale ID of parent sale row
 * ``discounts`` - an array of discounts
 * ``rowComment`` - optional row comment
+* ``accountCode`` - optional code of the Bookkeeping account that this receipt row belongs to, see also ``includeAccountingInfo`` in [getReceipts](#getreceipts)
 
 <a name="discount"></a>
 ### Discount
@@ -251,6 +252,7 @@ Every third party has a reserved payment code (or codes) for any payments they h
 * ``quantity`` - optional quantity of payments in 1/1000 parts
 * ``transactionId`` - optional transaction ID from payment authorizer
 * ``transactionTimestamp`` - optional timestamp from payment authorizer
+* ``accountCode`` - optional code of the Bookkeeping account that this payment row belongs to, see also ``includeAccountingInfo`` in [getReceipts](#getreceipts) 
 
 <a name="customer"></a>
 ### Customer
@@ -731,6 +733,7 @@ parameters:
 * ``invoiceReceiptsOnly`` - true / false to include only invoice receipts
 * ``reconciliatedDatesOnly`` - true / false if results should include only reconciliated dates. Can be used only when ``invoiceReceiptsOnly`` = true.
 * ``includeRowComments`` - true / false if row comments should be included (included by default if ``invoiceReceiptsOnly`` = true)
+* ``includeAccountingInfo`` - true / false if Bookkeeping account codes should be included on sale and payment rows (also requires either ``includeSaleRows`` or ``includePaymentRows``)
 
 Note 1: If no date parameters are given, the default value for ``salesReadFromDate`` will be used. Default value is kept by Restolution.
 
@@ -758,7 +761,8 @@ sample request:
         ],
         "includeSaleRows":true,
         "includePaymentRows":true,
-        "includeRowComments":true
+        "includeRowComments":true,
+	"includeAccountingInfo:true
     }
 }
 ```
@@ -821,7 +825,8 @@ sample response:
                                 "value":10,
                                 "amount":120
                             }
-                        ]
+                        ],
+			"accountCode":"1234"
                     },
                     {
                         "articleID":"200",
@@ -848,7 +853,8 @@ sample response:
                                 "value":10,
                                 "amount":60
                             }
-                        ]
+                        ],
+			"accountCode": "1234"
                     },
                     {
                         "articleID": "88",
@@ -867,7 +873,8 @@ sample response:
                         "mainGroupName": "Alko",
                         "articleGroupNumber": "10",
                         "articleGroupName": "Drinkit",
-                        "saleID": 1019119287
+                        "saleID": 1019119287,
+			"accountCode": "1234"
                     },
                     {
                         "articleID": "85",
@@ -886,7 +893,8 @@ sample response:
                         "mainGroupName": "Alko",
                         "articleGroupNumber": "14",
                         "articleGroupName": "Katkerot",
-                        "parentID": 1019119287
+                        "parentID": 1019119287,
+			"accountCode": "1234"
                     },
                     {
                         "articleID": "86",
@@ -905,7 +913,8 @@ sample response:
                         "mainGroupName": "Alko",
                         "articleGroupNumber": "14",
                         "articleGroupName": "Katkerot",
-                        "parentID": 1019119287
+                        "parentID": 1019119287,
+			"accountCode": "1234"
                     },
                     {
                         "articleID": "87",
@@ -924,7 +933,8 @@ sample response:
                         "mainGroupName": "Vesi",
                         "articleGroupNumber": "62",
                         "articleGroupName": "Vesi / mehut",
-                        "parentID": 1019119287
+                        "parentID": 1019119287,
+			"accountCode": "1234"
                     }
                 ],
                 "paymentRows":[
@@ -933,7 +943,8 @@ sample response:
                         "paymentCode":"CARD",
                         "paymentName":"Kortti",
                         "quantity":1000,
-                        "amount":1620
+                        "amount":1620,
+			"accountCode":"4567"
                     }
                 ]
             }
