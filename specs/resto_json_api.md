@@ -968,6 +968,7 @@ parameters:
 * ``reconciliatedDatesOnly`` - true / false if results should include only reconciliated dates
 * ``includeStorageData`` - true / false if results should include storage changes. Storage data contains transactions from sales and different storage jobs
 * ``excludeSalesData`` - true / false if sales data should be excluded from results
+* ``leaveOutInvoicingTTs`` - true / false if receipts payed with invoicable transaction type should be left out
 
 response:
 
