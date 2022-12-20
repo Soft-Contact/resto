@@ -734,6 +734,7 @@ parameters:
 * ``reconciliatedDatesOnly`` - true / false if results should include only reconciliated dates. Can be used only when ``invoiceReceiptsOnly`` = true.
 * ``includeRowComments`` - true / false if row comments should be included (included by default if ``invoiceReceiptsOnly`` = true)
 * ``includeAccountingInfo`` - true / false if Bookkeeping account codes should be included on sale and payment rows (also requires either ``includeSaleRows`` or ``includePaymentRows``)
+* ``customerReceiptsOnly`` - true / false to include only receipts that have a customer
 
 Note 1: If no date parameters are given, the default value for ``salesReadFromDate`` will be used. Default value is kept by Restolution.
 
@@ -1824,3 +1825,4 @@ sample response:
 | 14.10.2020   | tt@soft-contact.fi       | Added Campaign and related methods |
 | 31.08.2021 | mats.antell@kassamagneetti.fi      | Added Article.structure and Article.amount |  
 | 14.11.2022 | mats.antell@restolution.fi         | Added Restaurant.units and Unit | 
+| 20.12.2022 | mats.antell@restolution.fi	  | Added customerReceiptsOnly parameter to getReceipts |
