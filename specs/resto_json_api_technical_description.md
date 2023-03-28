@@ -130,6 +130,7 @@ parameters:
 * `success` - shows whether the request was processed successfully (i.e. `false`)
 * `statusCode` - in case of unsuccessful request. see the list of error codes below
 * `message` - optional human readable description of the error which can be shown to user
+* `errorDetails` - optional (technical) details of the error (e.g. stack trace, log excerpt)
 * `cashRegisterVersion` - optional version of the cash register that processed the request
 
 response structure:
