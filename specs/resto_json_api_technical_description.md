@@ -192,6 +192,7 @@ response structure:
 * PAYMENT_TYPE_NOT_FOUND
 * TAX_NOT_FOUND
 * PAYMENT_ERROR
+* PRICE_NOT_SET - sale line is missing price, or the price is zero for article where it is not allowed
     
 ## Server status codes 
 
