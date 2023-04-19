@@ -726,6 +726,7 @@ parameters:
 * ``businessUnitUUIDs`` - array containing business unit UUIDs, overrides parameter _restaurantIDs_
 * ``salesReadFromDate`` - include sales read to back office since given date,
         if not given, sales read to back office since last call to ``getReceipts`` will be returned
+* ``salesReadUntilDate`` - include sales read to back office before given date, defaults to current timestamp. The period limited by ``salesReadFromDate`` and ``salesReadUntilDate`` cannot exceed 7 days.	
 * ``receiptTimeFromDate`` - include receipts with timestamp equal or later than given date. Overrides ``salesReadFromDate``.
 * ``receiptTimeUntilDate`` - include receipts with timestamp equal or older than given date
 * ``includeSaleRows`` - include sales receipt rows in the results
@@ -1826,3 +1827,4 @@ sample response:
 | 31.08.2021 | mats.antell@kassamagneetti.fi      | Added Article.structure and Article.amount |  
 | 14.11.2022 | mats.antell@restolution.fi         | Added Restaurant.units and Unit | 
 | 20.12.2022 | mats.antell@restolution.fi	  | Added customerReceiptsOnly parameter to getReceipts |
+| 19.04.2023 | mats.antell@restolution.fi         | Added salesReadUntilDate parameter to getReceipts |
