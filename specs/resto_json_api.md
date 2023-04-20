@@ -188,6 +188,9 @@ or read using "getReceipts" method.
 * ``customerName`` - optional customer name
 * ``customerUUID`` - customer UUID
 * ``cardNumber`` - optional card number
+* ``cardCustomData1`` - optional custom data, used in "getReceipts" for RestoCoin cards
+* ``cardCustomData2`` - optional custom data, used in "getReceipts" for RestoCoin cards
+* ``cardCustomData3`` - optional custom data, used in "getReceipts" for RestoCoin cards
 * ``ourReference`` - Restaurant's own reference information
 * ``yourReference`` - Restaurant customer's reference information
 * ``restaurantID`` - optional Restaurant ID
@@ -791,6 +794,9 @@ sample response:
                 "customerName":"Earl of Grantham",
                 "customerUUID":"012531ec-ebc1-432d-96c7-2367994c1ccb",
                 "cardNumber":"1234567",
+		"cardCustomData1": "earl.grantham@example.com",
+                "cardCustomData2": "555 12345678",
+                "cardCustomData3": "some other information"
                 "ourReference":"Last time we offered free vodka",
                 "yourReference":"Best pikkujoulut ever!",
                 "restaurantID":"101",
@@ -1828,3 +1834,4 @@ sample response:
 | 14.11.2022 | mats.antell@restolution.fi         | Added Restaurant.units and Unit | 
 | 20.12.2022 | mats.antell@restolution.fi	  | Added customerReceiptsOnly parameter to getReceipts |
 | 19.04.2023 | mats.antell@restolution.fi         | Added salesReadUntilDate parameter to getReceipts |
+| 20.04.2023 | mats.antell@restolution.fi         | Added cardCustomData1-3 to Receipt and getReceipts |
