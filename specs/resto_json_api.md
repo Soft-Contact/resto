@@ -330,7 +330,7 @@ See also [listCards](#listcards).
 * ``vatCode`` - VAT code
 * ``startAmount`` - start amount for monthly storage change without VAT in cents, see [getBookkeepingRows](#getbookkeepingrows)
 * ``endAmount`` - end amount for monthly storage change without VAT in cents, see [getBookkeepingRows](#getbookkeepingrows)
-* ``differenceAmount`` - difference amount for monthly storage change, see [getBookkeepingRows](#getbookkeepingrows) 
+* ``differenceAmount`` - difference amount for monthly storage change without VAT in cents, see [getBookkeepingRows](#getbookkeepingrows) 
 
 <a name="campaign"></a>
 ### Campaign
