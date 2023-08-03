@@ -322,11 +322,15 @@ See also [listCards](#listcards).
 * ``companyCode`` - company code
 * ``costCentreCode`` - cost centre code
 * ``accountCode`` - bookkeeping account code
+* ``changeAccountCode`` - change bookkeeping account code for monthly storage change, see [getBookkeepingRows](#getbookkeepingrows)
 * ``code`` - bookkeeping code, article group SAP code or transaction type code in Restolution
 * ``amount`` - sum of sales (negative), payments (positive) and inpayments (negative) in cents
 * ``netAmount`` - amount without VAT in cents
 * ``vatAmount`` - VAT amount in cents
 * ``vatCode`` - VAT code
+* ``startAmount`` - start amount for monthly storage change without VAT in cents, see [getBookkeepingRows](#getbookkeepingrows)
+* ``endAmount`` - end amount for monthly storage change without VAT in cents, see [getBookkeepingRows](#getbookkeepingrows)
+* ``differenceAmount`` - difference amount for monthly storage change, see [getBookkeepingRows](#getbookkeepingrows) 
 
 <a name="campaign"></a>
 ### Campaign
@@ -976,6 +980,8 @@ parameters:
 * ``reconciliatedDatesOnly`` - true / false if results should include only reconciliated dates
 * ``includeStorageData`` - true / false if results should include storage changes. Storage data contains transactions from sales and different storage jobs
 * ``excludeSalesData`` - true / false if sales data should be excluded from results
+* ``showMonthlyStorageData`` - true / false to include ``startAmount``, ``endAmount``, ``differenceAmount`` and ``changeAccountCode``, for a given month as specified by parameter ``month`` which is also required if this parameter is given. Using this parameter will return the values of the "Storage value change report" in Restolution. See also [Bookkeeping row](#bookkeeping-row).
+* ``month`` - show monthly storage data from the given month. Month is given in the format "MM/YYYY". This parameter is required if the paramater ``showMonthlyStorageData`` is given.
 
 response:
 
@@ -1835,3 +1841,4 @@ sample response:
 | 20.12.2022 | mats.antell@restolution.fi	  | Added customerReceiptsOnly parameter to getReceipts |
 | 19.04.2023 | mats.antell@restolution.fi         | Added salesReadUntilDate parameter to getReceipts |
 | 20.04.2023 | mats.antell@restolution.fi         | Added cardCustomData1-3 to Receipt and getReceipts |
+| 03.08.2023 | mats.antell@restolution.fi         | Added getBookkeepingRows changes for new parameter 'showMonthlyStorageData' |
