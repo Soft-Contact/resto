@@ -41,6 +41,7 @@
     + [Inventory Row](#inventoryrow)
     + [Storage Value](#storagevalue)
     + [Employee](#employee)
+    + [Time Tracking](#timetracking)
   * [Available Methods](#available-methods)
     + [listRestaurants](#listrestaurants)
     + [getReceipts](#getreceipts)
@@ -59,6 +60,7 @@
     + [getStorageValues](#getstoragevalues)
     + [listEmployees](#listemployees)
     + [importEnployees](#importemployees)
+    + [importTimeTrackings](#importtimetrackings)
     
   * [Receipt types](#receipt-types)
   * [Discount methods](#discount-methods)
@@ -634,6 +636,17 @@ See also [listEmployees](#listemployees).
 * ``firstName`` - first name of the employee
 * ``lastName`` - last name of the employee
 * ``type`` - optional type of the employee, see [Employee types](#employee-types). If missing, it will default to EMPLOYEE when importing a new Employee.
+
+<a name="timetracking"></a>
+### TimeTracking
+An object used for tracking (work) time of and [Employee](#employee).
+See also [importTimeTrackings](#importtimetrackings).
+
+* ``employeeNumber`` - employee ID of the employee that this time tracking was recorded for
+* ``unitUUID`` - UUID of the Restautant unit where the time tracking was recorded
+* ``startTime`` - timestamp when the time tracking period started
+* ``endTime`` - timestamp when the time tracking period ended
+* ``comment`` - optional comment for the time tracking
 
 <a name="available-methods"></a>
 ## Available Methods
@@ -2868,6 +2881,66 @@ sample response:
 }
 ```
 
+<a name="importtimetrackings"></a>
+## importTimeTrackings
+For importing new time trackings that represent performed work hours in a unit of a restaurant. The time trackings are imported as an array of [TimeTracking](#timetracking) objects. Each time tracking object has it's employee number and unit UUID and the import will update the time tracking of the clerk(s) in Restolution that are linked to the employee for the given unit. If any part of the imported time tracking (A) already exists for the clerk and unit in a previously stored time tracking (B), this part will be omitted, 
+i.e. the[ _union_](https://brilliant.org/wiki/sets-union-and-intersection-easy/)  (A ∪ B) of the existing and the new time tracking period will be stored in Restolution.
+If several Restolution clients share the same API Key, the time tracking import will affect all clients that have matching employee numbers and unit UUIDs. Note, however, that since the unit UUID is globally unique it is not possible for a single time tracking object to be imported to more than one unit (and client).
+
+parameters:
+* ```timeTrackings`` - array of [TimeTracking](#timetracking) objects 
+
+response:
+
+A "savedTimeTrackings" object that contains the following fields:
+
+* ``timeTrackings`` - nr of time trackings in request
+* ``added`` - nr of new time trackings added
+* ``clients`` - nr of clients affected
+
+sample request:
+
+```json
+{
+  "timestamp": "2022-11-15T08:58:40.988Z",
+  "apiKey": "user_321681",
+  "requestID": "test_request_id",
+  "method": "importTimeTrackings",
+  "params": {
+    "timeTrackings": [
+      {
+        "employeeNumber": "123",
+        "unitUUID": "12abcbdb-0244-4820-8a2a-e85e874ec8c9",
+        "startTime": "2022-11-08T07:00:00Z",
+        "endTime": "2022-11-08T15:00:00Z"
+      },
+      {
+        "employeeNumber": "234",
+        "unitUUID": "12abcbdb-0244-4820-8a2a-e85e874ec8d5",
+        "startTime": "2022-11-08T08:00:00Z",
+        "endTime": "2022-11-08T16:00:00Z"
+      }
+    ]
+  }
+}
+```
+sample response:
+
+```json
+{
+  "success": true,
+  "timestamp": "2022-11-15T14:19:09.246Z",
+  "requestID": "test_request_id",
+  "response": {
+    "savedTimetrackings": {
+      "timeTrackings": 2,
+      "added": 2,
+      "clients": 1
+    }
+  }
+}
+```
+
 <a name="receipt-types"></a>
 ## Receipt types
 
@@ -3124,4 +3197,5 @@ sample response:
 | 08.08.2023 | mats.antell@restolution.fi	  | Added getInventories and related objects |
 | 08.08.2023 | mats.antell@restolution.fi	  | Added listEmployees and related objects |
 | 08.08.2023 | mats.antell@restolution.fi	  | Added importEmployees |
+| 08.08.2023 | mats.antell@restolution.fi	  | Added importEmployees and related objects |
 
