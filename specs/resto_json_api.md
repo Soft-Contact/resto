@@ -37,6 +37,8 @@
     + [Transfer Row](#transferrow)
     + [Wastage](#wastage)
     + [Wastage Row](#wastagerow)
+    + [Inventory](#inventory)
+    + [Inventory Row](#inventoryrow)
     + [Storage Value](#storagevalue)
   * [Available Methods](#available-methods)
     + [listRestaurants](#listrestaurants)
@@ -51,6 +53,7 @@
     + [getDeliveryNotes](#getdeliverynotes)
     + [getTransfers](#gettransfers)
     + [getWastages](#getwastages)
+    + [getInventories](#getinventories)
     + [getArticles](#getarticles)
     + [getStorageValues](#getstoragevalues)
     
@@ -557,6 +560,41 @@ The wastage rows contain on article level the quantities and purchase prices of 
 * ``baseUnitInSIUnits`` - base unit in SI units, e.g. how many grams in a kilogram. Note that this defaults to 1 for all units that can have different sizes, in 1/1000 parts. Note: this is only shown when ``useStorageDistribution`` is set to ``true``
 * ``purchasePriceWithTax`` - The purchase price of a base unit of this wastage row's article including tax at the time of the wastage
 * ``purchaseTax`` - The purchase tax percentage applied to the purchase of this wastage row's article. Given as a whole number, e.g 24% is given as 24.
+
+<a name="inventory"></a>
+### Inventory
+
+The inventories returned by the [getInventories](#getinventories) method are objects of "Inventory" which contains the rows of the inventory as an array of [Inventory Rows](#inventoryrow).
+
+* ``clientUUID`` - globally unique identifier of the Restolution client that this inventory belongs to (a type 4 UUID as specified by RFC 4122)
+* ``periodStart`` - timestamp when this inventory's period starts
+* ``periodEnd`` - timestamp when this inventory's period ends
+* ``calculationDate`` - timestamp of the actual (physical) inventory. Ie. the date when user counted the articles in stock (calculated the inventory).
+* ``verifiedDate`` - timestamp when this inventory was verified
+* ``businessUnitUUID`` - globally unique identifier of the Restolution business unit that this inventory was made for (a type 4 UUID as specified by RFC 4122)
+* ``storageName`` - name of the storage that this inventory was made for
+* ``userName`` - name of user who created this inventory
+* ``verifier`` - name of user who verified this inventory
+* ``status`` - the status of this inventory, can be one of IN_PROGRESS, DONE, VERIFIED. 
+* ``comment`` - a comment about this inventory
+* ``inventoryRows`` - array of inventory rows
+
+<a name="inventoryrow"></a>
+### Inventory Row
+
+The inventory rows contain on article level the quantities and purchase prices of the [Inventory](#inventory).
+
+* ``articleUUID`` -  globally unique identifier for this inventory row's article (a type 4 UUID as specified by RFC 4122)
+* ``articleName`` - article name of this inventory row's article
+* ``storageArticleID`` - storage article ID of this inventory row's storage article
+* ``quantity`` - the SI unit quantity of the article of this inventory row  in 1/1000 parts
+* ``quantityInBaseUnits`` - the baseunit quantity of the article of this inventory row  in 1/1000 parts
+* ``oldQuantity`` - the SI unit storage quantity of the article of this inventory row before the inventory quantity was entered in 1/1000 parts
+* ``oldQuantityInBaseUnits`` - the baseunit storage quantity of the article of this inventory row before the inventory quantity was entered in 1/1000 parts
+* ``baseUnit`` - the base unit of this inventory row's article, e.g. a bottle, BTL.
+* ``baseUnitInSIUnits`` - base unit in SI units, e.g. how many grams in a kilogram. Note that this defaults to 1 for all units that can have different sizes, in 1/1000 parts.
+* ``purchasePriceWithTax`` - The purchase price of a base unit of this inventory row's article including tax
+* ``purchaseTax`` - The purchase tax percentage applied to the purchase of this inventory row's article. Given as a whole number, e.g 24% is given as 24.
 
 <a name="storagevalue"></a>
 ### Storage Value
@@ -2171,6 +2209,90 @@ sample responses:
 }
 ```
 
+<a name="getinventories"></a>
+### getInventories
+Gets all inventories from Restolution. The inventories are returned as an array of [Inventory](#inventory). The endpoint mimics the parameters and data in Inventory Report in Restolution.
+
+parameters:
+
+* ``month`` - get inventories whose inventory period start and end at the given month. Month is given in the format "MM/YYYY". This parameter is required.
+* ``businessUnitUUIDs`` - optional list of business unit UUID's whose inventories should be included. If this parameter is not given, the inventories of all business units will be included.
+
+response:
+
+* ``inventories`` - array of inventory objects
+
+sample request:
+
+```json
+{
+  "apiKey":"user_321683", 
+  "timestamp": "2022-01-20T15:13:40.988Z",
+  "requestID": "test_request_id",
+   "method": "getInventories",
+	"params": {
+		"month": "4/2022",
+		"businessUnitUUIDs": [
+			"4a67c7a2-bbf6-4130-be16-f4f7b2571d97",
+			"4a67c7a2-bbf6-4130-be16-f4f7b2571d94"
+		]
+	}
+}
+```
+
+sample response:
+```json
+{
+  "success": true,
+  "timestamp": "2022-04-04T08:46:58.426Z",
+  "requestID": "test_request_id",
+  "response": {
+    "inventories": [
+      {
+        "clientUUID": "fba3d9ac-1bb6-49ea-a1cd-d147d6a7e233",
+        "periodStart": "2022-04-01T05:00:00",
+        "periodEnd": "2022-05-01T04:59:59.99",
+        "calculationDate": "2022-05-20T04:59:59.99",
+        "verifiedDate": "2022-05-20T10:18:03.439",
+        "businessUnitUUID": "4a67c7a2-bbf6-4130-be16-f4f7b2571d97",
+        "storageName": "Testivarasto 1",
+        "userName": "Milla Mallikas",
+        "verifier": "Milla Mallikas",
+        "status": "VERIFIED",
+        "inventoryRows": [
+        {
+            "articleUUID": "6aa2dc87-ad67-48df-98bc-4e926b1fbd7f",
+            "storageArticleID": "123",
+            "articleName": "Vodka",
+            "quantity": 20,
+            "quantityInBaseUnits": 28,
+            "oldQuantity": 10,
+            "oldQuantityInBaseUnits": 14,
+            "baseUnit": "PLO",
+            "baseUnitInSIUnits": 700,
+            "purchasePriceWithTax": 1213,
+            "purchaseTax": 24
+          },
+          {
+            "articleUUID": "82bc1573-69d5-4c1d-9a3f-bf060f7323d1",
+            "storageArticleID": "124",
+            "articleName": "Likööri",
+            "quantity": 300,
+            "quantityInBaseUnits": 429,
+            "oldQuantity": 200,
+            "oldQuantityInBaseUnits": 286,
+            "baseUnit": "PLO",
+            "baseUnitInSIUnits": 700,
+            "purchasePriceWithTax": 2123,
+            "purchaseTax": 24
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
 <a name="getarticles"></a>
 ### getArticles
 Gets all articles from restolution. The articles are returned as an array of [Extended Articles](#extended_article).
@@ -2864,3 +2986,4 @@ sample response:
 | 08.08.2023 | mats.antell@restolution.fi	  | Added getStorageValues and related objects |
 | 08.08.2023 | mats.antell@restolution.fi	  | Added getTransfers and related objects and some general naming consistency improvements |
 | 08.08.2023 | mats.antell@restolution.fi	  | Added getWastages and related objects |
+| 08.08.2023 | mats.antell@restolution.fi	  | Added getInventories and related objects |
