@@ -61,7 +61,7 @@
     + [importArticles](#importarticles)
     + [getStorageValues](#getstoragevalues)
     + [listEmployees](#listemployees)
-    + [importEnployees](#importemployees)
+    + [importEmployees](#importemployees)
     + [importTimeTrackings](#importtimetrackings)
     
   * [Receipt types](#receipt-types)
