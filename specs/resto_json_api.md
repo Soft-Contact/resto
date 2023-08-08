@@ -33,6 +33,8 @@
     + [Campaign Article Row](#campaign-article-row)
     + [Delivery Note](#deliverynote)
     + [Delivery Note Row](#deliverynoterow)
+    + [Transfer](#transfer)
+    + [Transfer Row](#transferrow)
     + [Storage Value](#storagevalue)
   * [Available Methods](#available-methods)
     + [listRestaurants](#listrestaurants)
@@ -45,6 +47,7 @@
     + [importCards](#importcards)
     + [listCampaigns](#listCampaigns)
     + [getDeliveryNotes](#getdeliverynotes)
+    + [getTransfers](#gettransfers)
     + [getArticles](#getarticles)
     + [getStorageValues](#getstoragevalues)
     
@@ -232,8 +235,8 @@ The articles returned by the ``getArticles``  method are objects of  ``ExtendedA
 * ``operationGroupID`` - operation group ID of the operation group this article belongs to
 * ``operationGroupName`` - operation group name of the operation group this article belongs to
 * ``modifiedDate`` - when this article was last modified
-* ``mainType`` - [main type](#article_maintype) of this article
-* ``subType`` - [sub type](#article_subtype) of this article
+* ``mainType`` - [Article Main Type](#article_maintype) of this article
+* ``subType`` - [Article Sub Type](#article_subtype) of this article
 * ``status`` - the status of this article, can be one of "ACTIVE", "DELETED", "DESIGN"
 * ``mainGroupID`` - main group ID of this article
 * ``mainGroupName`` - main group name of this article
@@ -256,17 +259,17 @@ The articles returned by the ``getArticles``  method are objects of  ``ExtendedA
 * ``purchaseTax`` - Purchase tax percentage applied to the the purchase of this article. Given as a whole number, e.g 24% is given as 24.
 * ``purchasePriceWithTax`` - The purchase price of a base unit of this article including tax.
 * ``portionSize`` - Size of a portion by which this article is sold.
-* ``saleArticleContents`` - Contents of a sale article as a list of [Content articles](#contentarticle).
-* ``articleContents`` - Contents of a storage or recipe article as a list of [Content articles](#contentarticle).
-* ``prices`` - A list of [price lists](#pricelist) that are active for this article.
-* ``articleLinks`` - A list of [Content articles](#contentarticle) that are sold when this article is sold.
-* ``articleLinkPriceType`` - How the price of this link article should be calculated. Given as a [Article Link Price Type](#article_link_pricetype) 
+* ``saleArticleContents`` - Contents of a sale article as a list of [Content Articles](#contentarticle).
+* ``articleContents`` - Contents of a storage or recipe article as a list of [Content Articles](#contentarticle).
+* ``prices`` - A list of [Price Lists](#pricelist) that are active for this article.
+* ``articleLinks`` - A list of [Content Articles](#contentarticle) that are sold when this article is sold.
+* ``articleLinkPriceType`` - How the price of this link article should be calculated. Given as a [Article Link Price type](#article_link_pricetype) 
 * ``eans`` - EAN codes of the article given as an array of strings.
 * ``kitchenPrintingGroupID`` - Kitchen printing group ID of the article
 * ``kitchenPrintingGroupName`` - Kitchen printing group name of the article
 
 <a name="contentarticle"></a>
-### ContentArticle
+### Content Article
 
 Content articles can be the contents of a sale, storage or recipe article. They are also used as links of a link article. All content articles are also listed separately in the main ``articles`` list of the ``getArticles`` response.
 
@@ -457,9 +460,9 @@ See also [listCampaigns](#listCampaigns).
 * ``articleGroupName`` - article group name this salearticle is belonging to
 
 <a name="deliverynote"></a>
-### DeliveryNote
+### Delivery Note
 
-The delivery notes returned by the "getDeliveryNotes" method are objects of "DeliveryNote" which contains the rows of the delivery note as an array of [DeliveryNoteRows](#deliverynoterow).
+The delivery notes returned by the "getDeliveryNotes" method are objects of "Delivery Note" which contains the rows of the delivery note as an array of [Delivery Note Rows](#deliverynoterow).
 
 * ``deliveryNoteUUID`` - globally unique identifier of the DeliveryNote (a type 4 UUID as specifield by RFC 4122)
 * ``clientUUID`` - globally unique identifier of the Restolution client that this delivery note belongs to (a type 4 UUID as specified by RFC 4122)
@@ -474,7 +477,7 @@ The delivery notes returned by the "getDeliveryNotes" method are objects of "Del
 * ``deliveryNoteRows`` - array of delivery note rows
 
 <a name="deliverynoterow"></a>
-### DeliveryNoteRow
+### Delivery Note Row
 
 The delivery note rows contain on article level the quantities and purchase prices of the delivery note.
 
@@ -488,10 +491,43 @@ The delivery note rows contain on article level the quantities and purchase pric
 * ``purchasePriceWithTax`` - The purchase price of a base unit of this delivery note row's article including tax
 * ``purchaseTax`` - The purchase tax percentage applied to the purchase of this delivery note row's article. Given as a whole number, e.g 24% is given as 24.
 
+<a name="transfer"></a>
+### Transfer
+
+The transfers returned by the "getTransfers" method are objects of "Transfer" which contains the rows of the transfer as an array of [Transfer Rows](#transferrow).
+
+* ``clientUUID`` - globally unique identifier of the Restolution client that this transfer belongs to (a type 4 UUID as specified by RFC 4122)
+* ``transferDate`` - timestamp when this transfer took place and affected the storage values
+* ``verifiedDate`` - timestamp when this transfer was verified
+* ``fromBusinessUnitUUID`` - globally unique identifier of the Restolution business unit that this transfer reduced (a type 4 UUID as specified by RFC 4122)
+* ``toBusinessUnitUUID`` - globally unique identifier of the Restolution business unit that this transfer added to (a type 4 UUID as specified by RFC 4122)
+* ``fromStorageName`` - name of the storage that this transfer reduced
+* ``toStorageName`` - name of the storage that this transfer added to
+* ``userName`` - name of user who created this transfer
+* ``verifier`` - name of user who verified this transfer
+* ``status`` - the status of this transfer, can be one of IN_PROGRESS, DONE, VERIFIED. 
+* ``comment`` - a comment about this transfer
+* ``transferRows`` - array of transfer rows
+
+<a name="transferrow"></a>
+### Transfer Row
+
+The transfer rows contain on article level the quantities and purchase prices of the transfer.
+
+* ``articleUUID`` -  globally unique identifier for this transfer row's article (a type 4 UUID as specified by RFC 4122)
+* ``articleName`` - article name of this transfer row's article
+* ``storageArticleID`` - storage article ID of this transfer row's storage article
+* ``quantity`` - the SI unit quantity of the article of this transfer row  in 1/1000 parts
+* ``quantityInBaseUnits`` - the baseunit quantity of the article of this transfer row  in 1/1000 parts
+* ``baseUnit`` - the base unit of this transfer row's article, e.g. a bottle, BTL.
+* ``baseUnitInSIUnits`` - base unit in SI units, e.g. how many grams in a kilogram. Note that this defaults to 1 for all units that can have different sizes, in 1/1000 parts.
+* ``purchasePriceWithTax`` - The purchase price of a base unit of this transfer row's article including tax
+* ``purchaseTax`` - The purchase tax percentage applied to the purchase of this transfer row's article. Given as a whole number, e.g 24% is given as 24.
+
 <a name="storagevalue"></a>
 ### Storage Value
 
-The storage values returned by the [getStorageValues](#getstoragevalues) method are objects of "StorageValue" and contain data fields for calculating the storage value for a given date. A separate storage value is maintained for every storage article in Restolution.
+The storage values returned by the [getStorageValues](#getstoragevalues) method are objects of "Storage Value" and contain data fields for calculating the storage value for a given date. A separate storage value is maintained for every storage article in Restolution.
 
 * ``clientUUID`` - globally unique identifier of the Restolution client that this storage value belongs to (a type 4 UUID as specified by RFC 4122)
 * ``businessUnitUUID`` - globally unique identifier of the Restolution business unit that this storage value belongs to (a type 4 UUID as specified by RFC 4122)
@@ -1851,6 +1887,86 @@ sample response:
 }
 ```
 
+<a name="gettransfers"></a>
+### getTransfers
+Gets all storage transfers from Restolution. The transfers are returned as an array of [Transfers](#transfer). The endpoint mimics the parameters and data in Transfer Summary Report in Restolution.
+
+parameters:
+
+* ``dateFrom`` - get transfers that have transfer date equal to or later than this date. This parameter is required.
+* ``dateUntil`` - get transfers that have transfer date equal to or earlier than this date.
+* ``businessUnitUUIDs`` - optional list of business unit UUID's whose transfers (from or to) should be included. If this parameter is not given, the transfers of all business units will be included.
+
+response:
+
+* ``transfers`` - array of Transfer objects
+
+sample request:
+
+```json
+{
+  "apiKey":"user_321683", 
+  "timestamp": "2022-01-20T15:13:40.988Z",
+  "requestID": "test_request_id",
+  "method": "getTransfers",
+  "params": {
+      "dateFrom":"2022-01-01T05:00:00.00Z",
+      "dateUntil":"2022-01-07T04:59:59.99Z",
+      "businessUnitUUIDs": ["e2223c3b-5f6d-4873-b21b-2c06a2d6fe1b","4a67c7a2-bbf6-4130-be16-f4f7b2571d92"]
+  }   
+}
+```
+
+sample response:
+```json
+{
+  "success": true,
+  "timestamp": "2022-04-04T08:46:58.426Z",
+  "requestID": "test_request_id",
+  "response": {
+    "transfers": [
+      {
+        "clientUUID": "fba3d9ac-1bb6-49ea-a1cd-d147d6a7e238",
+        "transferDate": "2021-08-18T04:59:59.99",
+        "verifiedDate": "2021-08-17T12:41:10.869",
+        "fromBusinessUnitUUID": "e2223c3b-5f6d-4873-b21b-2c06a2d6fe1b",
+        "toBusinessUnitUUID": "4a67c7a2-bbf6-4130-be16-f4f7b2571d92",
+        "fromStorageName": "Testivarasto 1",
+        "toStorageName": "Testivarasto 2",
+        "userName": "Milla Mallikas",
+        "verifier": "Milla Mallikas",
+        "status": "VERIFIED",
+        "comment": "comment",
+        "transferRows": [
+          {
+            "articleUUID": "a23ccb6d-f819-40b7-82ba-549d20dc499c",
+            "storageArticleID": "816",
+            "articleName": "Craft IPA",
+            "quantity": 40500,
+            "quantityInBaseUnits": 54000,
+            "baseUnit": "PLO",
+            "baseUnitInSIUnits": 750,
+            "purchasePriceWithTax": 1620,
+            "purchaseTax": 24
+          },
+          {
+            "articleUUID": "334fca7c-e419-4b7d-846b-8d5422091ceb",
+            "storageArticleID": "104",
+            "articleName": "Fine Sherry",
+            "quantity": 18750,
+            "quantityInBaseUnits": 25000,
+            "baseUnit": "PLO",
+            "baseUnitInSIUnits": 750,
+            "purchasePriceWithTax": 500,
+            "purchaseTax": 24
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
 <a name="getarticles"></a>
 ### getArticles
 Gets all articles from restolution. The articles are returned as an array of [Extended Articles](#extended_article).
@@ -2451,7 +2567,7 @@ sample response:
     This campaign is for reporting purposes only.
     
 <a name="campaign-sub-types"></a>
-## Campaign Sub types
+## Campaign sub types
 
 * SET_AMOUNT
     Set amount indicates that campaign is triggered only for set amount of sold articles (of a price group).
@@ -2491,7 +2607,7 @@ sample response:
     Used in campaign type ADDITIONAL_SALE.
 
   <a name="article_maintype"></a>
-### Article Main Type
+### Article main type
 
 * ``SALE_ARTICLE`` - A sale article that can be sold in a cash register.
 * ``STORAGE_ARTICLE`` - A storage article that can be purchased and stored by a restaurant. The storage article cannot be sold, but used as contents in sale articles.
@@ -2500,7 +2616,7 @@ sample response:
 * ``MESSAGE_ARTICLE`` - A message article can be used as part of an article message group for communication with the restaurant kitchen.
 
 <a name="article_subtype"></a>
-### Article Sub Type
+### Article sub type
 
 * ``SIMPLE`` - A sale or storage article without contents. If it's a storage article it represents a raw ingredient.
 * ``COMBINED`` - A sale article or storage article with content.
@@ -2510,7 +2626,7 @@ sample response:
 * ``COMBINED_CONDIMENT`` - A sale article with contents and condiment article properties.
 
 <a name="article_link_pricetype"></a>
-### Article Link Price Type
+### Article Link Price type
 
 * ``DEFINED_LOCALLY`` - Price is defined locally for the sale article
 * ``SUMMED_FROM_LINKS`` - Price is the sum of the links
@@ -2542,3 +2658,4 @@ sample response:
 | 08.08.2023 | mats.antell@restolution.fi	  | Added getDeliveryNotes and related objects |
 | 08.08.2023 | mats.antell@restolution.fi	  | Added getArticles and related objects |
 | 08.08.2023 | mats.antell@restolution.fi	  | Added getStorageValues and related objects |
+| 08.08.2023 | mats.antell@restolution.fi	  | Added getTransfers and related objects and some general naming consistency improvements |
