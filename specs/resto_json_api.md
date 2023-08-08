@@ -367,6 +367,38 @@ See also [listCampaigns](#listCampaigns).
 * ``price`` - price group total price in cents
 * ``articleGroupName`` - article group name this salearticle is belonging to
 
+<a name="deliverynote"></a>
+### DeliveryNote
+
+The delivery notes returned by the "getDeliveryNotes" method are objects of "DeliveryNote" which contains the rows of the delivery note as an array of [DeliveryNoteRows](#deliverynoterow).
+
+* ``deliveryNoteUUID`` - globally unique identifier of the DeliveryNote (a type 4 UUID as specifield by RFC 4122)
+* ``clientUUID`` - globally unique identifier of the Restolution client that this delivery note belongs to (a type 4 UUID as specified by RFC 4122)
+* ``orderUUID`` - globally unique identifier of the Restolution Order corresponding to this DeliveryNote
+* ``orderNumber`` - number of the Order in Restolution that corresponds to the DeliveryNote
+* ``deliveryDate`` - timestamp when this delivery note took place and affected the storage values
+* ``verifiedDate`` - timestamp when this delivery note was verified
+* ``businessUnitUUID`` - globally unique identifier of the Restolution business unit that this delivery note added to (a type 4 UUID as specified by RFC 4122)
+* ``toStorageName`` - name of the storage that this delivery note added to
+* ``userName`` - name of user who created this delivery note
+* ``status`` - the status of this delivery note, can be one of IN_PROGRESS, DONE, VERIFIED. 
+* ``deliveryNoteRows`` - array of delivery note rows
+
+<a name="deliverynoterow"></a>
+### DeliveryNoteRow
+
+The delivery note rows contain on article level the quantities and purchase prices of the delivery note.
+
+* ``articleUUID`` -  globally unique identifier for this delivery note row's article (a type 4 UUID as specified by RFC 4122)
+* ``articleName`` - article name of this delivery note row's article
+* ``storageArticleID`` - storage article ID of this delivery note row's storage article
+* ``quantity`` - the SI unit quantity of the article of this delivery note row  in 1/1000 parts
+* ``quantityInBaseUnits`` - the baseunit quantity of the article of this delivery note row  in 1/1000 parts
+* ``baseUnit`` - the base unit of this delivery note row's article, e.g. a bottle, BTL.
+* ``baseUnitInSIUnits`` - base unit in SI units, e.g. how many grams in a kilogram. Note that this defaults to 1 for all units that can have different sizes, in 1/1000 parts.
+* ``purchasePriceWithTax`` - The purchase price of a base unit of this delivery note row's article including tax
+* ``purchaseTax`` - The purchase tax percentage applied to the purchase of this delivery note row's article. Given as a whole number, e.g 24% is given as 24.  
+
 <a name="available-methods"></a>
 ## Available Methods
 
@@ -1627,6 +1659,84 @@ sample response:
 }
 ```
 
+<a name="getdeliverynotes"></a>
+### getDeliveryNotes
+Gets all storage delivery notes from Restolution. The delivery notes are returned as an array of [DeliveryNotes](#deliverynote). The endpoint mimics the parameters and data in Delivery Note Reports in Restolution.
+
+parameters:
+
+* ``dateFrom`` - get delivery notes that have delivery note date equal to or later than this date. This parameter is required.
+* ``dateUntil`` - get delivery notes that have delivery note date equal to or earlier than this date.
+* ``businessUnitUUIDs`` - optional list of business unit UUID's whose delivery notes should be included. If this parameter is not given, the delivery notes of all business units will be included.
+
+response:
+
+* ``deliveryNotes`` - array of DeliveryNote objects
+
+sample request:
+
+```json
+{
+  "apiKey":"user_321683", 
+  "timestamp": "2022-01-20T15:13:40.988Z",
+  "requestID": "test_request_id",
+  "method": "getDeliveryNotes",
+  "params": {
+      "dateFrom":"2018-08-01T05:00:00.00Z",
+      "dateUntil":"2018-08-07T04:59:59.99Z",
+      "businessUnitUUIDs": ["0b4a62aa-f857-4282-8dbb-ca26c0b1468c"]
+  }   
+}
+```
+
+sample response:
+```json
+{
+  "success": true,
+  "timestamp": "2022-04-04T12:00:02.522Z",
+  "requestID": "test_request_id",
+  "response": {
+    "deliveryNotes": [
+      {
+        "deliveryNoteUUID": "20e8cbef-9b97-4a0b-b930-c7d16efacad8",
+        "clientUUID": "0016eb0e-a9e2-4a82-a4a1-b33b6483ef57",
+        "deliveryDate": "2018-08-02T04:59:59.99",
+        "verifiedDate": "2018-08-01T08:03:39.787",
+        "businessUnitUUID": "0b4a62aa-f857-4282-8dbb-ca26c0b1468c",
+        "storageName": "Testivarasto 1",
+        "userName": "Milla Mallikas",
+        "status": "VERIFIED",
+        "comment": "comment",
+        "deliveryNoteRows": [
+          {
+            "articleUUID": "4f71d138-f870-49d3-8712-f6e55de0d760",
+            "storageArticleID": "1234",
+            "articleName": "Ketsuppi",
+            "quantity": 2112,
+            "quantityInBaseUnits": 24000,
+            "baseUnit": "PLO",
+            "baseUnitInSIUnits": 88,
+            "purchasePriceWithTax": 114,
+            "purchaseTax": 14
+          },
+          {
+            "articleUUID": "044de386-a5ef-4a08-91e9-67a30f7c1062",
+            "storageArticleID": "2345",
+            "articleName": "Sipulikeitto",
+            "quantity": 15200,
+            "quantityInBaseUnits": 4000,
+            "baseUnit": "TLK",
+            "baseUnitInSIUnits": 3800,
+            "purchasePriceWithTax": 118,
+            "purchaseTax": 14
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
 <a name="receipt-types"></a>
 ## Receipt types
 
@@ -1842,3 +1952,4 @@ sample response:
 | 19.04.2023 | mats.antell@restolution.fi         | Added salesReadUntilDate parameter to getReceipts |
 | 20.04.2023 | mats.antell@restolution.fi         | Added cardCustomData1-3 to Receipt and getReceipts |
 | 03.08.2023 | mats.antell@restolution.fi         | Added getBookkeepingRows changes for new parameter 'showMonthlyStorageData' |
+| 08.08.2023 | mats.antell@restolution.fi	  | Added getDeliveryNotes and related objects |
