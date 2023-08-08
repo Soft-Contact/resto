@@ -35,6 +35,8 @@
     + [Delivery Note Row](#deliverynoterow)
     + [Transfer](#transfer)
     + [Transfer Row](#transferrow)
+    + [Wastage](#wastage)
+    + [Wastage Row](#wastagerow)
     + [Storage Value](#storagevalue)
   * [Available Methods](#available-methods)
     + [listRestaurants](#listrestaurants)
@@ -48,6 +50,7 @@
     + [listCampaigns](#listCampaigns)
     + [getDeliveryNotes](#getdeliverynotes)
     + [getTransfers](#gettransfers)
+    + [getWastages](#getwastages)
     + [getArticles](#getarticles)
     + [getStorageValues](#getstoragevalues)
     
@@ -523,6 +526,37 @@ The transfer rows contain on article level the quantities and purchase prices of
 * ``baseUnitInSIUnits`` - base unit in SI units, e.g. how many grams in a kilogram. Note that this defaults to 1 for all units that can have different sizes, in 1/1000 parts.
 * ``purchasePriceWithTax`` - The purchase price of a base unit of this transfer row's article including tax
 * ``purchaseTax`` - The purchase tax percentage applied to the purchase of this transfer row's article. Given as a whole number, e.g 24% is given as 24.
+
+<a name="wastage"></a>
+### Wastage
+
+The wastages returned by the [getWastages](#getwastages) method are objects of "Wastage" which contains the rows of the wastage as an array of [Wastage Rows](#wastagerow).
+
+* ``clientUUID`` - globally unique identifier of the Restolution client that this wastage belongs to (a type 4 UUID as specified by RFC 4122)
+* ``wastageDate`` - timestamp when this wastage took place and affected the storage values
+* ``verifiedDate`` - timestamp when this wastage was verified
+* ``businessUnitUUID`` - globally unique identifier of the Restolution business unit that this wastage added to (a type 4 UUID as specified by RFC 4122)
+* ``toStorageName`` - name of the storage that this wastage added to
+* ``userName`` - name of user who created this wastage
+* ``status`` - the status of this wastage, can be one of IN_PROGRESS, DONE, VERIFIED. 
+* `wastageRows`` - array of wastage rows
+
+<a name="wastagerow"></a>
+### Wastage Row
+
+The wastage rows contain on article level the quantities and purchase prices of a [Wastage](#wastage).
+
+* ``articleUUID`` -  globally unique identifier for this wastage row's article (a type 4 UUID as specified by RFC 4122)
+* ``articleName`` - article name of this wastage row's article
+* ``saleArticleID`` - sale article ID of this wastage row's article. Note: this is only shown when ``useStorageDistribution`` is set to ``false``
+* ``wastageQuantity`` - the sale article quantity of the sale article originally entered for this wastage row  in 1/1000 parts. Note: this is only shown when ``useStorageDistribution`` is set to ``false``
+* ``storageArticleID`` - storage article ID of this wastage row's article. Note: this is only shown when ``useStorageDistribution`` is set to ``true``
+* ``storageQuantity`` - the SI unit quantity of the article of this wastage row  in 1/1000 parts. Note: this is only shown when ``useStorageDistribution`` is set to ``true``
+* ``storageQuantityInBaseUnits`` - the baseunit quantity of the article of this wastage row  in 1/1000 parts. Note: this is only shown when ``useStorageDistribution`` is set to ``true``
+* ``baseUnit`` - the base unit of this wastage row's article, e.g. a bottle, BTL. Note: this is only shown when ``useStorageDistribution`` is set to ``true``
+* ``baseUnitInSIUnits`` - base unit in SI units, e.g. how many grams in a kilogram. Note that this defaults to 1 for all units that can have different sizes, in 1/1000 parts. Note: this is only shown when ``useStorageDistribution`` is set to ``true``
+* ``purchasePriceWithTax`` - The purchase price of a base unit of this wastage row's article including tax at the time of the wastage
+* ``purchaseTax`` - The purchase tax percentage applied to the purchase of this wastage row's article. Given as a whole number, e.g 24% is given as 24.
 
 <a name="storagevalue"></a>
 ### Storage Value
@@ -1967,6 +2001,176 @@ sample response:
 }
 ```
 
+<a name="getwastages"></a>
+### getWastages
+Gets all storage wastages from Restolution. The wastages are returned as an array of [Wastages](#wastage). The enpoint mimics the parameters and data in Article Wastage Report in Restolution.
+
+parameters:
+
+* ``dateFrom`` - get wastages that have wastage date equal to or later than this date. This parameter is required.
+* ``dateUntil`` - get wastages that have wastage date equal to or earlier than this date.
+* ``businessUnitUUIDs`` - optional list of business unit UUID's whose wastages should be included. If this parameter is not given, the wastages of all business units will be included.
+* ``useStorageDistribution`` - when set to ``true``, show wastage rows with storage value changes, else show wastage row with sale articles and original amounts entered for the wastage
+
+response:
+
+* ``wastages`` - array of Wastage objects
+
+sample requests:
+
+```json
+{
+  "timestamp": "2015-09-16T08:58:40.988Z",
+  "apiKey": "user_321681",
+  "requestID": "req_325168426",
+  "method": "getWastages",
+  "params": {
+    "dateFrom": "2021-03-01T05:00:00.000",
+    "dateUntil": "2021-03-02T04:59:59.990",
+    "useStorageDistribution": true
+  }
+}
+```
+
+```json
+{
+  "timestamp": "2015-09-16T08:58:40.988Z",
+  "apiKey": "test_user",
+  "requestID": "test_request_id",
+  "method": "getWastages",
+  "params": {
+    "dateFrom": "2022-03-01T05:00:00.000",
+    "dateUntil": "2022-03-02T04:59:59.990",
+    "useStorageDistribution": false
+  }
+}
+```
+
+sample responses:
+```json
+{
+  "success": true,
+  "timestamp": "2022-04-06T07:47:08.864Z",
+  "requestID": "test_request_id",
+  "response": {
+    "wastages": [
+      {
+        "clientUUID": "fba3d9ac-1bb6-49ea-a1cd-d147d6a7e238",
+        "registrationDate": "2022-04-06T10:38:10.709",
+        "wastageDate": "2022-03-02T04:59:59.99",
+        "verifiedDate": "2022-04-06T10:39:17.432",
+        "businessUnitUUID": "4a67c7a2-bbf6-4130-be16-f4f7b2571d93",
+        "storageName": "Testivarasto",
+        "unitName": "Testiosasto",
+        "userName": "Milla Mallikas",
+        "verifier": "Milla Mallikas",
+        "status": "VERIFIED",
+        "wastageRows": [
+          {
+            "articleUUID": "b66864ae-bef0-4932-a1ff-ec0b9409330e",
+            "storageArticleID": "452",
+            "articleName": "Karpalomehu",
+            "wastageTypeName": "kaatunut",
+            "wastageTypeCode": "KAATUNUT",
+            "storageQuantity": 120,
+            "storageQuantityInBaseUnits": 160,
+            "baseUnit": "PLO",
+            "baseUnitInSIUnits": 750,
+            "purchasePriceWithTax": 796,
+            "purchaseTax": 14
+          },
+          {
+            "articleUUID": "fd846756-e347-471e-8749-a86e311e327e",
+            "storageArticleID": "1230",
+            "articleName": "Gin",
+            "wastageTypeName": "kaatunut",
+            "wastageTypeCode": "KAATUNUT",
+            "storageQuantity": 40,
+            "storageQuantityInBaseUnits": 57,
+            "baseUnit": "PLO",
+            "baseUnitInSIUnits": 700,
+            "purchasePriceWithTax": 3900,
+            "purchaseTax": 24
+          },
+          {
+            "articleUUID": "301d239e-ecf1-4f3e-bdd1-6c9adaf63afc",
+            "storageArticleID": "1231",
+            "articleName": "Halpa viina",
+            "wastageTypeName": "kaatunut",
+            "wastageTypeCode": "KAATUNUT",
+            "storageQuantity": 40,
+            "storageQuantityInBaseUnits": 57,
+            "baseUnit": "PLO",
+            "baseUnitInSIUnits": 700,
+            "purchasePriceWithTax": 1900,
+            "purchaseTax": 24
+          },
+          {
+            "articleUUID": "334fca7c-e419-4b7d-846b-8d5422091cec",
+            "storageArticleID": "104",
+            "articleName": "Sherry",
+            "wastageTypeName": "viallinen",
+            "wastageTypeCode": "VIALLINEN",
+            "storageQuantity": 40,
+            "storageQuantityInBaseUnits": 53,
+            "baseUnit": "PLO",
+            "baseUnitInSIUnits": 750,
+            "purchasePriceWithTax": 4800,
+            "purchaseTax": 24
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+```json
+{
+  "success": true,
+  "timestamp": "2022-04-06T08:22:39.405Z",
+  "requestID": "req_325168426",
+  "response": {
+    "wastages": [
+      {
+        "clientUUID": "fba3d9ac-1bb6-49ea-a1cd-d147d6a7e238",
+        "registrationDate": "2022-04-06T10:38:10.709",
+        "wastageDate": "2022-03-02T04:59:59.99",
+        "verifiedDate": "2022-04-06T10:39:17.432",
+        "businessUnitUUID": "4a67c7a2-bbf6-4130-be16-f4f7b2571d92",
+        "storageName": "Testivarasto",
+        "unitName": "Testiosasto",
+        "userName": "Milla Mallikas",
+        "verifier": "Milla Mallikas",
+        "status": "VERIFIED",
+        "wastageRows": [
+          {
+            "articleUUID": "18f7cc30-b7ce-4433-932a-0ffb67915264",
+            "saleArticleID": "12411",
+            "articleName": "Linkkidrinkki",
+            "wastageTypeName": "kaatunut",
+            "wastageTypeCode": "KAATUNUT",
+            "wastageQuantity": 1000,
+            "purchasePriceWithTax": 459,
+            "purchaseTax": 24
+          },
+          {
+            "articleUUID": "71286413-03cd-45a1-a216-c7061a2fd569",
+            "saleArticleID": "12341",
+            "articleName": "Sherry 4cl",
+            "wastageTypeName": "viallinen",
+            "wastageTypeCode": "VIALLINEN",
+            "wastageQuantity": 1000,
+            "purchasePriceWithTax": 67,
+            "purchaseTax": 24
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
 <a name="getarticles"></a>
 ### getArticles
 Gets all articles from restolution. The articles are returned as an array of [Extended Articles](#extended_article).
@@ -2659,3 +2863,4 @@ sample response:
 | 08.08.2023 | mats.antell@restolution.fi	  | Added getArticles and related objects |
 | 08.08.2023 | mats.antell@restolution.fi	  | Added getStorageValues and related objects |
 | 08.08.2023 | mats.antell@restolution.fi	  | Added getTransfers and related objects and some general naming consistency improvements |
+| 08.08.2023 | mats.antell@restolution.fi	  | Added getWastages and related objects |
