@@ -58,6 +58,7 @@
     + [getArticles](#getarticles)
     + [getStorageValues](#getstoragevalues)
     + [listEmployees](#listemployees)
+    + [importEnployees](#importemployees)
     
   * [Receipt types](#receipt-types)
   * [Discount methods](#discount-methods)
@@ -2803,6 +2804,70 @@ sample response:
 }
 ```
 
+<a name="importemployees"></a>
+## importEmployees
+For importing new and existing employees. The employees are imported as an array of [Employee](#employee) objects. Only included values are updated to existing employees.
+If several Restolution clients share the same API Key, the same employees will be imported identically to all clients.
+
+parameters:
+
+* ``employees`` - array of Employee objects
+* ``clientNames`` - array of Client names of clients where the employees should be imported. Note: If this parameter is used, an imported employee can still have the clientName field to limit import of that particular employee to only one client, but the value has to be one of the clientNames values, otherwise an error will be returned.
+
+response:
+
+A "savedEmployees" object that contains the following fields:
+
+* ``employees`` - nr of employees in request
+* ``added`` - nr of new employees added
+* ``updated`` - nr of existing employees updated
+* ``clients`` - nr of clients affected
+
+sample request:
+
+```json
+{
+  "timestamp": "2022-11-09T08:58:40.988Z",
+  "apiKey": "test_user",
+  "requestID": "test_request_id",
+  "method": "importEmployees",
+  "params": {
+    "employees": [
+      {
+        "employeeNumber": "123",
+        "firstName": "Milla",
+        "lastName": "Mallikas",
+        "type": "MANAGER"
+      },
+      {
+        "employeeNumber": "234",
+        "firstName": "Matti",
+        "lastName": "Meikäläinen",
+        "type": "EMPLOYEE"
+      }
+    ]
+  }
+}
+```
+
+sample response:
+
+```json
+{
+  "success": true,
+  "timestamp": "2022-11-09T08:58:40.988Z",
+  "requestID": "test_request_id",
+  "response": {
+    "savedEmployees": {
+      "employees": 2,
+      "added": 1,
+      "updated": 1,
+      "clients": 1
+    }
+  }
+}
+```
+
 <a name="receipt-types"></a>
 ## Receipt types
 
@@ -3058,4 +3123,5 @@ sample response:
 | 08.08.2023 | mats.antell@restolution.fi	  | Added getWastages and related objects |
 | 08.08.2023 | mats.antell@restolution.fi	  | Added getInventories and related objects |
 | 08.08.2023 | mats.antell@restolution.fi	  | Added listEmployees and related objects |
+| 08.08.2023 | mats.antell@restolution.fi	  | Added importEmployees |
 
