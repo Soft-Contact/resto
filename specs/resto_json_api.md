@@ -33,6 +33,7 @@
     + [Campaign Article Row](#campaign-article-row)
     + [Delivery Note](#deliverynote)
     + [Delivery Note Row](#deliverynoterow)
+    + [Storage Value](#storagevalue)
   * [Available Methods](#available-methods)
     + [listRestaurants](#listrestaurants)
     + [getReceipts](#getreceipts)
@@ -45,6 +46,7 @@
     + [listCampaigns](#listCampaigns)
     + [getDeliveryNotes](#getdeliverynotes)
     + [getArticles](#getarticles)
+    + [getStorageValues](#getstoragevalues)
     
   * [Receipt types](#receipt-types)
   * [Discount methods](#discount-methods)
@@ -484,7 +486,32 @@ The delivery note rows contain on article level the quantities and purchase pric
 * ``baseUnit`` - the base unit of this delivery note row's article, e.g. a bottle, BTL.
 * ``baseUnitInSIUnits`` - base unit in SI units, e.g. how many grams in a kilogram. Note that this defaults to 1 for all units that can have different sizes, in 1/1000 parts.
 * ``purchasePriceWithTax`` - The purchase price of a base unit of this delivery note row's article including tax
-* ``purchaseTax`` - The purchase tax percentage applied to the purchase of this delivery note row's article. Given as a whole number, e.g 24% is given as 24.  
+* ``purchaseTax`` - The purchase tax percentage applied to the purchase of this delivery note row's article. Given as a whole number, e.g 24% is given as 24.
+
+<a name="storagevalue"></a>
+### Storage Value
+
+The storage values returned by the [getStorageValues](#getstoragevalues) method are objects of "StorageValue" and contain data fields for calculating the storage value for a given date. A separate storage value is maintained for every storage article in Restolution.
+
+* ``clientUUID`` - globally unique identifier of the Restolution client that this storage value belongs to (a type 4 UUID as specified by RFC 4122)
+* ``businessUnitUUID`` - globally unique identifier of the Restolution business unit that this storage value belongs to (a type 4 UUID as specified by RFC 4122)
+* ``restaurantID`` - restaurant ID, business unit code in Restolution
+* ``restaurantName`` - restaurant name, business unit name in Restolution
+* ``storageName`` - name of the storage that this storage value is for. Note that one restaurant (business unit) can have several storages.
+*  ``mainGroupID``
+* ``mainGroupID`` - main group ID of this storage value's article
+* ``mainGroupName`` - main group name of this storage value's article
+* ``articleGroupID`` - article group ID of this storage value's article
+* ``articleGroupName`` - article group name of this storage value's article
+* ``articleUUID`` -  globally unique identifier for the this storage value's article (a type 4 UUID as specified by RFC 4122)
+* ``articleName`` - article name of this storage value's article
+* ``storageArticleID`` - storage article ID of this storage value's storage article
+* ``quantity`` - the SI unit quantity of the article of this storage value  in 1/1000 parts
+* ``quantityInBaseUnits`` - the baseunit quantity of the article of this storage value  in 1/1000 parts
+* ``baseUnit`` - the base unit of this storage value's article, e.g. a bottle, BTL.
+* ``baseUnitInSIUnits`` - base unit in SI units, e.g. how many litres in a bottle. Note that this defaults to 1 for all units that can have different sizes, in 1/1000 parts.
+* ``purchasePriceWithTax`` - The purchase price of a base unit of this storage value's article including tax
+* ``purchaseTax`` - Purchase tax percentage applied to the the purchase of this storage value's article. Given as a whole number, e.g 24% is given as 24.
 
 <a name="available-methods"></a>
 ## Available Methods
@@ -2166,6 +2193,111 @@ sample response:
 }
 ```
 
+<a name="getstoragevalues"></a>
+### getStorageValues
+Gets all storage values from restolution. The storage values are returned as an array of [StorageValues](#storagevalue). The enpoint mimics the parameters and data in Storage Value Report in Restolution.
+
+parameters:
+
+*  ``saleDate`` - get storage values for this sale date. This parameter is required. 
+*  ``showZeros`` - option to include also storage values for articles that do not have any recorded value in the database
+*  ``calculateStartOfMonth`` - option to include the storage quantity at the start of the month of the given sale date
+*  ``truncateStockValueCalc`` - option to use current purchase price of the article of each storage value instead of the purchase price calculated from storage transations (delivery notes)
+*  ``businessUnitUUIDs`` - optional list of business unit UUID's whose storage values should be included. If this parameter is not given, the storage values of all business units will be included.
+
+response:
+
+* ``storageValues`` - array of StorageValue objects
+
+sample request: 
+
+```json
+{
+  "apiKey":"user_321683", 
+  "timestamp": "2022-01-20T15:13:40.988Z",
+  "requestID": "test_request_id",
+  "method": "getStorageValues",
+  "params": {
+      "saleDate":"2022-01-01T03:00:00.000Z",
+      "truncateStockValueCalc": true     
+  }   
+}
+```
+
+sample response:
+```json
+{
+  "success": true,
+  "timestamp": "2022-01-20T15:13:40.988Z",
+  "requestID": "test_request_id",
+  "response": {
+    "storageValues": [
+      {
+        "clientUUID": "fba3d9ac-1bb6-49ea-a1cd-d147d6a7e233",
+        "businessUnitUUID": "4a67c7a2-bbf6-4130-be16-f4f7b2571d92",
+        "restaurantID": "10",
+        "restaurantName": "Testiravintola",
+        "storageName": "Testivarasto",
+        "mainGroupID": "1",
+        "mainGroupName": "Alko",
+        "articleGroupID": "1",
+        "articleGroupName": "Alko",
+        "articleUUID": "2f86a72a-19db-46d3-9992-d82e866608f1",
+        "articleName": "Viina",
+        "storageArticleID": "1001",
+        "quantity": 12500,
+        "quantityInBaseUnits": 17857,
+        "baseUnit": "PLO",
+        "baseUnitInSIUnits": 700,
+        "purchasePriceWithTax": 1438,
+        "purchaseTax": 24
+      },
+      {
+        "clientUUID": "fba3d9ac-1bb6-49ea-a1cd-d147d6a7e233",
+        "businessUnitUUID": "4a67c7a2-bbf6-4130-be16-f4f7b2571d92",
+        "restaurantID": "10",
+        "restaurantName": "Testiravintola",
+        "storageName": "Testivarasto",
+        "mainGroupID": "1",
+        "mainGroupName": "Alko",
+        "articleGroupID": "1",
+        "articleGroupName": "Alko",
+        "articleUUID": "c6b1490c-d9d1-433e-8ca0-e6bef496afff",
+        "articleName": "Gin",
+        "storageArticleID": "1006",
+        "quantity": 30,
+        "quantityInBaseUnits": 43,
+        "baseUnit": "PLO",
+        "baseUnitInSIUnits": 700,
+        "purchasePriceWithTax": 3231,
+        "purchaseTax": 24
+      },
+{
+        "clientUUID": "fba3d9ac-1bb6-49ea-a1cd-d147d6a7e233",
+        "businessUnitUUID": "4a67c7a2-bbf6-4130-be16-f4f7b2571d92",
+        "restaurantID": "10",
+        "restaurantName": "Testiravintola",
+        "storageName": "Testivarasto",
+        "mainGroupID": "1",
+        "mainGroupName": "Alko",
+        "articleGroupID": "1",
+        "articleGroupName": "Alko",
+        "articleUUID": "ce1f4099-b587-4fca-a591-f98b45839ef4",
+        "articleName": "Campari",
+        "storageArticleID": "1011",
+        "quantity": 300,
+        "quantityInBaseUnits": 429,
+        "baseUnit": "PLO",
+        "baseUnitInSIUnits": 700,
+        "purchasePriceWithTax": 2561,
+        "purchaseTax": 24
+      }
+    ]
+  }
+}
+
+```
+
 <a name="receipt-types"></a>
 ## Receipt types
 
@@ -2409,3 +2541,4 @@ sample response:
 | 03.08.2023 | mats.antell@restolution.fi         | Added getBookkeepingRows changes for new parameter 'showMonthlyStorageData' |
 | 08.08.2023 | mats.antell@restolution.fi	  | Added getDeliveryNotes and related objects |
 | 08.08.2023 | mats.antell@restolution.fi	  | Added getArticles and related objects |
+| 08.08.2023 | mats.antell@restolution.fi	  | Added getStorageValues and related objects |
