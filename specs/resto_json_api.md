@@ -136,6 +136,7 @@ A Restaurant is a BusinessUnit in Restolution.
 * ``restaurantID`` - restaurant ID, business unit code in Restolution
 * ``cashRegisterUUID`` - cash register UUID of cash register where restaurant orders are directed
 * ``businessUnitUUID`` - business unit UUID of this restaurant, globally unique identifier for this restaurant
+* ``clientUUID`` - the UUID of the [Client](#client) that this restaurant belongs to
 * ``name`` - restaurant name
 * ``contact`` - restaurant contact information as a Contact object
 * ``openHours`` - restaurant open hours as an array of Open hours objects
@@ -800,6 +801,7 @@ sample response:
       {
         "cashRegisterUUID": "12dad71f-3cb3-4127-a039-81ed6dad2d01",
         "businessUnitUUID": "4a67c7a2-bbf6-4130-be16-f4f7b2571d91",
+	"clientUUID": "6ecef962-97e2-47fe-83ac-a352dab8300c",
         "restaurantID": "1",
         "name": "S&C Testiravintola",
         "contact": {
