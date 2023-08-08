@@ -40,6 +40,7 @@
     + [Inventory](#inventory)
     + [Inventory Row](#inventoryrow)
     + [Storage Value](#storagevalue)
+    + [Employee](#employee)
   * [Available Methods](#available-methods)
     + [listRestaurants](#listrestaurants)
     + [getReceipts](#getreceipts)
@@ -56,6 +57,7 @@
     + [getInventories](#getinventories)
     + [getArticles](#getarticles)
     + [getStorageValues](#getstoragevalues)
+    + [listEmployees](#listemployees)
     
   * [Receipt types](#receipt-types)
   * [Discount methods](#discount-methods)
@@ -68,6 +70,7 @@
   * [Article main type](#article_maintype)
   * [Article sub type](#article_subtype)
   * [Article link price type](#article_link_pricetype)
+  * [Employee types](#employee-types)
 
 
 <a name="introduction"></a>
@@ -620,6 +623,16 @@ The storage values returned by the [getStorageValues](#getstoragevalues) method 
 * ``baseUnitInSIUnits`` - base unit in SI units, e.g. how many litres in a bottle. Note that this defaults to 1 for all units that can have different sizes, in 1/1000 parts.
 * ``purchasePriceWithTax`` - The purchase price of a base unit of this storage value's article including tax
 * ``purchaseTax`` - Purchase tax percentage applied to the the purchase of this storage value's article. Given as a whole number, e.g 24% is given as 24.
+
+<a name="employee"></a>
+### Employee
+An Employee in Restolution.
+See also [listEmployees](#listemployees).
+
+* ``employeeNumber`` - alphanumeric employee ID, must be unique per Restolution client
+* ``firstName`` - first name of the employee
+* ``lastName`` - last name of the employee
+* ``type`` - optional type of the employee, see [Employee types](#employee-types). If missing, it will default to EMPLOYEE when importing a new Employee.
 
 <a name="available-methods"></a>
 ## Available Methods
@@ -2737,7 +2750,57 @@ sample response:
     ]
   }
 }
+```
 
+<a name="listemployees"></a>
+## listEmployees
+For listing existing employees. The employees are listed as an array of [Employee](#employee) objects. 
+If several Restolution clients share the same API Key, the same employee will be listed only once.
+
+parameters:
+
+currently no parameters are supported for this method
+
+response:
+
+* ``employees`` - array of [Employee](#employee) objects.
+
+
+sample request:
+
+```json
+{
+  "timestamp": "2015-09-16T08:58:40.988Z",
+  "apiKey": "user_321681",
+  "requestID": "test_request_id",
+  "method": "listEmployees"
+}
+```
+
+sample response:
+
+```json
+{
+  "success": true,
+  "timestamp": "2022-11-10T10:38:30.858Z",
+  "requestID": "test_request_id",
+  "response": {
+    "employees": [
+      {
+        "employeeNumber": "123",
+        "firstName": "Matti",
+        "lastName": "Möttönen",
+        "type": "EMPLOYEE"
+      },
+      {
+        "employeeNumber": "234",
+        "firstName": "Milla",
+        "lastName": "Mallikas",
+        "type": "MANAGER"
+      }
+    ]
+  }
+}
 ```
 
 <a name="receipt-types"></a>
@@ -2957,6 +3020,13 @@ sample response:
 * ``DEFINED_LOCALLY`` - Price is defined locally for the sale article
 * ``SUMMED_FROM_LINKS`` - Price is the sum of the links
 * ``SUMMED_FROM_LINKS_AND_LOCAL`` - Price is the sum of the links plus a local price for the sale article
+
+<a name="employee-types"></a>
+### Employee types
+
+* ``EMPLOYEE`` - A normal employee
+* ``MANAGER`` - A manager employee
+* ``EXECUTIVE`` - An executive employee
      
 <a name="version-history"></a>
 ## Version history
@@ -2987,3 +3057,5 @@ sample response:
 | 08.08.2023 | mats.antell@restolution.fi	  | Added getTransfers and related objects and some general naming consistency improvements |
 | 08.08.2023 | mats.antell@restolution.fi	  | Added getWastages and related objects |
 | 08.08.2023 | mats.antell@restolution.fi	  | Added getInventories and related objects |
+| 08.08.2023 | mats.antell@restolution.fi	  | Added listEmployees and related objects |
+
