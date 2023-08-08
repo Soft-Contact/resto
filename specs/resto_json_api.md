@@ -10,14 +10,17 @@
   * [Common objects](#common-objects)
     + [Restaurant](#restaurant)
     + [Contact](#contact)
-    + [Open hours](#open-hours)
-    + [Open hour](#open-hour)
+    + [Open Hours](#open-hours)
+    + [Open Hour](#open-hour)
     + [Menu](#menu)
     + [Article](#article)
     + [Price](#price)
     + [Article Option](#article-option)
     + [Receipt](#receipt)
     + [Article Options / Chosen Options](#article-options---chosen-options)
+    + [Extended Article](#extendedarticle)
+    + [Content Article](#contentarticle)
+    + [Price List](#pricelist)
     + [Receipt Row](#receipt-row)
     + [Discount](#discount)
     + [Payment Row](#payment-row)
@@ -41,6 +44,7 @@
     + [importCards](#importcards)
     + [listCampaigns](#listCampaigns)
     + [getDeliveryNotes](#getdeliverynotes)
+    + [getArticles](#getarticles)
     
   * [Receipt types](#receipt-types)
   * [Discount methods](#discount-methods)
@@ -50,6 +54,9 @@
   * [Customer invoice contents](#customer-invoice-contents)
   * [Card types](#card-types)
   * [Version history](#version-history)
+  * [Article main type](#article_maintype)
+  * [Article sub type](#article_subtype)
+  * [Article link price type](#article_link_pricetype)
 
 
 <a name="introduction"></a>
@@ -211,6 +218,83 @@ or read using "getReceipts" method.
 
 * ``optionListID`` - option list ID
 * ``articleIDs`` - array containing list of article IDs (condiments, messages)
+
+<a name="extendedarticle"></a>
+### Extended Article
+
+The articles returned by the ``getArticles``  method are objects of  ``ExtendedArticle`` and contain more fields than the ``Article`` object returned in the ``getRestaurants`` method. 
+
+* ``articleUUID`` -  globally unique identifier for this article (a type 4 UUID as specified by RFC 4122)
+* ``articleName`` - article name
+* ``clientUUID`` - globally unique identifierof the Restolution client that this article belongs to (a type 4 UUID as specified by RFC 4122)
+* ``operationGroupID`` - operation group ID of the operation group this article belongs to
+* ``operationGroupName`` - operation group name of the operation group this article belongs to
+* ``modifiedDate`` - when this article was last modified
+* ``mainType`` - [main type](#article_maintype) of this article
+* ``subType`` - [sub type](#article_subtype) of this article
+* ``status`` - the status of this article, can be one of "ACTIVE", "DELETED", "DESIGN"
+* ``mainGroupID`` - main group ID of this article
+* ``mainGroupName`` - main group name of this article
+* ``articleGroupID`` - article group ID of this article
+* ``articleGroupName`` - article group name of this article
+* ``saleArticleID`` - sale article ID of this article if it is a sale article
+* ``storageArticleID`` - storage article ID of this article if it is a storage article
+* ``recipeArticleID`` - recipe article ID of this article if it is a recipe article
+* ``usageUnit`` - usage unit that this storage article is used in when contained in other articles. E.g. a centilitre, CL.
+* ``usageUnitInSIUnits`` - usage unit in SI units, e.g. how many centilitres in a litre, in 1/1000 parts.
+* ``usageUnitsInBaseUnit`` - usage units in base unit, how many usage units fit into one base unit, e.g. 70 centilitres in one bottle, in 1/1000 parts.
+* ``baseUnit`` - base unit that is used as a base for storage amounts, e.g. a bottle, BTL.
+* ``baseUnitInSIUnits`` - base unit in SI units, e.g. how many litres in a bottle. Note that this defaults to 1 for all units that can have different sizes, in 1/1000 parts.
+* ``baseUnitsInDeliveryUnit`` - base units in delivery unit, e.g. 20 bottles in a box.
+* ``deliveryUnit`` - delivery unit that the article arrives to the storage in, e.g. a box.
+* ``deliveryUnitInSIUnits`` - delivery unit in SI units. Note that this defaults to 1 for all units that can have different sizes, in 1/1000 parts.
+* ``recipeQuantity`` - the unit quantity of the recipe article that is to be used in other articles
+* ``recipeUnit`` - the unit of the receipe article, e.g. millilitres, ML.
+* ``saleTax`` - Sale tax percentage applied to the sale of this article. Given as a whole number, e.g 24% is given as 24.
+* ``purchaseTax`` - Purchase tax percentage applied to the the purchase of this article. Given as a whole number, e.g 24% is given as 24.
+* ``purchasePriceWithTax`` - The purchase price of a base unit of this article including tax.
+* ``portionSize`` - Size of a portion by which this article is sold.
+* ``saleArticleContents`` - Contents of a sale article as a list of [Content articles](#contentarticle).
+* ``articleContents`` - Contents of a storage or recipe article as a list of [Content articles](#contentarticle).
+* ``prices`` - A list of [price lists](#pricelist) that are active for this article.
+* ``articleLinks`` - A list of [Content articles](#contentarticle) that are sold when this article is sold.
+* ``articleLinkPriceType`` - How the price of this link article should be calculated. Given as a [Article Link Price Type](#article_link_pricetype) 
+* ``eans`` - EAN codes of the article given as an array of strings.
+* ``kitchenPrintingGroupID`` - Kitchen printing group ID of the article
+* ``kitchenPrintingGroupName`` - Kitchen printing group name of the article
+
+<a name="contentarticle"></a>
+### ContentArticle
+
+Content articles can be the contents of a sale, storage or recipe article. They are also used as links of a link article. All content articles are also listed separately in the main ``articles`` list of the ``getArticles`` response.
+
+* ``articleUUID`` -  globally unique identifier for this article (a type 4 UUID as specified by RFC 4122)
+* ``articleName`` - article name
+* ``saleArticleID`` - sale article ID of this article if it is a sale article
+* ``storageArticleID`` - storage article ID of this article if it is a storage article
+* ``recipeArticleID`` - recipe article ID of this article if it is a recipe article
+* ``quantity`` - the usage unit quantity of the this article that is used in the contents
+* ``usageUnit`` - usage unit that this storage article is used in when contained in other articles. E.g. a centilitre, CL.
+* ``usageUnitInSIUnits`` - usage unit in SI units, e.g. how many centilitres in a litre, in 1/1000 parts.
+* ``usageUnitsInBaseUnit`` - usage units in base unit, how many usage units fit into one base unit, e.g. 70 centilitres in one bottle, in 1/1000 parts.
+* ``baseUnit`` - base unit that is used as a base for storage amounts, e.g. a bottle, BTL.
+* ``baseUnitInSIUnits`` - base unit in SI units, e.g. how many litres in a bottle. Note that this defaults to 1 for all units that can have different sizes, in 1/1000 parts.
+* ``baseUnitsInDeliveryUnit`` - base units in delivery unit, e.g. 20 bottles in a box.
+* ``deliveryUnit`` - delivery unit that the article arrives to the storage in, e.g. a box.
+* ``deliveryUnitInSIUnits`` - delivery unit in SI units. Note that this defaults to 1 for all units that can have different sizes, in 1/1000 parts.
+* ``purchasePriceWithTax`` - The purchase price of a base unit of this article including tax
+* ``purchaseTax`` - Purchase tax percentage applied to the the purchase of this article. Given as a whole number, e.g 24% is given as 24.
+* ``modifiedDate`` - when this article was last modified
+
+<a name="pricelist"></a>
+### PriceList
+A PriceList is a named list of prices with a validity period that belongs to some other object, e.g. an [Extended Article](#extendedarticle).
+
+* ``priceListID`` - ID of this price list
+* ``priceListName`` - price list name
+* ``validFrom`` - when this price list becomes valid. If missing, this pricelist was always valid.
+* ``validUntil`` - when this price list is no longer valid. If missing, this pricelist is valid forever.
+* ``prices`` - a list of [Prices](#price) contained in this price list
 
 <a name="receipt-row"></a>
 ### Receipt Row
@@ -1740,6 +1824,348 @@ sample response:
 }
 ```
 
+<a name="getarticles"></a>
+### getArticles
+Gets all articles from restolution. The articles are returned as an array of [Extended Articles](#extended_article).
+
+<b>Note 1: All prices are given as cents and all amounts, including unit conversion amounts, are given as 1/1000 parts. No calculated results, only raw data is returned. This is to prevent rounding errors.</b>
+
+<b>Note 2: Since the results contain also storage articles and recipe articles, the results are not limited by articles added to the link of the JSON API key. This simply means that all articles of the clients affected by the used JSON API key are returned.</b>
+
+<b>Note 3: Only non-empty values are included in the response. E.g. for a simple sale article (`"mainType": "SALE_ARTICLE", "subType": "SIMPLE"`) that has no storage data, the storage fields e.g. `storageArticleID` will be missing in the response.
+
+The returned articles can be limited by their modification timestamp by using the parameters `modifiedAfter` and `modifiedBefore`. Since the article's data is stored across several tables, the article is regarded as modified if any of the related tables have been modified during the given date limit: i.e. if the article's content or group or operation group was modified, the article will be returned in the response. The `modifiedAfter `and `modifiedBefore` can be used alone or together. If neither parameter is given, all articles are returned.</b>
+
+parameters:
+
+*  ``modifiedAfter`` - include only articles with modification timestamp later than the given date (optional)
+*  ``modifiedBefore`` - include only articles with modification timestamp earlier than the given date (optional)
+*  ``includeAllArticles`` - true / false to include articles with any status, if false, only ACTIVE articles will be returned (optional)
+
+response:
+
+* ``articles`` - array of articles containing article sale and storage data, contents, links and prices
+
+sample request: 
+
+```json
+{
+  "apiKey":"user_321681", 
+  "timestamp": "2022-01-20T15:13:40.988Z",
+  "requestID": "test_request_id",
+  "method": "getArticles",
+  "params": {
+      "modifiedAfter":"2022-01-21T03:00:00.000Z",
+      "modifiedBefore":"2022-01-21T07:00:00.000Z"       
+  }   
+}
+```
+
+sample response:
+```json
+{
+  "success": true,
+  "timestamp": "2022-01-24T08:18:52.476Z",
+  "requestID": "test_request_id",
+  "response": {
+    "articles": [
+      {
+        "articleName": "Tuoppi",
+        "articleUUID": "012917ab-077d-454f-aeef-4e9df6f2252f",
+        "clientUUID": "b7411483-1228-4a48-a98f-abccab09e84d",
+        "operationGroupID": "1",
+        "operationGroupName": "Hallintaryhmä 1",
+        "modifiedDate": "2022-01-24T10:10:41.31",
+        "mainType": "SALE_ARTICLE",
+        "subType": "SIMPLE",
+        "status": "ACTIVE",
+        "mainGroupID": "3",
+        "mainGroupName": "OLUT",
+        "articleGroupID": "11",
+        "articleGroupName": "Olut III",
+        "saleArticleID": "8810",
+        "saleTax": 24,
+        "purchaseTax": 24,
+        "purchasePriceWithTax": 6000,
+        "portionSize": 400,
+        "kitchenPrintingGroupID": "1",
+        "kitchenPrintingGroupName": "Omituiset pääruoat",
+        "saleArticleContents": [
+          {
+            "articleName": "Tankkiolut",
+            "articleUUID": "12404580-08b4-4796-b7b6-c558e3780b94",
+            "recipeArticleID": "RECIPE_881",
+            "quantity": 500,
+            "purchasePriceWithTax": 0,
+            "purchaseTax": 24,
+            "modifiedDate": "2022-01-24T10:10:41.343"
+          }
+        ],
+        "prices": [
+          {
+            "priceListID": "19",
+            "priceListName": "Uusi hinnasto",
+            "validFrom": "2018-06-15T05:00:00",
+            "prices": [
+              {
+                "priceID": "1",
+                "priceName": "Normaali",
+                "priceWithTax": 720,
+                "tax": 24
+              },
+              {
+                "priceID": "2",
+                "priceName": "Take away",
+                "priceWithTax": 720,
+                "tax": 24
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "articleName": "Keskiolut 20 L",
+        "articleUUID": "09f7f6ff-7ce6-4efe-b57c-80b9f2e27c59",
+        "clientUUID": "b7411483-1228-4a48-a98f-abccab09e84d",
+        "operationGroupID": "1",
+        "operationGroupName": "Hallintaryhmä 1",
+        "modifiedDate": "2022-01-24T10:13:13.218",
+        "mainType": "STORAGE_ARTICLE",
+        "subType": "SIMPLE",
+        "status": "ACTIVE",
+        "mainGroupID": "3",
+        "mainGroupName": "OLUT",
+        "articleGroupID": "11",
+        "articleGroupName": "Olut III",
+        "storageArticleID": "10088",
+        "usageUnit": "L",
+        "usageUnitInSIUnits": 1000,
+        "usageUnitsInBaseUnit": 20000,
+        "baseUnit": "tnk",
+        "baseUnitInSIUnits": 20000,
+        "baseUnitsInDeliveryUnit": 1000,
+        "deliveryUnit": "tnk",
+        "deliveryUnitInSIUnits": 1000,
+        "saleTax": 24,
+        "purchaseTax": 24,
+        "purchasePriceWithTax": 14000
+      },
+      {
+        "articleName": "Tankkiolut",
+        "articleUUID": "12404580-08b4-4796-b7b6-c558e3780b94",
+        "clientUUID": "b7411483-1228-4a48-a98f-abccab09e84d",
+        "operationGroupID": "1",
+        "operationGroupName": "Hallintaryhmä 1",
+        "modifiedDate": "2022-01-24T10:11:44.598",
+        "mainType": "RECIPE_ARTICLE",
+        "subType": "COMBINED",
+        "status": "ACTIVE",
+        "mainGroupID": "3",
+        "mainGroupName": "OLUT",
+        "articleGroupID": "11",
+        "articleGroupName": "Olut III",
+        "recipeArticleID": "RECIPE_881",
+        "recipeQuantity": 20000,
+        "recipeUnit": "L",
+        "saleTax": 24,
+        "purchaseTax": 24,
+        "purchasePriceWithTax": 0,
+        "articleContents": [
+          {
+            "articleName": "Keskiolut 20 L",
+            "articleUUID": "09f7f6ff-7ce6-4efe-b57c-80b9f2e27c59",
+            "storageArticleID": "10088",
+            "quantity": 20000,
+            "usageUnit": "L",
+            "usageUnitInSIUnits": 1000,
+            "usageUnitsInBaseUnit": 20000,
+            "baseUnit": "tnk",
+            "baseUnitInSIUnits": 20000,
+            "baseUnitsInDeliveryUnits": 1000,
+            "deliveryUnit": "tnk",
+            "deliveryUnitInSIUnits": 1000,
+            "purchasePriceWithTax": 14000,
+            "purchaseTax": 24,
+            "modifiedDate": "2022-01-24T10:11:44.611"
+          }
+        ]
+      },
+      {
+        "articleName": "Viina 4cl",
+        "articleUUID": "18da9daa-90f9-4541-829d-9b4ebefed030",
+        "clientUUID": "6f85ae63-56dc-48fd-be0e-881d74d14617",
+        "operationGroupID": "21",
+        "operationGroupName": "Hallintaryhmä 21",
+        "modifiedDate": "2022-01-24T10:15:11.198",
+        "mainType": "SALE_STORAGE_ARTICLE",
+        "subType": "SIMPLE",
+        "status": "ACTIVE",
+        "mainGroupID": "1",
+        "mainGroupName": "Alko",
+        "articleGroupID": "1",
+        "articleGroupName": "Alko",
+        "saleArticleID": "7710",
+        "storageArticleID": "77101",
+        "usageUnit": "CL",
+        "usageUnitInSIUnits": 10,
+        "usageUnitsInBaseUnit": 50000,
+        "baseUnit": "PLO",
+        "baseUnitInSIUnits": 500,
+        "baseUnitsInDeliveryUnit": 1000,
+        "deliveryUnit": "PLO",
+        "deliveryUnitInSIUnits": 1000,
+        "saleTax": 24,
+        "purchaseTax": 24,
+        "purchasePriceWithTax": 5080,
+        "portionSize": 40,
+        "prices": [
+          {
+            "priceListID": "1",
+            "priceListName": "Vanha hinnasto",
+            "validFrom": "2016-10-17T05:00:00",
+            "prices": [
+              {
+                "priceID": "1",
+                "priceName": "Normi",
+                "priceWithTax": 1100,
+                "tax": 24
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "articleName": "Drinkkimauste",
+        "articleUUID": "7e5a186f-df5b-435b-8b48-3d9543774268",
+        "clientUUID": "6f85ae63-56dc-48fd-be0e-881d74d14617",
+        "operationGroupID": "21",
+        "operationGroupName": "Hallintaryhmä 21",
+        "modifiedDate": "2022-01-24T10:15:48.414",
+        "mainType": "SALE_ARTICLE",
+        "subType": "SIMPLE",
+        "status": "ACTIVE",
+        "mainGroupID": "3",
+        "mainGroupName": "Ruoka",
+        "articleGroupID": "3",
+        "articleGroupName": "Ruoka",
+        "saleArticleID": "7401",
+        "saleTax": 14,
+        "purchaseTax": 14,
+        "purchasePriceWithTax": 0,
+        "prices": [
+          {
+            "priceListID": "1",
+            "priceListName": "Vanha hinnasto",
+            "validFrom": "2016-10-17T05:00:00",
+            "prices": [
+              {
+                "priceID": "1",
+                "priceName": "Normi",
+                "priceWithTax": 100,
+                "tax": 14
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "articleName": "Halpa viina 4 cl",
+        "articleUUID": "301d239e-ecf1-4f3e-bdd1-6c9adaf63afb",
+        "clientUUID": "6f85ae63-56dc-48fd-be0e-881d74d14617",
+        "operationGroupID": "21",
+        "operationGroupName": "Hallintaryhmä 21",
+        "modifiedDate": "2022-01-24T10:17:54.075",
+        "mainType": "SALE_STORAGE_ARTICLE",
+        "subType": "SIMPLE",
+        "status": "ACTIVE", 
+        "mainGroupID": "1",
+        "mainGroupName": "Alko",
+        "articleGroupID": "1",
+        "articleGroupName": "Alko",
+        "saleArticleID": "7770",
+        "storageArticleID": "77701",
+        "usageUnit": "CL",
+        "usageUnitInSIUnits": 10,
+        "usageUnitsInBaseUnit": 70000,
+        "baseUnit": "PLO",
+        "baseUnitInSIUnits": 700,
+        "baseUnitsInDeliveryUnit": 1000,
+        "deliveryUnit": "PLO",
+        "deliveryUnitInSIUnits": 1000,
+        "saleTax": 24,
+        "purchaseTax": 24,
+        "purchasePriceWithTax": 1900,
+        "portionSize": 40,
+        "prices": [
+          {
+            "priceListID": "1",
+            "priceListName": "Vanha hinnasto",
+            "validFrom": "2016-10-17T05:00:00",
+            "prices": [
+              {
+                "priceID": "1",
+                "priceName": "Normi",
+                "priceWithTax": 850,
+                "tax": 24
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "articleName": "Linkkidrinkki",
+        "articleUUID": "18f7cc30-b7ce-4433-932a-0ffb67915263",
+        "clientUUID": "6f85ae63-56dc-48fd-be0e-881d74d14617",
+        "operationGroupID": "21",
+        "operationGroupName": "Hallintaryhmä 21",
+        "modifiedDate": "2022-01-24T10:16:25.529",
+        "mainType": "SALE_ARTICLE",
+        "subType": "LINK",
+        "status": "ACTIVE",
+        "mainGroupID": "1",
+        "mainGroupName": "Alko",
+        "articleGroupID": "13",
+        "articleGroupName": "Cocktailit",
+        "saleArticleID": "7311",
+        "saleTax": 24,
+        "purchaseTax": 24,
+        "purchasePriceWithTax": 0,
+        "articleLinks": [
+          {
+            "articleName": "Drinkkimauste",
+            "articleUUID": "7e5a186f-df5b-435b-8b48-3d9543774268",
+            "saleArticleID": "7401",
+            "quantity": 4500,
+            "purchasePriceWithTax": 0,
+            "purchaseTax": 14,
+            "modifiedDate": "2022-01-24T10:16:25.549"
+          },
+          {
+            "articleName": "Halpa viina 4 cl",
+            "articleUUID": "301d239e-ecf1-4f3e-bdd1-6c9adaf63afb",
+            "saleArticleID": "7770",
+            "storageArticleID": "77701",
+            "quantity": 1000,
+            "usageUnit": "CL",
+            "usageUnitInSIUnits": 10,
+            "usageUnitsInBaseUnit": 70000,
+            "baseUnit": "PLO",
+            "baseUnitInSIUnits": 700,
+            "baseUnitsInDeliveryUnits": 1000,
+            "deliveryUnit": "PLO",
+            "deliveryUnitInSIUnits": 1000,
+            "purchasePriceWithTax": 1900,
+            "purchaseTax": 24,
+            "modifiedDate": "2022-01-24T10:16:25.559"
+          }
+        ],
+        "articleLinkPriceType": "SUMMED_FROM_LINKS"
+      }
+    ]
+  }
+}
+```
+
 <a name="receipt-types"></a>
 ## Receipt types
 
@@ -1931,6 +2357,32 @@ sample response:
 * ADDITIONAL_SALE
     Additional sale article that can be added to receipt in a campaign.
     Used in campaign type ADDITIONAL_SALE.
+
+  <a name="article_maintype"></a>
+### Article Main Type
+
+* ``SALE_ARTICLE`` - A sale article that can be sold in a cash register.
+* ``STORAGE_ARTICLE`` - A storage article that can be purchased and stored by a restaurant. The storage article cannot be sold, but used as contents in sale articles.
+* ``SALE_STORAGE_ARTICLE`` - An article that has both sale and storage article properties.
+* ``RECIPE_ARTICLE`` - A recipe article with a present amount and contents. To be used as part of a sale article.
+* ``MESSAGE_ARTICLE`` - A message article can be used as part of an article message group for communication with the restaurant kitchen.
+
+<a name="article_subtype"></a>
+### Article Sub Type
+
+* ``SIMPLE`` - A sale or storage article without contents. If it's a storage article it represents a raw ingredient.
+* ``COMBINED`` - A sale article or storage article with content.
+* ``LINK`` - A link sale article is a sale article that triggers sales of other articles.
+* ``CONDIMENT`` - A condiment sale article is a modifier group that defines sale article choices made at the time of sale in the cash register.
+* ``ORDER_STORAGE`` - A storage article that can only be ordered to the restaurant and not used in storage jobs. 
+* ``COMBINED_CONDIMENT`` - A sale article with contents and condiment article properties.
+
+<a name="article_link_pricetype"></a>
+### Article Link Price Type
+
+* ``DEFINED_LOCALLY`` - Price is defined locally for the sale article
+* ``SUMMED_FROM_LINKS`` - Price is the sum of the links
+* ``SUMMED_FROM_LINKS_AND_LOCAL`` - Price is the sum of the links plus a local price for the sale article
      
 <a name="version-history"></a>
 ## Version history
@@ -1956,3 +2408,4 @@ sample response:
 | 20.04.2023 | mats.antell@restolution.fi         | Added cardCustomData1-3 to Receipt and getReceipts |
 | 03.08.2023 | mats.antell@restolution.fi         | Added getBookkeepingRows changes for new parameter 'showMonthlyStorageData' |
 | 08.08.2023 | mats.antell@restolution.fi	  | Added getDeliveryNotes and related objects |
+| 08.08.2023 | mats.antell@restolution.fi	  | Added getArticles and related objects |
