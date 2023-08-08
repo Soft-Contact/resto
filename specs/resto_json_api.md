@@ -8,6 +8,7 @@
   * [Technical description](#technical-description)
   * [Basic access authentication](#basic-access-authentication)
   * [Common objects](#common-objects)
+    + [Client](#client) 
     + [Restaurant](#restaurant)
     + [Contact](#contact)
     + [Open Hours](#open-hours)
@@ -44,6 +45,7 @@
     + [Employee](#employee)
     + [Time Tracking](#timetracking)
   * [Available Methods](#available-methods)
+    + [listClients](#listclients)
     + [listRestaurants](#listrestaurants)
     + [getReceipts](#getreceipts)
     + [getBookkeepingRows](#getbookkeepingrows)
@@ -107,6 +109,24 @@ Note: When using Basic access authentication, the "apiKey" field is NOT required
 ## Common objects
 
 List of common objects used in the request/response of different methods.
+
+<a name="client"></a>
+
+### Client
+
+A client in Restolution. Several clients can be linked to the same JSON API key.
+See also [listClients](#listclients)
+
+* ``name`` - Client name
+* ``clientUUID`` - globally unique identifier of the Restolution client (a type 4 UUID as specified by RFC 4122)
+* ``contact`` - optional client contact information as a Contact object. This object is omitted in results if no contact fields have been set in Restolution. See [Contact](#contact)
+* ``contactPerson`` - optional name of primary contact person representing this client
+* ``contactEmail`` - optional e-mail address of primary contact person representing this client
+* ``description`` - optional general description of this client
+* ``type`` - the type of this client, can be one of "NORMAL", "RENTAL_BASE", "RENTAL"
+* ``activeFrom`` - optional date when this client became active
+* ``activeUntil`` - optional date when this client is no longer active
+* ``languageCode`` - optional default language code for this client, can be one of "FIN", "ENG", "SWE", "EST", "NOR", "SPA", "DAN", "GER", "FRA"
 
 <a name="restaurant"></a>
 ### Restaurant
@@ -663,6 +683,73 @@ See also [importTimeTrackings](#importtimetrackings).
 
 <a name="available-methods"></a>
 ## Available Methods
+
+<a name="listclients"></a>
+### listClients
+For listing clients available to the API key.
+See also [Client](#client)
+
+parameters:
+
+* ``clientUUIDs`` - array of client UUIDs to include
+
+response:
+
+* ``clients`` - array of Client objects
+
+sample request:
+
+```json
+{
+    "timestamp":"2023-06-15T08:58:40.988Z",
+    "apiKey":"user_321681",
+    "requestID":"test_list_clients_1",
+    "method":"listClients",
+    "params":{
+        "clientUUIDs": ["6ecef962-97e2-47fe-83ac-a352dab8300c","fe32dfac-b003-43bb-b743-d51cf0346430"]
+    }
+}
+```
+
+sample response:
+```json
+{
+  "success": true,
+  "timestamp": "2023-06-15T08:58:40.988Z",
+  "requestID": "test_list_clients_1",
+  "response": {
+    "clients": [
+      [
+        {
+          "name": "Testiravintolat Oy",
+          "clientUUID": "6ecef962-97e2-47fe-83ac-a352dab8300c",
+          "contact": {
+            "street": "Jokukatu 123"
+          },
+          "contactPerson": "Maija Mallikas",
+          "contactEmail": "maija.@testiravintolat.fi",
+          "description": "Asiakas lisätty verkkomaksuun 12.3.2023",
+          "type": "NORMAL",
+          "languageCode": "FIN"
+        },
+        {
+          "name": "Alkoholittomat ravintolat Oy",
+          "clientUUID": "fe32dfac-b003-43bb-b743-d51cf0346430",
+          "contact": {
+            "street": "Joku toinen katu 234",
+            "city": "Helsinki",
+            "postIndex": "999999"
+          },
+          "contactPerson": "Testaaja",
+          "contactEmail": "testi@testi.com",
+          "type": "NORMAL",
+          "languageCode": "FIN"
+        }
+      ]
+    ]
+  }
+}
+```
 
 <a name="listrestaurants"></a>
 ### listRestaurants
@@ -3238,5 +3325,6 @@ sample response:
 | 08.08.2023 | mats.antell@restolution.fi	  | Added listEmployees and related objects |
 | 08.08.2023 | mats.antell@restolution.fi	  | Added importEmployees |
 | 08.08.2023 | mats.antell@restolution.fi	  | Added importEmployees and related objects |
+| 08.08.2023 | mats.antell@restolution.fi	  | Added listClients and related objects |
 
 
