@@ -28,6 +28,8 @@
     + [Campaign](#campaign)
     + [Campaign Unit Row](#campaign-unit-row)
     + [Campaign Article Row](#campaign-article-row)
+    + [Delivery Note](#deliverynote)
+    + [Delivery Note Row](#deliverynoterow)
   * [Available Methods](#available-methods)
     + [listRestaurants](#listrestaurants)
     + [getReceipts](#getreceipts)
@@ -38,6 +40,7 @@
     + [listCards](#listcards)
     + [importCards](#importcards)
     + [listCampaigns](#listCampaigns)
+    + [getDeliveryNotes](#getdeliverynotes)
     
   * [Receipt types](#receipt-types)
   * [Discount methods](#discount-methods)
