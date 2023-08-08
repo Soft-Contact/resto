@@ -19,6 +19,7 @@
     + [Receipt](#receipt)
     + [Article Options / Chosen Options](#article-options---chosen-options)
     + [Extended Article](#extendedarticle)
+    + [Extended Article (import)](#extendedarticle_import)
     + [Content Article](#contentarticle)
     + [Price List](#pricelist)
     + [Receipt Row](#receipt-row)
@@ -57,6 +58,7 @@
     + [getWastages](#getwastages)
     + [getInventories](#getinventories)
     + [getArticles](#getarticles)
+    + [importArticles](#importarticles)
     + [getStorageValues](#getstoragevalues)
     + [listEmployees](#listemployees)
     + [importEnployees](#importemployees)
@@ -279,6 +281,17 @@ The articles returned by the ``getArticles``  method are objects of  ``ExtendedA
 * ``eans`` - EAN codes of the article given as an array of strings.
 * ``kitchenPrintingGroupID`` - Kitchen printing group ID of the article
 * ``kitchenPrintingGroupName`` - Kitchen printing group name of the article
+
+<a name="extendedarticle_import"></a>
+### Extended Article (import)
+
+The articles imported by the ``importArticles`` method are objects of ``ExtendedArticle`` with a subset of supported properties as specified below. The article in Restolution is identified by the ``saleArticleID`` for sale article properties and ``storageArticleID` for storage article properties. Imported articles must have at least either of these properties and can also have both.
+
+* ``articleName`` _[string, max 50 chars, required]_ - article name
+* ``articleGroupID`` _[string, numeric, required]_ - article group ID of this article, the article group's number in Restolution
+* ``saleArticleID`` _[string, numeric, required]_ - sale article ID of this article if it is a sale article, sale article number in Restolution
+* ``clientUUID``  _[string, optional]_ - globally unique identifier of the Restolution client that this article belongs to (a type 4 UUID as specified by RFC 4122). If set, the article will be imported only to this client.
+* ``prices`` _[array, optional]_ - An array of [price list](https://github.com/Soft-Contact/resto/issues/9#pricelist) objects that are active for this article. See [getArticles](https://github.com/Soft-Contact/resto/issues/9) method for details. Note: only "prices", "priceListID", "priceID" and "priceWithTax" are supported. Other properties will be ignored.
 
 <a name="contentarticle"></a>
 ### Content Article
@@ -2662,6 +2675,31 @@ sample response:
 }
 ```
 
+<a name="importarticles"></a>
+### importArticles
+Imports new and existing sale articles to Restolution. If several Restolution clients share the same API Key, the same articles will be imported identically to all clients. The optional property ``clientUUID`` will import the article only to the corresponding client.
+
+<b>Note 1: All prices are given as cents.</b>
+
+<b>Note 2: If a property is missing, it will not be changed or set at all. If a property is given with the value null, it will be set if possible. Sums cannot be null.</b>
+
+<b>Note 3: Only sale articles can be imported. Thise corresponds to the ``SALE_ARTICLE`` in [Article main type](#article_maintype).
+
+The sale articles to be imported are given as a list of [Extended Article (import)](#extendedarticle_import), used also in [getArticles](#getarticles) method. Importing supports only a subset of the properties in [Extended Article](#extendedarticle). The main reason is that many of the properties in [Extended Article](#extendedarticle) belong to other entities of Restolution and are managed separately. For example, importing an article with "priceListID": "1" requires that the price list with number "1" exists in Restolution. Refering to incorrect codes and IDs will raise errors and import will not succeed.
+
+parameters:
+
+* ``articles`` - array of [Extended Article (import)](#extendedarticle_import) objects
+
+response:
+
+A "savedArticles" object that contains the following fields:
+
+* ``articles`` - nr of articles in request
+* ``added`` - nr of new articles added
+* ``updated`` - nr of existing articles updated
+* ``clients`` - nr of clients affected
+
 <a name="getstoragevalues"></a>
 ### getStorageValues
 Gets all storage values from restolution. The storage values are returned as an array of [StorageValues](#storagevalue). The enpoint mimics the parameters and data in Storage Value Report in Restolution.
@@ -3165,6 +3203,7 @@ sample response:
 * ``EMPLOYEE`` - A normal employee
 * ``MANAGER`` - A manager employee
 * ``EXECUTIVE`` - An executive employee
+
      
 <a name="version-history"></a>
 ## Version history
@@ -3191,6 +3230,7 @@ sample response:
 | 03.08.2023 | mats.antell@restolution.fi         | Added getBookkeepingRows changes for new parameter 'showMonthlyStorageData' |
 | 08.08.2023 | mats.antell@restolution.fi	  | Added getDeliveryNotes and related objects |
 | 08.08.2023 | mats.antell@restolution.fi	  | Added getArticles and related objects |
+| 08.08.2023 | mats.antell@restolution.fi	  | Added importArticles and related objects |
 | 08.08.2023 | mats.antell@restolution.fi	  | Added getStorageValues and related objects |
 | 08.08.2023 | mats.antell@restolution.fi	  | Added getTransfers and related objects and some general naming consistency improvements |
 | 08.08.2023 | mats.antell@restolution.fi	  | Added getWastages and related objects |
@@ -3198,4 +3238,5 @@ sample response:
 | 08.08.2023 | mats.antell@restolution.fi	  | Added listEmployees and related objects |
 | 08.08.2023 | mats.antell@restolution.fi	  | Added importEmployees |
 | 08.08.2023 | mats.antell@restolution.fi	  | Added importEmployees and related objects |
+
 
