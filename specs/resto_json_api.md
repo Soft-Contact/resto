@@ -402,7 +402,12 @@ Every third party has a reserved payment code (or codes) for any payments they h
 * ``quantity`` - optional quantity of payments in 1/1000 parts
 * ``transactionId`` - optional transaction ID from payment authorizer
 * ``transactionTimestamp`` - optional timestamp from payment authorizer
-* ``accountCode`` - optional code of the Bookkeeping account that this payment row belongs to, see also ``includeAccountingInfo`` in [getReceipts](#getreceipts) 
+* ``accountCode`` - optional code of the Bookkeeping account that this payment row belongs to, see also ``includeAccountingInfo`` in [getReceipts](#getreceipts)
+* ``cardLastDigits`` - optional last digits of payment card, usually 4 last digits, , see also ``includePaymentTerminalTransactionData`` in [getReceipts](#getreceipts) 
+* ``paymentFilingCode`` - optional payment filing code.
+* ``paymentTerminalTransactionNumber`` - optional payment terminal transaction number.
+* ``transactionCertificate`` - optional Transaction Certificate (TC) from payment terminal
+* ``authorizationCode`` - optional Authorization code from payment terminal
 
 <a name="customer"></a>
 ### Customer
@@ -1182,6 +1187,7 @@ parameters:
 * ``includeRowComments`` - true / false if row comments should be included (included by default if ``invoiceReceiptsOnly`` = true)
 * ``includeAccountingInfo`` - true / false if Bookkeeping account codes should be included on sale and payment rows (also requires either ``includeSaleRows`` or ``includePaymentRows``)
 * ``customerReceiptsOnly`` - true / false to include only receipts that have a customer
+* * ``includePaymentTerminalTransactionData`` - true / false if payment terminal transaction data should be included to Payment Rows. The data includes the 3 fields: _cardLastDigits_, _paymentFilingCode_ and _paymentTerminalTransactionNumber_. See [Payment Row](#payment-row). This parameter can only be used if the parameter _includePaymentRows_ is set to _true_.
 
 Note 1: If no date parameters are given, the default value for ``salesReadFromDate`` will be used. Default value is kept by Restolution.
 
@@ -1210,7 +1216,8 @@ sample request:
         "includeSaleRows":true,
         "includePaymentRows":true,
         "includeRowComments":true,
-	"includeAccountingInfo:true
+	"includeAccountingInfo:true,
+	"includePaymentTerminalTransactionData":true
     }
 }
 ```
@@ -1395,7 +1402,12 @@ sample response:
                         "paymentName":"Kortti",
                         "quantity":1000,
                         "amount":1620,
-			"accountCode":"4567"
+			"cardLastDigits":"1347",
+                        "paymentFilingCode":"190305010398",
+                        "paymentTerminalTransactionNumber":"ff6f8b34-7cdc-40d6-b",
+			"transactionCertificate":"1273gfwkfh8er3",
+			"authorizationCode":"0110256",
+			"accountCode":"4567"	
                     }
                 ]
             }
@@ -3692,5 +3704,6 @@ sample response:
 | 08.08.2023 | mats.antell@restolution.fi	  | Added listClients and related objects |
 | 09.08.2023 | mats.antell@restolution.fi	  | Added listRestoCoinCards and importRestoCoinCards and related objects |
 | 09.08.2023 | mats.antell@restolution.fi	  | Added Article data and image fields |
+| 09.08.2023 | mats.antell@restolution.fi	  | Add new parameter "includePaymentTerminalTransactionData" to getReceipts method |
 
 
