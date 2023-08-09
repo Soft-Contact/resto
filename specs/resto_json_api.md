@@ -3432,170 +3432,83 @@ sample response:
 <a name="receipt-types"></a>
 ## Receipt types
 
-* NORMAL
-    Normal sales receipt.
-
-* VOID
-    Deduction (void) receipt.
-
-* MGR
-    Manager receipt.
-
-* RECONCILIATION
-    Reconciliation receipt.
-
-* BACKOFFICE_RECONCILIATION
-    Reconciliation receipt created by reconciliation verification business logic in back office.
-
-* BACKOFFICE_SALE
-    Receipts that are made in back office.
-
-* COMMISSION
-    Subvention commission receipt.
-
-* BALANCE
-    Customer balance receipts from cash register.
-
-* SUBVENTION
-    Subventions receipt.
+* ``NORMAL`` - Normal sales receipt.
+* ``VOID`` - Deduction (void) receipt.
+* ``MGR`` - Manager receipt.
+* ``RECONCILIATION`` - Reconciliation receipt.
+* ``BACKOFFICE_RECONCILIATION`` - Reconciliation receipt created by reconciliation verification business logic in back office.
+* ``BACKOFFICE_SALE`` - Receipts that are made in back office.
+* ``COMMISSION`` - Subvention commission receipt.
+* ``BALANCE`` - Customer balance receipts from cash register.
+* ``SUBVENTION`` - Subventions receipt.
 
 <a name="discount-methods"></a>
 ## Discount methods
 
-* PERCENTAGE
-    Percentage discount, discount value will be discount percentage * 100. Percentage is applied on sum including VAT.
-
-* SUM
-    Sum discount, discount value is discount sum in cents including VAT.
+* ``PERCENTAGE`` - Percentage discount, discount value will be discount percentage * 100. Percentage is applied on sum including VAT.
+* ``SUM`` - Sum discount, discount value is discount sum in cents including VAT.
 
 <a name="customer-types"></a>
 ## Customer types
 
-* LUNCH
-    Lunch customer
-
-* LOYALTY
-    Loyalty customer
-
-* LUNCH_AND_LOYALTY
-    Lunch and loyalty customer
-
-* CUSTOMER_BALANCE
-    Customer balance customer
-
-* CUSTOMER_BALANCE_GIFT_CARD
-    Gift voucher customer balance customer
+* ``LUNCH`` - Lunch customer
+* ``LOYALTY`` - Loyalty customer
+* ``LUNCH_AND_LOYALTY`` - Lunch and loyalty customer
+* ``CUSTOMER_BALANCE`` - Customer balance customer
+* ``CUSTOMER_BALANCE_GIFT_CARD`` - Gift voucher customer balance customer
 
 <a name="customer-invoicing-methods"></a>
 ## Customer invoicing methods
 
-* MANUAL
-    Invoices are generated manually
-
-* AUTO_WITHOUT_CONFIRMATION
-    Invoices are generated automatically, but not confirmed
-
-* AUTO_WITH_CONFIRMATION
-    Invoices are generated and confirmed automatically
+* ``MANUAL`` - Invoices are generated manually
+* ``AUTO_WITHOUT_CONFIRMATION`` - Invoices are generated automatically, but not confirmed
+* ``AUTO_WITH_CONFIRMATION`` - Invoices are generated and confirmed automatically
 
 <a name="customer-invoicing-periods"></a>
 ## Customer invoicing periods
 
-* MONTHLY
-    Invoices generated once a month
-
-* HALF_MONTHLY
-    Invoices generated once every 2 weeks
-
-* WEEKLY
-    Invoices generated every week
-
-* DAILY
-    Invoices generated every day
+* ``MONTHLY`` - Invoices generated once a month
+* ``HALF_MONTHLY`` - Invoices generated once every 2 weeks
+* ``WEEKLY`` - Invoices generated every week
+* ``DAILY`` - Invoices generated every day
 
 <a name="customer-invoice-contents"></a>
 ## Customer invoice contents
 
-* ALL_RECEIPTS_IN_SAME
-    Receipts to same invoice per costcentre
-
-* INVOICE_PER_RECEIPT
-    Every receipt to separate invoice
-
-* ALL_RECEIPTS_IN_SAME_FOR_ALL
-    For subvention/commission receipts: All receipts are forced to same invoice over all costcentres
-    For regular receipts: same as ALL_RECEIPTS_IN_SAME
+* ``ALL_RECEIPTS_IN_SAME`` - Receipts to same invoice per costcentre
+* ``INVOICE_PER_RECEIPT`` - Every receipt to separate invoice
+* ``ALL_RECEIPTS_IN_SAME_FOR_ALL`` - For subvention/commission receipts: All receipts are forced to same invoice over all costcentres. For regular receipts: same as ``ALL_RECEIPTS_IN_SAME``
     
 <a name="card-types"></a>
 ## Card types
 
-* LOYALTY
-    Loyalty customer card
-
-* LUNCH
-    Lunch card
-
-* LUNCH_MULTI
-    Multi lunch card
+* ``LOYALTY`` - Loyalty customer card
+* ``LUNCH`` - Lunch card
+* ``LUNCH_MULTI`` -  Multi lunch card
 
 <a name="open-hour-types"></a>
 ## Open hour types
 
-* RESTAURANT
-    Restaurant open hours
-
-* KITCHEN
-    Kitchen open hours
+* ``RESTAURANT`` - Restaurant open hours
+* ``KITCHEN`` - Kitchen open hours
 
 <a name="campaign-types"></a>
 ## Campaign types
 
-* CUSTOM_PRICE
-    Special together price: 
-    When all articles of this campaign are sold together
-    they will use the prices defined in this campaign.
-
-* RECOMMENDATION
-    Recommendation:
-    When article(s) of this campaign are sold, the recommendation articles
-    of this campaign are presented to clerk in a list from which they can be
-    recommended to client and added to receipt.
-    All articles can be assigned custom prices.
-
-* CHEAPEST_FOR_FREE
-    Cheapest for free:
-    When all articles of this campaign are sold together
-    the client will get the cheapest one for free.
-    
-* FREE_ARTICLE
-    Free article:
-    When all articles of this campaign are sold together
-    a defined free article is added to the receipt.
-
-* ADDITIONAL_SALE
-    Additional sale:
-    When the triggering articles are sold in specified amounts
-    a defined additional sale article will be added to the receipt with current price level.
-
-* REPORT
-    Report:
-    This campaign is for reporting purposes only.
+* ``CUSTOM_PRICE`` - When all articles of this campaign are sold together they will use the prices defined in this campaign.
+* ``RECOMMENDATION`` - When article(s) of this campaign are sold, the recommendation articles of this campaign are presented to clerk in a list from which they can be recommended to client and added to receipt. All articles can be assigned custom prices.
+* ``CHEAPEST_FOR_FREE`` - When all articles of this campaign are sold together the client will get the cheapest one for free.
+* ``FREE_ARTICLE``- When all articles of this campaign are sold together a defined free article is added to the receipt.
+* ``ADDITIONAL_SALE`` - When the triggering articles are sold in specified amounts a defined additional sale article will be added to the receipt with current price level.
+* ``REPORT`` - This campaign is for reporting purposes only.
     
 <a name="campaign-sub-types"></a>
 ## Campaign sub types
 
-* SET_AMOUNT
-    Set amount indicates that campaign is triggered only for set amount of sold articles (of a price group).
-
-* MAX_AMOUNT
-    Max amount indicated that campaign is allowed for a defined maximum amount of articles (of a price group).
-
-* SET_AMOUNT_PER_ARTICLE
-    Set amount indicates that campaign is triggered only for set amount of same sold articles (of a price group).
-
-* DESCENDING_PRICE
-    Multiple set prices per article triggered when the set threshold article amount is sold.
-    For example:
+* ``SET_AMOUNT`` - Set amount indicates that campaign is triggered only for set amount of sold articles (of a price group).
+* ``MAX_AMOUNT`` - Max amount indicated that campaign is allowed for a defined maximum amount of articles (of a price group).
+* ``SET_AMOUNT_PER_ARTICLE`` - Set amount indicates that campaign is triggered only for set amount of same sold articles (of a price group).
+* ``DESCENDING_PRICE`` - Multiple set prices per article triggered when the set threshold article amount is sold. For example:
     * One slice: 4,90€
     * Two slices: 8,90€ so it is 4,45€ per slice
     * Three to seven slices: 12,90€, = 4,30€ per slice
@@ -3604,22 +3517,10 @@ sample response:
 <a name="campaign-article-types"></a>
 ## Campaign Article types
 
-* CAMPAIGN
-    Article that belongs to campaign.
-    Used with campaign types: CUSTOM_PRICE, RECOMMENDATION,
-    CHEAPEST_FOR_FREE and REPORT.
-
-* RECOMMENDATION
-    Article that can be recommended in a campaign.
-    Used in campaign type RECOMMENDATION.
-     
-* FREE
-    Free article that can be added to receipt in a campaign.
-    Used in campaign type FREE_ARTICLE.
-         
-* ADDITIONAL_SALE
-    Additional sale article that can be added to receipt in a campaign.
-    Used in campaign type ADDITIONAL_SALE.
+* ``CAMPAIGN`` - Article that belongs to campaign. Used with campaign types: ``CUSTOM_PRICE``, ``RECOMMENDATION``, ``CHEAPEST_FOR_FREE`` and ``REPORT``.
+* ``RECOMMENDATION`` - Article that can be recommended in a campaign. Used in campaign type RECOMMENDATION.
+* ``FREE`` - Free article that can be added to receipt in a campaign. Used in campaign type FREE_ARTICLE.
+* ``ADDITIONAL_SALE`` - Additional sale article that can be added to receipt in a campaign. Used in campaign type ADDITIONAL_SALE.
 
   <a name="article_maintype"></a>
 ### Article main type
