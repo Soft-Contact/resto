@@ -201,12 +201,16 @@ Articles correspond to active sale articles in Restolution, belonging to the ass
 * ``printerIDs`` - array printer IDs
 * ``structure`` - array of Articles if this is a link article
 * ``amount`` - amount of this article in link article structure in in 1/1000 parts
+* ``restrictedItem`` - flag to indicate whether sales of this item are restricted, e.g. contain alcohol
+* ``barCodes`` - array of bar codes (EANs)
+* ``image`` - Base 64 encoded image data
 
 <a name="price"></a>
 ### Price
 
 * ``priceID`` - price level ID, price class number in Restolution
 * ``price`` - unit price including VAT in cents
+* ``priceWithoutTax`` - unit price without VAT in cents
 * ``tax`` - tax percentage
 
 <a name="article-option"></a>
@@ -795,6 +799,7 @@ parameters:
 * ``includeCustomers`` - flag for including customers in results
 * ``includeBaseData`` - flag for including restaurant base data (contact and open hours) in results
 * ``includeAllRestaurants`` - flag for including all restaurants with status field shown. If not defined, lists only ACTIVE restaurants.
+* ``includeArticleImages`` - flag for including article images in results
 
 response:
 
@@ -814,7 +819,8 @@ sample request:
         ],
         "includeArticles" : true,
         "includeCustomers" : true,
-        "includeBaseData" : true
+        "includeBaseData" : true,
+        "includeArticleImages" : true
     }
 }
 ```
@@ -938,13 +944,19 @@ sample response:
                   {
                     "priceID": "1",
                     "price": 500,
-                    "tax": 14
+                    "tax": 14,
+                    "priceWithoutTax":439
                   }
                 ],
                 "type": "SALE",
                 "printerIDs": [
                   "1"
-                ]
+                ],
+		"barCodes": [
+		  "1234567890111",
+                  "1234567890128"
+                ],
+		"image" : "iVBORw0KGgoAAAANSUhEUgAAAIQAAAC ..."  
               },
               {
                 "articleID": "9002",
@@ -954,13 +966,19 @@ sample response:
                   {
                     "priceID": "1",
                     "price": 600,
-                    "tax": 14
+                    "tax": 14,
+                    "priceWithoutTax":526
                   }
                 ],
                 "type": "SALE",
                 "printerIDs": [
                   "1"
-                ]
+                ],
+                "barCodes": [
+                  "1234567890111",
+                  "1234567890128"
+                ],
+                "image" : "iVBORw0KGgoAAAANSUhEUgAAAIQAAAC ..."  
               }
             ]
           },
@@ -976,7 +994,8 @@ sample response:
                   {
                     "priceID": "1",
                     "price": 1500,
-                    "tax": 14
+                    "tax": 14,
+                    "priceWithoutTax":1316 
                   }
                 ],
                 "type": "SALE",
@@ -995,7 +1014,12 @@ sample response:
                 "printerIDs": [
                   "1",
                   "2"
-                ]
+                ],
+                "barCodes": [
+                  "1234567890111",
+                  "1234567890128"
+                ],
+                "image" : "iVBORw0KGgoAAAANSUhEUgAAAIQAAAC ..." 
               },
               {
                 "articleID": "9207",
@@ -1008,7 +1032,8 @@ sample response:
                     "tax": 14
                   }
                 ],
-                "type": "OPTION"
+                "type": "OPTION",
+                "restrictedItem": false
               },
               {
                 "articleID": "9210",
@@ -1021,7 +1046,8 @@ sample response:
                     "tax": 14
                   }
                 ],
-                "type": "OPTION"
+                "type": "OPTION",
+		"restrictedItem": false
               }
             ]
           },
@@ -3665,5 +3691,6 @@ sample response:
 | 08.08.2023 | mats.antell@restolution.fi	  | Added importEmployees and related objects |
 | 08.08.2023 | mats.antell@restolution.fi	  | Added listClients and related objects |
 | 09.08.2023 | mats.antell@restolution.fi	  | Added listRestoCoinCards and importRestoCoinCards and related objects |
+| 09.08.2023 | mats.antell@restolution.fi	  | Added Article data and image fields |
 
 
