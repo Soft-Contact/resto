@@ -414,32 +414,32 @@ Every third party has a reserved payment code (or codes) for any payments they h
 
 See also [listCustomers](#listcustomers).
 
-* ``customerNumber`` - customer ID, customer number in Restolution
-* ``customerName`` - customer name
-* ``clientName`` - client name that this customer belongs to. If used in [importCustomers](#importcustomers), the customer will only be imported to this client and respectively if missing, the customer will be imported to all clients.
-* ``customerUUID`` - customer UUID. If used in [importCustomers](#importcustomers), the import will only affect a customer with this customer UUID in Restolution. If used in [saveReciepts](#saveReceipts), this will override customerNumber when selecting customer for imported receipt.
-* ``active`` - flag to indicate whether customer should be active or not in Restolution
-* ``type`` - optional customer type, see [Customer types](#customer-types). Defaults to "LUNCH" for new customer if not given.
-* ``comment`` - optional additional comment about customer
-* ``referenceNumber`` - optional customer reference number
-* ``additionalName`` - optional customer additional name
-* ``contactPerson`` - optional customer contact person
-* ``nameSendToCashRegister`` - optional customer name that will be sent to cash register
-* ``contractNumber`` - optional customer contract number
-* ``allowCardCrediting`` - optional flag to allow/disallow crediting of card balances in cash register (default = false)
-* ``allowInvoicing`` - optional flag to allow/disallow customer invoicing (default = false)
-* ``invoiceMethod`` - optional setting how customer invoices should be generated, see [Customer invoicing methods](#customer-invoicing-methods)
-* ``invoicePeriod`` - optional setting how often customer invoices should be generated, see Customer invoicing periods
-* ``invoiceContent`` - optional setting how the invoiced receipts should be arranged into invoices, see [Customer invoice contents](#customer-invoice-contents)
-* ``invoiceDeliveryAddress`` - optional customer invoice delivery address
-* ``invoiceDeliveryEmail`` - optional customer invoice delivery email address
-* ``einvoiceReceiver`` - optional customer e-invoice receiver
-* ``einvoiceReceiverIntermediator`` - optional customer e-invoice receiver intermediator
-* ``subventionsOnceAMonth`` - optional flag to indicate that subvention and commission invoices should be generated on the 1st day of every month
-* ``subventionInvoiceContent`` - optional setting how the subvention and commission receipts should be arranged into invoices, see [Customer invoice contents](#customer-invoice-contents)
-* ``contact`` - optional customer contact information as a Contact object. This object is omitted in results if no contact fields have been set in Restolution. See [Contact](#contact).
-* ``restaurantIDs`` - optional special field, array of Restaurant IDs where this Customer is active. Note: Used only in [importCustomers](#importcustomers). If not defined, the customer will be set active in every restaurant.
-* ``businessUnitUUIDs`` - optional special field, array of Business Unit UUIDs of restaurants where this Customer is active. Note: Used only in [importCustomers](#importcustomers). If not defined, the customer will be set active in every restaurant.
+* ``customerNumber`` _[string, max 20 chars, required]_ - customer ID, customer number in Restolution
+* ``customerName`` _[string, max 255 chars, required]_- customer name
+* ``clientUUID`` _[string, optional]_ - client UUID that this customer belongs to. If used in [importCustomers](#importcustomers), the customer will only be imported to this client and respectively if missing, the customer will be imported to all clients.
+* ``customerUUID`` _[string, optional]_ - customer UUID. If used in [importCustomers](#importcustomers), the import will only affect a customer with this customer UUID in Restolution. If used in [saveReciepts](#saveReceipts), this will override customerNumber when selecting customer for imported receipt.
+* ``active`` _[boolean, optional]_ - flag to indicate whether customer should be active or not in Restolution (default = true)
+* ``type`` _[string, optional]_ - customer type, see [Customer types](#customer-types). Defaults to "LUNCH" for new customer if not given.
+* ``comment`` _[string, max 255 chars, optional]_ - additional comment about customer
+* ``referenceNumber`` _[string, max 50 chars, optional]_ - customer reference number
+* ``additionalName`` _[string, max 255 chars, optional]_ - customer additional name
+* ``contactPerson`` _[string, max 50 chars, optional]_ - customer contact person
+* ``nameSendToCashRegister`` _[string, max 255 chars, optional]_ - customer name that will be sent to POS
+* ``contractNumber`` _[string, max 50 chars, optional]_ - customer contract number
+* ``allowCardCrediting`` _[boolean, optional]_ - allow/disallow crediting of card balances in cash register (default = false)
+* ``allowInvoicing`` _[boolean, optional]_ - allow/disallow customer invoicing (default = false)
+* ``invoiceMethod`` _[string, optional]_ - setting how customer invoices should be generated, see [Customer invoicing methods](#customer-invoicing-methods)
+* ``invoicePeriod`` _[string, optional]_ - setting how often customer invoices should be generated, see Customer invoicing periods
+* ``invoiceContent`` _[string, optional]_ - setting how the invoiced receipts should be arranged into invoices, see [Customer invoice contents](#customer-invoice-contents)
+* ``invoiceDeliveryAddress`` _[string, max 255 chars, optional]_ - customer invoice delivery address
+* ``invoiceDeliveryEmail`` _[string, max 255 chars, optional]_ - customer invoice delivery email address
+* ``einvoiceReceiver`` _[string, max 50 chars, optional]_ - customer e-invoice receiver
+* ``einvoiceReceiverIntermediator`` _[string, max 50 chars, optional]_ - customer e-invoice receiver intermediator
+* ``subventionsOnceAMonth`` _[boolean, optional]_ - true/false to indicate that subvention and commission invoices should be generated on the 1st day of every month (default = true)
+* ``subventionInvoiceContent`` _[string, optional]_ - setting how the subvention and commission receipts should be arranged into invoices, see [Customer invoice contents](#customer-invoice-contents)
+* ``contact`` _[Contact, optional] - customer contact information as a Contact object. This object is omitted in results if no contact fields have been set in Restolution. See [Contact](#contact).
+* ``restaurantIDs`` _[array, optional]_ - array of Restaurant IDs where this Customer is active. Note: Used only in [importCustomers](#importcustomers). If not defined, the customer will be set active in every restaurant.
+* ``businessUnitUUIDs`` _[array, optional]_ - array of Business Unit UUIDs of restaurants where this Customer is active. Note: Used only in [importCustomers](#importcustomers). If not defined, the customer will be set active in every restaurant.
 
 <a name="card"></a>
 ### Card
@@ -3606,5 +3606,6 @@ sample response:
 | 09.08.2023 | mats.antell@restolution.fi	  | Added listRestoCoinCards and importRestoCoinCards and related objects |
 | 09.08.2023 | mats.antell@restolution.fi	  | Added Article data and image fields |
 | 09.08.2023 | mats.antell@restolution.fi	  | Add new parameter "includePaymentTerminalTransactionData" to getReceipts method |
+| 09.08.2023 | mats.antell@restolution.fi	  | Added Customer field descriptors |
 
 
