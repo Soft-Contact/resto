@@ -44,6 +44,7 @@
     + [Storage Value](#storagevalue)
     + [Employee](#employee)
     + [Time Tracking](#timetracking)
+    + [RestoCoin Card](#restocoincard)
   * [Available Methods](#available-methods)
     + [listClients](#listclients)
     + [listRestaurants](#listrestaurants)
@@ -65,6 +66,8 @@
     + [listEmployees](#listemployees)
     + [importEmployees](#importemployees)
     + [importTimeTrackings](#importtimetrackings)
+    + [listRestoCoinCards](#listrestocoincards)
+    + [importRestoCoinCards](#importrestocoincards)
     
   * [Receipt types](#receipt-types)
   * [Discount methods](#discount-methods)
@@ -78,6 +81,8 @@
   * [Article sub type](#article_subtype)
   * [Article link price type](#article_link_pricetype)
   * [Employee types](#employee-types)
+  * [Card types](#card-types)
+  * [Card statuses](#card-statuses)
 
 
 <a name="introduction"></a>
@@ -681,6 +686,31 @@ See also [importTimeTrackings](#importtimetrackings).
 * ``startTime`` - timestamp when the time tracking period started
 * ``endTime`` - timestamp when the time tracking period ended
 * ``comment`` - optional comment for the time tracking
+
+<a name="restocoincard"></a>
+### RestoCoinCard
+
+RestoCoin card has all properties that can be managed on Restolution Customer edit page RestoCoin cards. Note that RestoCoin cards do not have a ``clientUUID`` property as these cards can be used across multiple clients limited the POS setup and ``businessUnitUUIDs`` parameter in [importRestoCoinCards](#importrestocoincards).
+
+* ``cardNumber`` _[string, min 4 chars, max 50 chars, required]_ - Card number of the RestoCoin card is unique for the API key. Importing the same number twice will overwrite the previous card. Card number must be between 4 and 50 characters in length and can contain any alphanumeric characters.
+* ``customerNumber`` _[string, max 50 chars, optional]_ - Customer number of the card. Customer number in Restolution.
+* ``registrationDate`` _[date, optional]_ - The date when the card was registered. This will default to current date.
+* ``validFrom`` _[date, optional]_ - The date that the card is valid from. Before this date the card can not be used.
+* ``validUntil`` _[date, optional]_ - The date that the card is valid until. After this date the card can no longer be used.
+* ``type`` _[string, optional]_ - The type of the card, default: LOYALTY. See [Card types](#card-types).
+* ``status`` _[string, optional]_ - The status of the card, default: ACTIVE. See [Card statuses](#card-statuses).
+* ``holderName`` _[string, max 50 chars, optional]_ - Name of cardholder.
+* ``payLaterMethod`` _[string, max 50 chars, optional]_ - Optional invoiceable payment type code of the card. This is a transaction type code in Restolution.
+* ``department`` _[string, max 50 chars, optional]_ - Department code in Restolution.
+* ``accountCode`` _[string, max 50 chars, optional]_ - Account code in Restolution.
+* ``personCode`` _[string, max 50 chars, optional]_ - Person code in Restolution.
+* ``articleID`` _[string, max 255 chars, optional]_ - article ID of the article balance of this card. The article ID is a sale article number (PLU) in Restolution.
+* ``balance`` _[integer, optional]_ - The balance of the card in cents, default: 0.
+* ``articleBalance`` _[integer, optional]_ - The article balance of the card, given as 1/1000 parts, default 0.
+* ``customData1`` _[string, max 255 chars, optional]_ - Optional custom data field
+* ``customData2`` _[string, max 255 chars, optional]_ - Optional custom data field
+* ``customData3`` _[string, max 255 chars, optional]_ - Optional custom data field
+
 
 <a name="available-methods"></a>
 ## Available Methods
@@ -3068,6 +3098,299 @@ sample response:
 }
 ```
 
+<a name="listrestocoincards"></a>
+## listRestoCoinCards
+For listing existing RestoCoin cards and balances. The cards are listed as an array of [RestoCoin Card](#restocoincard) objects. The method is limited to return a maximum of 10000 cards per request. The ``cardNumbers`` parameter can be used to list specific cards. See also [importRestoCoinCards](#importrestocoincards).
+
+parameters:
+
+* ``includeFreeBalances`` - true/false to include free balances, i.e. balances without a card entity. These will be returned as [RestoCoin Card](#restocoincard) objects with only "cardNumber" and "balance". For an example, see the ```"cardNumber" : "555555"``` in the sample response below. 
+* ``businessUnitUUIDs``- array of strings that are business unit UUIDs, see Restaurant.businessUnitUUID. This filters the cards and returns only cards that can be used in the given business units (Restaurants). An empty array will return only cards that can be used in all business units. If the parameter is not given or is null, all cards will be returned.
+* ``cardNumbers`` - array of strings that are numbers of cards to return in the results. A maximum of 10000 card numbers can be given.
+
+reponse
+* ``cards`` - array of [RestoCoin Card](#restocoincard) objects.
+
+sample requests:
+
+```json
+{
+  "timestamp": "2023-03-30T15:37:40.988Z",
+  "requestID": "RESTO-16321_test_2",
+  "method": "listRestoCoinCards",
+  "params": {
+    "includeFreeBalances": true,
+    "businessUnitUUIDs": [
+      "e2223c3b-5f6d-4873-b21b-2c06a2d6fe1a",
+      "4a67c7a2-bbf6-4130-be16-f4f7b2571d91"
+    ]
+  }
+}
+```
+```json
+{
+  "timestamp": "2023-03-30T15:37:40.988Z",
+  "requestID": "[RESTO-16440](https://jira.kassamagneetti.fi/browse/RESTO-16440)_test",
+  "method": "listRestoCoinCards",
+  "params": {     
+     "cardNumbers": ["111111",  "222222", "333333", "444444"]   
+   }
+}
+```
+
+sample response:
+
+```json
+{
+  "timestamp": "2023-04-03T12:41:51.099Z",
+  "success": true,
+  "requestID": "RESTO-16321_test_2",
+  "response": {
+    "cards": [
+      {
+        "cardNumber": "111111",
+        "registrationDate": "2023-03-31T12:02:54Z",
+        "validFrom": "2023-01-01T05:00:00Z",
+        "validUntil": "2024-10-16T01:59:59Z",
+        "type": "LOYALTY",
+        "status": "ACTIVE",
+        "customerNumber": "1",
+        "holderName": "Mia Mallikas",
+        "department": "1122",
+        "accountCode": "1234567",
+        "personCode": "1234567",
+        "articleID": "123456",
+        "balance": 8000,
+        "articleBalance": 6000,
+        "customData1": "mia.mallikas@example.com",
+        "customData2": "555 12345678",
+        "customData3": "some other information"
+      },
+      {
+        "cardNumber": "222222",
+        "registrationDate": "2023-03-31T12:02:54Z",
+        "validFrom": "2023-01-01T05:00:00Z",
+        "validUntil": "2024-12-22T02:59:59Z",
+        "type": "LUNCH",
+        "status": "ACTIVE",
+        "customerNumber": "1",
+        "holderName": "Keijo Korttelin",
+        "department": "1122",
+        "accountCode": "1234567",
+        "personCode": "2345678",
+        "articleID": "123456",
+        "balance": 4000,
+        "articleBalance": 3000,
+        "customData1": "keijo.korttelin@example.com",
+        "customData2": "555 23456789",
+        "customData3": "some other information again"
+      },
+      {
+        "cardNumber": "333333",
+        "registrationDate": "2023-03-31T12:02:54Z",
+        "validFrom": "2023-01-01T05:00:00Z",
+        "validUntil": "2024-12-22T02:59:59Z",
+        "type": "LUNCH",
+        "status": "DISABLED",
+        "customerNumber": "1",
+        "holderName": "Ville Valoton",
+        "department": "1122",
+        "accountCode": "1234567",
+        "personCode": "2345679",
+        "articleID": "123456",
+        "balance": 0,
+        "articleBalance": 0,
+        "customData1": "ville.valoton@example.com",
+        "customData2": "555 34567890",
+        "customData3": "some other information yet again"
+      },
+      {
+        "cardNumber": "444444",
+        "registrationDate": "2023-03-31T12:02:54Z",
+        "validFrom": "2023-01-01T05:00:00Z",
+        "validUntil": "2024-12-22T02:59:59Z",
+        "type": "LUNCH",
+        "status": "ACTIVE",
+        "customerNumber": "1",
+        "holderName": "Selma Salminen",
+        "department": "1122",
+        "accountCode": "1234567",
+        "personCode": "2345680",
+        "articleID": "123456",
+        "balance": 9000,
+        "articleBalance": 5000,
+        "customData1": "selma.salminen@example.com",
+        "customData2": "555 45678901",
+        "customData3": "yes, you guessed it: some other information"
+      },
+      {
+        "cardNumber": "555555",
+        "balance": 5000
+      }
+    ]
+  }
+}
+```
+
+<a name="importrestocoincards"></a>
+### importRestoCoinCards
+Imports new and existing cards and balances to RestoCoin. RestoCoin enables online customer balances hosted on a separate microservice. RestoCoin has separate credentials and can not be accessed using JSON API credentials directly. For this reason enabling this feature requires a separate activation step to be performed by Restolution support: 
+
+The JSON API link in Restolution for the API Key must be set up to have the following parameters to be able to make requests towards RestoCoin:
+
+* ``restoCoinApiKey`` - the API key of the RestoCoin account to use, e.g. ```CARDVENT_\<some name\>```
+* ``restoCoinSecret`` - the API secret key of the RestoCoin account to use
+* ``restoCoinServer`` - the server address of the RestoCoin microservice
+
+The cards imported to RestoCoin are objects of [RestoCoin Card](#restocoincard). **All properties of the object will be imported.** _Optional properties_ can be set to ``null`` and if not given, the value ``null`` will be set for any optional property.  If a _required property_ is not given, it will get the default value. When updating a card any missing, required property will not be changed. A missing balance value will not update the card's balance. The initial balance of a new card will be 0 unless the property is given.
+
+The method is limited to accept a maximum of 1000 cards per request. The parameters ``cardNumbers`` and ``setCardValues`` can be used together to set values of any card properties specified in [RestoCoin Card](#restocoincard) except for ``cardNumber``. The ``setCardValues`` will set the values to all cards spefified by ``cardNumbers``. The ``cardNumbers`` parameter can also be used together with the ``businessUnitUUIDs`` parameter to set the speficied cards allowed to be used only in given business units (Restaurants).
+
+parameters:
+
+* ``cards`` - array of [RestoCoin Card](#restocoincard) objects
+* ``businessUnitUUIDs`` - array of strings that are business unit UUIDs, see Restaurant.businessUnitUUID. Sets imported cards to be allowed to be used only in given business units (Restaurants). This setting always replaces any previous allowed business units for the imported cards. An empty array will set the cards to be available in all business units, i.e. it removes any previous limitations. If the parameter is not given or set to null, no changes to existing cards will be made. New cards are set to be available in all business units if the parameter is not given or null.
+* ``cardNumbers`` - array of strings that are numbers of cards to be affected by the request. A maximum of 1000 card numbers can be given. This parameter can be used in combination with the ``setCardValues`` parameter to set specific properties of the cards or the ``businessUnitUUIDs`` parameter to set the allowed business units (Restaurants) for the cards. This parameter can not be used together with the ``cards`` parameter in the same request.
+* ``setCardValues`` - an object containing one or more card properties as specified in [RestoCoin Card](#restocoincard), except for ``cardNumber``. Only given properties will be set. Also null can be used where valid. This parameter can be used together with the ``businessUnitUUIDs`` parameter in the same request. **Note:** _this parameter only updates existing cards, it will not add new cards_.
+
+response:
+
+A "savedCards" object that contains the following fields:
+* ``cards`` - nr of cards in request
+* ``addded`` - nr of cards added
+* ``updated`` - nr of cards updated
+* ``customers`` - nr of different customers affected
+
+sample requests:
+
+```json
+{
+  "timestamp": "2023-03-30T15:37:40.988Z",
+  "requestID": "RESTO-16321_test",
+  "method": "importRestoCoinCards",
+  "params": {
+    "cards": [
+      {
+        "cardNumber": "111111",
+        "customerNumber": "1",
+        "type": "LOYALTY",
+        "status": "ACTIVE",
+        "validFrom": "2023-01-01T05:00:00+02:00",
+        "validUntil": "2024-10-16T04:59:59+03:00",
+        "holderName": "Mia Mallikas",
+        "personCode": "1234567",
+        "department": "1122",
+        "accountCode": "1234567",
+        "articleID": "123456",
+        "balance": 8000,
+        "articleBalance": 6000,
+        "customData1": "mia.mallikas@example.com",
+        "customData2": "555 12345678",
+        "customData3": "some other information"
+      },
+      {
+        "cardNumber": "222222",
+        "customerNumber": "1",
+        "type": "LUNCH",
+        "status": "ACTIVE",
+        "validFrom": "2023-01-01T05:00:00+02:00",
+        "validUntil": "2024-12-22T04:59:59+02:00",
+        "holderName": "Keijo Korttelin",
+        "personCode": "2345678",
+        "department": "1122",
+        "accountCode": "1234567",
+        "articleID": "123456",
+        "balance": 4000,
+        "articleBalance": 3000,
+        "customData1": "keijo.korttelin@example.com",
+        "customData2": "555 23456789",
+        "customData3": "some other information again"
+      },
+      {
+        "cardNumber": "333333",
+        "customerNumber": "1",
+        "type": "LUNCH",
+        "status": "DISABLED",
+        "validFrom": "2023-01-01T05:00:00+02:00",
+        "validUntil": "2024-12-22T04:59:59+02:00",
+        "holderName": "Ville Valoton",
+        "personCode": "2345679",
+        "department": "1122",
+        "accountCode": "1234567",
+        "articleID": "123456",
+        "balance": 0,
+        "articleBalance": 0,
+        "customData1": "ville.valoton@example.com",
+        "customData2": "555 34567890",
+        "customData3": "some other information yet again"
+      },
+      {
+        "cardNumber": "444444",
+        "customerNumber": "1",
+        "type": "LUNCH",
+        "status": "ACTIVE",
+        "validFrom": "2023-01-01T05:00:00+02:00",
+        "validUntil": "2024-12-22T04:59:59+02:00",
+        "holderName": "Selma Salminen",
+        "personCode": "2345680",
+        "department": "1122",
+        "accountCode": "1234567",
+        "articleID": "123456",
+        "balance": 9000,
+        "articleBalance": 5000,
+        "customData1": "selma.salminen@example.com",
+        "customData2": "555 45678901",
+        "customData3": "yes, you guessed it: some other information"
+      }
+    ],
+    "businessUnitUUIDs": [
+      "e2223c3b-5f6d-4873-b21b-2c06a2d6fe1a",
+      "4a67c7a2-bbf6-4130-be16-f4f7b2571d91"
+    ]
+  }
+}
+```
+
+```json
+{
+    "timestamp": "2023-05-29T16:18:40.988Z",
+    "requestID": "RESTO-16440_test",
+    "method": "importRestoCoinCards",
+    "params": {
+      "cardNumbers": [
+        "111111",
+        "222222"
+      ],
+      "setCardValues": {
+         "status": "DISABLED",
+         "balance": 0
+       },
+      "businessUnitUUIDs": [
+        "9ef605f4-8dcc-4896-97b0-1bc06ef6d97b",
+        "b5652033-b091-4dbf-978c-279548a55aeb"
+      ]
+    }
+  }
+```
+
+
+sample response:
+
+```json
+{
+  "timestamp": "2023-03-31T10:49:00.829+0000",
+  "success": true,
+  "requestID": "testing_restocoincardimport",
+  "response": {
+    "cards": 4,
+    "added": 2,
+    "updated": 2,
+    "customers": 1
+  }
+}
+```
+
+
 <a name="receipt-types"></a>
 ## Receipt types
 
@@ -3293,6 +3616,19 @@ sample response:
 * ``MANAGER`` - A manager employee
 * ``EXECUTIVE`` - An executive employee
 
+<a name="card-types"></a>
+## Card types
+
+* ``LOYALTY`` - Loyalty customer card
+* ``LUNCH`` - Lunch card
+* ``LUNCH_MULTI`` - Multi lunch card
+
+<a name="card-statuses"></a>
+## Card statuses
+
+* ``ACTIVE`` - Card is active and can be used in POS
+* ``DISABLED`` - Card is disabled and can not be used in POS
+
      
 <a name="version-history"></a>
 ## Version history
@@ -3328,5 +3664,6 @@ sample response:
 | 08.08.2023 | mats.antell@restolution.fi	  | Added importEmployees |
 | 08.08.2023 | mats.antell@restolution.fi	  | Added importEmployees and related objects |
 | 08.08.2023 | mats.antell@restolution.fi	  | Added listClients and related objects |
+| 09.08.2023 | mats.antell@restolution.fi	  | Added listRestoCoinCards and importRestoCoinCards and related objects |
 
 
