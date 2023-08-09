@@ -1216,7 +1216,7 @@ sample request:
         "includeSaleRows":true,
         "includePaymentRows":true,
         "includeRowComments":true,
-	"includeAccountingInfo:true,
+	"includeAccountingInfo":true,
 	"includePaymentTerminalTransactionData":true
     }
 }
