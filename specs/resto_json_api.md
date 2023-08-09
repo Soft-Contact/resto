@@ -10,19 +10,20 @@
   * [Common objects](#common-objects)
     + [Client](#client) 
     + [Restaurant](#restaurant)
+    + [Unit](#unit)
     + [Contact](#contact)
     + [Open Hours](#open-hours)
     + [Open Hour](#open-hour)
     + [Menu](#menu)
     + [Article](#article)
-    + [Price](#price)
-    + [Article Option](#article-option)
-    + [Receipt](#receipt)
-    + [Article Options / Chosen Options](#article-options---chosen-options)
     + [Extended Article](#extendedarticle)
     + [Extended Article (import)](#extendedarticle_import)
     + [Content Article](#contentarticle)
     + [Price List](#pricelist)
+    + [Price](#price)
+    + [Article Option](#article-option)
+    + [Article Options / Chosen Options](#article-options---chosen-options) 
+    + [Receipt](#receipt)
     + [Receipt Row](#receipt-row)
     + [Discount](#discount)
     + [Payment Row](#payment-row)
@@ -151,6 +152,13 @@ A Restaurant is a BusinessUnit in Restolution.
 * ``status`` - status of restaurant.  Can be one of ``ACTIVE``, ``NEW``, ``DISABLED``. Included only if ``includeAllRestaurants`` is ``true``.
 * ``units`` - array of Unit objects, operational units in Restolution.
 
+<a name="unit"></a>
+### Unit
+A Unit is an Operational Unit in Restolution.
+
+* ``unitName`` - unit name
+* ``unitUUID`` - unit UUID of this unit, globally unique identifier for this unit
+
 <a name="contact"></a>
 ### Contact
 
@@ -205,70 +213,7 @@ Articles correspond to active sale articles in Restolution, belonging to the ass
 * ``barCodes`` - array of bar codes (EANs)
 * ``image`` - Base 64 encoded image data
 
-<a name="price"></a>
-### Price
-
-* ``priceID`` - price level ID, price class number in Restolution
-* ``price`` - unit price including VAT in cents
-* ``priceWithoutTax`` - unit price without VAT in cents
-* ``tax`` - tax percentage
-
-<a name="article-option"></a>
-### Article Option
-
-* ``articleOptionID`` - option list ID, sale article number in Restolution
-* ``name`` - article option name
-* ``minSelections`` - minimum number of required selections
-* ``maxSelection`` - maximum number of allowed selections
-* ``articleIDs`` - array of article IDs to select from
-
-<a name="unit"></a>
-### Unit
-
-* ``unitName`` - unit name
-* ``unitUUID`` - unit UUID of this unit, globally unique identifier for this unit
-
-<a name="receipt"></a>
-### Receipt
-
-A receipt is a completed order that can be saved to back office using the "saveReceipts" method
-or read using "getReceipts" method.
-
-* ``receiptID`` - receipt ID, used as receipt number in Restolution
-* ``receiptUUID`` - optional receipt UUID, globally unique identifier for this receipt (a type 4 UUID as specified by RFC 4122)
-* ``sourceHash`` - md5 hash from receipt "source" data to prevent double receipts
-* ``cancelledReceiptSourceHash`` - matches the _sourceHash_ of the receipt cancelled by this receipt, only in receipts of type "VOID"
-* ``receiptType``- receipt type, used in "getReceipts", see Receipt types
-* ``timestamp`` - time when the receipt was created (mandatory field to ensure no duplicate receipts are saved)
-* ``cashRegisterUUID`` - cash register UUID
-* ``businessUnitUUID`` - business unit UUID
-* ``cashRegisterName`` - optional cash register name
-* ``customerNumber`` - customer number
-* ``customerName`` - optional customer name
-* ``customerUUID`` - customer UUID
-* ``cardNumber`` - optional card number
-* ``cardCustomData1`` - optional custom data, used in "getReceipts" for RestoCoin cards
-* ``cardCustomData2`` - optional custom data, used in "getReceipts" for RestoCoin cards
-* ``cardCustomData3`` - optional custom data, used in "getReceipts" for RestoCoin cards
-* ``ourReference`` - Restaurant's own reference information
-* ``yourReference`` - Restaurant customer's reference information
-* ``restaurantID`` - optional Restaurant ID
-* ``restaurantName`` - restaurant name, used in  "getReceipts".
-* ``customerQuantity`` - customer quantity, used in  "getReceipts".
-* ``freeText`` - receipt free text, used in "getReceipts"
-* ``memoInfo`` - receipt memo info, used in "getReceipts"
-* ``quickInvoice`` - true if receipt has been finalized as a quick invoice in cash register
-* ``tableCode`` - optional table code
-* ``receiptRows`` - an array of [Receipt Row](#receipt-row) objects
-* ``paymentRows`` - an array of [Payment Row](#payment-row) objects
-
-<a name="article-options---chosen-options"></a>
-### Article Options / Chosen Options
-
-* ``optionListID`` - option list ID
-* ``articleIDs`` - array containing list of article IDs (condiments, messages)
-
-<a name="extendedarticle"></a>
+  <a name="extendedarticle"></a>
 ### Extended Article
 
 The articles returned by the ``getArticles``  method are objects of  ``ExtendedArticle`` and contain more fields than the ``Article`` object returned in the ``getRestaurants`` method. 
@@ -348,13 +293,72 @@ Content articles can be the contents of a sale, storage or recipe article. They 
 
 <a name="pricelist"></a>
 ### PriceList
-A PriceList is a named list of prices with a validity period that belongs to some other object, e.g. an [Extended Article](#extendedarticle).
+A PriceList is a named list of prices with a validity period that belongs to some other object, e.g. an [Extended Article](#extendedarticle). Note: When used in [importArticles](#importarticles) only ``priceListID`` and ``prices`` are supported.
 
-* ``priceListID`` - ID of this price list
-* ``priceListName`` - price list name
-* ``validFrom`` - when this price list becomes valid. If missing, this pricelist was always valid.
-* ``validUntil`` - when this price list is no longer valid. If missing, this pricelist is valid forever.
-* ``prices`` - a list of [Prices](#price) contained in this price list
+* ``priceListID`` _[string, numeric, required]_ - ID of this price list
+* ``priceListName`` _[string, optional]_ - price list name
+* ``validFrom`` _[date, optional]_ - when this price list becomes valid. If missing, this pricelist was always valid.
+* ``validUntil`` _[date, optional]_ - when this price list is no longer valid. If missing, this pricelist is valid forever.
+* ``prices`` _[array, required]_ - array of [Prices](#price) contained in this price list
+
+<a name="price"></a>
+### Price
+A sale price in Restolution. Note: When used in [importArticles](#importarticles) only ``priceID`` and ``priceWithTax`` are supported.
+
+* ``priceID`` _[string, numeric, required]_ - price level ID, price class number in Restolution
+* ``price`` _[integer, optional]_ - unit price including VAT in cents
+* ``priceWithTax`` _[integer, required in [importArticles](#importarticles)]_ - unit price without VAT in cents
+* ``priceWithoutTax`` _[integer, optional]_ - unit price without VAT in cents
+* ``tax`` _[integer, optional]_ - tax percentage, given as a whole number, e.g 24% is given as 24.
+
+<a name="article-option"></a>
+### Article Option
+
+* ``articleOptionID`` - option list ID, sale article number in Restolution
+* ``name`` - article option name
+* ``minSelections`` - minimum number of required selections
+* ``maxSelection`` - maximum number of allowed selections
+* ``articleIDs`` - array of article IDs to select from
+
+<a name="article-options---chosen-options"></a>
+### Article Options / Chosen Options
+
+* ``optionListID`` - option list ID
+* ``articleIDs`` - array containing list of article IDs (condiments, messages)
+
+<a name="receipt"></a>
+### Receipt
+
+A receipt is a completed order that can be saved to back office using the "saveReceipts" method
+or read using "getReceipts" method.
+
+* ``receiptID`` - receipt ID, used as receipt number in Restolution
+* ``receiptUUID`` - optional receipt UUID, globally unique identifier for this receipt (a type 4 UUID as specified by RFC 4122)
+* ``sourceHash`` - md5 hash from receipt "source" data to prevent double receipts
+* ``cancelledReceiptSourceHash`` - matches the _sourceHash_ of the receipt cancelled by this receipt, only in receipts of type "VOID"
+* ``receiptType``- receipt type, used in "getReceipts", see Receipt types
+* ``timestamp`` - time when the receipt was created (mandatory field to ensure no duplicate receipts are saved)
+* ``cashRegisterUUID`` - cash register UUID
+* ``businessUnitUUID`` - business unit UUID
+* ``cashRegisterName`` - optional cash register name
+* ``customerNumber`` - customer number
+* ``customerName`` - optional customer name
+* ``customerUUID`` - customer UUID
+* ``cardNumber`` - optional card number
+* ``cardCustomData1`` - optional custom data, used in "getReceipts" for RestoCoin cards
+* ``cardCustomData2`` - optional custom data, used in "getReceipts" for RestoCoin cards
+* ``cardCustomData3`` - optional custom data, used in "getReceipts" for RestoCoin cards
+* ``ourReference`` - Restaurant's own reference information
+* ``yourReference`` - Restaurant customer's reference information
+* ``restaurantID`` - optional Restaurant ID
+* ``restaurantName`` - restaurant name, used in  "getReceipts".
+* ``customerQuantity`` - customer quantity, used in  "getReceipts".
+* ``freeText`` - receipt free text, used in "getReceipts"
+* ``memoInfo`` - receipt memo info, used in "getReceipts"
+* ``quickInvoice`` - true if receipt has been finalized as a quick invoice in cash register
+* ``tableCode`` - optional table code
+* ``receiptRows`` - an array of [Receipt Row](#receipt-row) objects
+* ``paymentRows`` - an array of [Payment Row](#payment-row) objects
 
 <a name="receipt-row"></a>
 ### Receipt Row
@@ -680,21 +684,21 @@ The storage values returned by the [getStorageValues](#getstoragevalues) method 
 An Employee in Restolution.
 See also [listEmployees](#listemployees).
 
-* ``employeeNumber`` - alphanumeric employee ID, must be unique per Restolution client
-* ``firstName`` - first name of the employee
-* ``lastName`` - last name of the employee
-* ``type`` - optional type of the employee, see [Employee types](#employee-types). If missing, it will default to EMPLOYEE when importing a new Employee.
+* ``employeeNumber`` _[string, max 255 chars, required]_ - alphanumeric employee ID, must be unique per Restolution client
+* ``firstName`` _[string, max 255 chars, required]_ - first name of the employee
+* ``lastName`` _[string, max 255 chars, required]_ - last name of the employee
+* ``type`` _[string, optional]_ - type of the employee, see [Employee types](#employee-types). If missing, it will default to ``EMPLOYEE`` when importing a new Employee.
 
 <a name="timetracking"></a>
 ### TimeTracking
 An object used for tracking (work) time of and [Employee](#employee).
 See also [importTimeTrackings](#importtimetrackings).
 
-* ``employeeNumber`` - employee ID of the employee that this time tracking was recorded for
-* ``unitUUID`` - UUID of the Restautant unit where the time tracking was recorded
-* ``startTime`` - timestamp when the time tracking period started
-* ``endTime`` - timestamp when the time tracking period ended
-* ``comment`` - optional comment for the time tracking
+* ``employeeNumber`` _[string, max 255 chars, required]_ - employee ID of the employee that this time tracking was recorded for
+* ``unitUUID`` _[string, required]_ - UUID of the Restautant unit where the time tracking was recorded
+* ``startTime`` _[date, required]_ - timestamp when the time tracking period started
+* ``endTime`` _[date, required]_ - timestamp when the time tracking period ended
+* ``comment`` _[string, max 255 chars, optional]_ - comment for the time tracking
 
 <a name="restocoincard"></a>
 ### RestoCoinCard
@@ -3607,5 +3611,6 @@ sample response:
 | 09.08.2023 | mats.antell@restolution.fi	  | Added Article data and image fields |
 | 09.08.2023 | mats.antell@restolution.fi	  | Add new parameter "includePaymentTerminalTransactionData" to getReceipts method |
 | 09.08.2023 | mats.antell@restolution.fi	  | Added Customer field descriptors |
+| 09.08.2023 | mats.antell@restolution.fi	  | Added PriceList, Price field descriptors, improved TOC order |
 
 
