@@ -1187,7 +1187,7 @@ parameters:
 * ``includeRowComments`` - true / false if row comments should be included (included by default if ``invoiceReceiptsOnly`` = true)
 * ``includeAccountingInfo`` - true / false if Bookkeeping account codes should be included on sale and payment rows (also requires either ``includeSaleRows`` or ``includePaymentRows``)
 * ``customerReceiptsOnly`` - true / false to include only receipts that have a customer
-* * ``includePaymentTerminalTransactionData`` - true / false if payment terminal transaction data should be included to Payment Rows. The data includes the 3 fields: _cardLastDigits_, _paymentFilingCode_ and _paymentTerminalTransactionNumber_. See [Payment Row](#payment-row). This parameter can only be used if the parameter _includePaymentRows_ is set to _true_.
+* ``includePaymentTerminalTransactionData`` - true / false if payment terminal transaction data should be included to Payment Rows. The data includes the 3 fields: _cardLastDigits_, _paymentFilingCode_ and _paymentTerminalTransactionNumber_. See [Payment Row](#payment-row). This parameter can only be used if the parameter _includePaymentRows_ is set to _true_.
 
 Note 1: If no date parameters are given, the default value for ``salesReadFromDate`` will be used. Default value is kept by Restolution.
 
