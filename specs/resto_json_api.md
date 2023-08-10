@@ -1,8 +1,8 @@
 <a name="top"></a>
-# Soft-Contact JSON API protocol
+# Restolution JSON API protocol
 
 ## Table of contents
-- [Soft-Contact JSON API protocol](#soft-contact-json-api-protocol)
+- [Restolution JSON API protocol](#soft-contact-json-api-protocol)
   * [Introduction](#introduction)
   * [Overview](#overview)
   * [Technical description](#technical-description)
@@ -90,7 +90,7 @@
 ## Introduction
 
 This documents specifies the protocol for reading and importing a subset
-of Restolution data using [Soft-Contact's](https://soft-contact.fi/) Soft-Contact JSON API.
+of [Restolution](https://restolution.eu/) data using Restolution JSON API.
 
 <a name="overview"></a>
 ## Overview
@@ -107,8 +107,8 @@ All fields are mandatory, unless described as "optional".
 <a name="basic-access-authentication"></a>
 ## Basic access authentication
 
-Soft-Contact JSON API also supports Basic access authentication (over HTTPS) as alternative to
-the encoding and hash described in [Soft-Contact JSON API Protocol Technical Description](resto_json_api_technical_description.md).
+Restolution JSON API also supports Basic access authentication (over HTTPS) as alternative to
+the encoding and hash described in [Restolution JSON API Protocol Technical Description](resto_json_api_technical_description.md).
 Note: When using Basic access authentication, the "apiKey" field is NOT required in the request JSON.
 
 <a name="common-objects"></a>
