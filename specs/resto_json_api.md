@@ -102,7 +102,7 @@ All fields are mandatory, unless described as "optional".
 <a name="technical-description"></a>
 ## Technical description
 
-* see [Soft-Contact JSON API Protocol Technical Description](resto_json_api_technical_description.md)
+* see [Restolution JSON API Protocol Technical Description](resto_json_api_technical_description.md)
 
 <a name="basic-access-authentication"></a>
 ## Basic access authentication
