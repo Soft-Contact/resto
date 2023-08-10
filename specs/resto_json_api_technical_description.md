@@ -1,4 +1,4 @@
-# Soft-Contact JSON API Protocol Technical Description
+# Restolution JSON API Protocol Technical Description
 
 ## Technical overview
 
