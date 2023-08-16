@@ -2496,7 +2496,7 @@ sample response:
 
 <a name="getarticles"></a>
 ### getArticles
-Gets all articles from restolution. The articles are returned as an array of [Extended Articles](#extended_article).
+Gets all articles from restolution. The articles are returned as an array of [Extended Articles](#extended-article).
 
 <b>Note 1: All prices are given as cents and all amounts, including unit conversion amounts, are given as 1/1000 parts. No calculated results, only raw data is returned. This is to prevent rounding errors.</b>
 
