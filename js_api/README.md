@@ -2,69 +2,73 @@
 
 ### Table of Contents
 
--   [jsonApi][1]
-    -   [placeOrder][2]
-        -   [Parameters][3]
-    -   [addToOpenTable][4]
-        -   [Parameters][5]
-    -   [getActiveTransaction][6]
-        -   [Parameters][7]
-    -   [executeLisp][8]
-        -   [Parameters][9]
-    -   [evalLisp][10]
-        -   [Parameters][11]
--   [printer][12]
-    -   [print][13]
-        -   [Parameters][14]
-        -   [Examples][15]
--   [payments][16]
-    -   [authorizePayment][17]
-        -   [Parameters][18]
-    -   [abortAuthorization][19]
-        -   [Parameters][20]
--   [articles][21]
-    -   [listAll][22]
-        -   [Parameters][23]
--   [displays][24]
-    -   [listAllKitchenSystemTransactions][25]
-        -   [Parameters][26]
-    -   [removeTransactionFromKitchenSystem][27]
-        -   [Parameters][28]
-    -   [setLineStateInKitchenSystem][29]
-        -   [Parameters][30]
-    -   [getConfiguration][31]
-        -   [Parameters][32]
-    -   [saveCustomConfiguration][33]
-        -   [Parameters][34]
--   [messages][35]
-    -   [listenAll][36]
-        -   [Parameters][37]
-        -   [Examples][38]
--   [utils][39]
-    -   [getApiType][40]
-    -   [getSoftPosVersion][41]
-    -   [getSoftPosInfo][42]
-        -   [Parameters][43]
-    -   [log][44]
-        -   [log][45]
-            -   [Parameters][46]
-            -   [Examples][47]
-        -   [trace][48]
-            -   [Parameters][49]
-        -   [debug][50]
-            -   [Parameters][51]
-        -   [info][52]
-            -   [Parameters][53]
-        -   [warn][54]
-            -   [Parameters][55]
-        -   [error][56]
-            -   [Parameters][57]
-        -   [fatal][58]
-            -   [Parameters][59]
+*   [jsonApi][1]
+    *   [placeOrder][2]
+        *   [Parameters][3]
+    *   [addToOpenTable][4]
+        *   [Parameters][5]
+    *   [getActiveTransaction][6]
+        *   [Parameters][7]
+    *   [executeLisp][8]
+        *   [Parameters][9]
+    *   [evalLisp][10]
+        *   [Parameters][11]
+*   [printer][12]
+    *   [print][13]
+        *   [Parameters][14]
+        *   [Examples][15]
+*   [payments][16]
+    *   [authorizePayment][17]
+        *   [Parameters][18]
+    *   [abortAuthorization][19]
+        *   [Parameters][20]
+*   [articles][21]
+    *   [listAll][22]
+        *   [Parameters][23]
+*   [displays][24]
+    *   [listAllKitchenSystemTransactions][25]
+        *   [Parameters][26]
+    *   [removeTransactionFromKitchenSystem][27]
+        *   [Parameters][28]
+    *   [setLineStateInKitchenSystem][29]
+        *   [Parameters][30]
+    *   [getConfiguration][31]
+        *   [Parameters][32]
+    *   [saveCustomConfiguration][33]
+        *   [Parameters][34]
+    *   [saveWaitingTime][35]
+        *   [Parameters][36]
+    *   [getWaitingTime][37]
+        *   [Parameters][38]
+*   [messages][39]
+    *   [listenAll][40]
+        *   [Parameters][41]
+        *   [Examples][42]
+*   [utils][43]
+    *   [getApiType][44]
+    *   [getSoftPosVersion][45]
+    *   [getSoftPosInfo][46]
+        *   [Parameters][47]
+    *   [log][48]
+        *   [log][49]
+            *   [Parameters][50]
+            *   [Examples][51]
+        *   [trace][52]
+            *   [Parameters][53]
+        *   [debug][54]
+            *   [Parameters][55]
+        *   [info][56]
+            *   [Parameters][57]
+        *   [warn][58]
+            *   [Parameters][59]
+        *   [error][60]
+            *   [Parameters][61]
+        *   [fatal][62]
+            *   [Parameters][63]
 
 ## jsonApi
 
-JSON API methods to control the SoftPoS CashRegister, see also [https://github.com/Soft-Contact/resto/issues/2#placeorder][60]
+JSON API methods to control the SoftPoS CashRegister, see also [https://github.com/Soft-Contact/resto/issues/2#placeorder][64]
 
 ### placeOrder
 
@@ -72,9 +76,9 @@ Place order
 
 #### Parameters
 
--   `order`  as a JSON object
--   `successCallback`  as a function for successful callback
--   `failureCallback`  as a function for failure callback
+*   `order`  as a JSON object
+*   `successCallback`  as a function for successful callback
+*   `failureCallback`  as a function for failure callback
 
 ### addToOpenTable
 
@@ -82,9 +86,9 @@ addToOpenTable
 
 #### Parameters
 
--   `openTable`  as a JSON object from [https://github.com/Soft-Contact/resto/issues/2#addtoopentable][61]
--   `successCallback`  as a function for successful callback
--   `failureCallback`  as a function for failure callback
+*   `openTable`  as a JSON object from [https://github.com/Soft-Contact/resto/issues/2#addtoopentable][65]
+*   `successCallback`  as a function for successful callback
+*   `failureCallback`  as a function for failure callback
 
 ### getActiveTransaction
 
@@ -92,8 +96,8 @@ get currently on cashregister screen active transaction
 
 #### Parameters
 
--   `successCallback`  
--   `failureCallback`  
+*   `successCallback`  
+*   `failureCallback`  
 
 ### executeLisp
 
@@ -101,14 +105,13 @@ Execute lisp macro on cashregister side
 
 #### Parameters
 
--   `cmd`  lisp macro to execute
--   `successCallback`  
--   `failureCallback`  
+*   `cmd`  lisp macro to execute
+*   `successCallback`  
+*   `failureCallback`  
 
 **Meta**
 
--   **deprecated**: use evalLisp instead, kept some time for backwards compatibility
-
+*   **deprecated**: use evalLisp instead, kept some time for backwards compatibility
 
 ### evalLisp
 
@@ -116,9 +119,9 @@ Evaluate lisp macro on cashregister side
 
 #### Parameters
 
--   `cmd`  lisp macro to evaluate
--   `successCallback`  
--   `failureCallback`  
+*   `cmd`  lisp macro to evaluate
+*   `successCallback`  
+*   `failureCallback`  
 
 ## printer
 
@@ -130,8 +133,8 @@ Experimental: Print data to the printer
 
 #### Parameters
 
--   `printData`  
--   `successCallback`  
+*   `printData`  
+*   `successCallback`  
 
 #### Examples
 
@@ -159,10 +162,10 @@ Experimental: Authorize payment on SoftPoS side using SoftPos configured payment
 
 #### Parameters
 
--   `payment`  
--   `successCallback`  
--   `failureCallback`  
--   `statusCallback`  
+*   `payment`  
+*   `successCallback`  
+*   `failureCallback`  
+*   `statusCallback`  
 
 ### abortAuthorization
 
@@ -170,7 +173,7 @@ Experimental: Abort currently active payment
 
 #### Parameters
 
--   `successCallback`  
+*   `successCallback`  
 
 ## articles
 
@@ -182,8 +185,8 @@ Get all articles from SoftPos
 
 #### Parameters
 
--   `successCallback`  
--   `errorCallback`  
+*   `successCallback`  
+*   `errorCallback`  
 
 ## displays
 
@@ -195,9 +198,9 @@ Experimental: List all transactions based on jobOrderSystemId
 
 #### Parameters
 
--   `jobOrderSystemId`  Job order system id from which to list transactions
--   `successCallback`  
--   `errorCallback`  
+*   `jobOrderSystemId`  Job order system id from which to list transactions
+*   `successCallback`  
+*   `errorCallback`  
 
 ### removeTransactionFromKitchenSystem
 
@@ -205,10 +208,10 @@ Experimental: Remove transactions based on jobOrderSystemId and transactionUuid
 
 #### Parameters
 
--   `jobOrderSystemId`  Job order system id from which to remove transaction
--   `transactionUuid`  transcation to remove
--   `successCallback`  
--   `errorCallback`  
+*   `jobOrderSystemId`  Job order system id from which to remove transaction
+*   `transactionUuid`  transcation to remove
+*   `successCallback`  
+*   `errorCallback`  
 
 ### setLineStateInKitchenSystem
 
@@ -216,11 +219,11 @@ Experimental: Change transactionsline state
 
 #### Parameters
 
--   `jobOrderSystemId`  Job order system id from which to remove transaction
--   `transactionUuid`  transcation to modify
--   `lineStateName`  Ordered, Ready, Prepared, Served, Deleted, Other
--   `successCallback`  
--   `errorCallback`  
+*   `jobOrderSystemId`  Job order system id from which to remove transaction
+*   `transactionUuid`  transcation to modify
+*   `lineStateName`  Ordered, Ready, Prepared, Served, Deleted, Other
+*   `successCallback`  
+*   `errorCallback`  
 
 ### getConfiguration
 
@@ -228,8 +231,8 @@ Experimental: Get map of configuration parameters, including custom configuratio
 
 #### Parameters
 
--   `successCallback`  
--   `errorCallback`  
+*   `successCallback`  
+*   `errorCallback`  
 
 ### saveCustomConfiguration
 
@@ -237,9 +240,30 @@ Experimental: Save custom configuration
 
 #### Parameters
 
--   `conf`  custom configuration
--   `successCallback`  
--   `errorCallback`  
+*   `conf`  custom configuration
+*   `successCallback`  
+*   `errorCallback`  
+
+### saveWaitingTime
+
+Save kitchen system waiting time in minutes
+
+#### Parameters
+
+*   `jobOrderSystemId`  
+*   `waitingTime`  
+*   `successCallback`  
+*   `errorCallback`  
+
+### getWaitingTime
+
+Get kitchen system waiting time in minutes
+
+#### Parameters
+
+*   `jobOrderSystemId`  
+*   `successCallback`  
+*   `errorCallback`  
 
 ## messages
 
@@ -251,7 +275,7 @@ Experimental: Listen for all messages
 
 #### Parameters
 
--   `listenCallbackFn`  callback fn where all SoftPoS side asynchronous messages are passed
+*   `listenCallbackFn`  callback fn where all SoftPoS side asynchronous messages are passed
 
 #### Examples
 
@@ -267,13 +291,13 @@ Utility methods
 
 Gets the SoftPoS API type depending on which environment is used to run it
 
-Returns **[string][62]** one of NONE/HTMLVIEW_LEGACY/HTMLVIEW_JCEF
+Returns **[string][66]** one of NONE/HTMLVIEW_LEGACY/HTMLVIEW_JCEF
 
 ### getSoftPosVersion
 
 Gets the SoftPoS version
 
-Returns **[string][62]** SoftPoS version
+Returns **[string][66]** SoftPoS version
 
 ### getSoftPosInfo
 
@@ -281,10 +305,10 @@ Get the SoftPos info JSON
 
 #### Parameters
 
--   `successCallback`  
--   `failureCallback`  
+*   `successCallback`  
+*   `failureCallback`  
 
-Returns **[json][63]** with fields "success" and "response", where response contains the SoftPosInfo object
+Returns **[json][67]** with fields "success" and "response", where response contains the SoftPosInfo object
 
 ### log
 
@@ -294,7 +318,7 @@ Utility methods for logging
 
 ##### Parameters
 
--   `logRecord`  
+*   `logRecord`  
 
 ##### Examples
 
@@ -308,8 +332,8 @@ Log TRACE message
 
 ##### Parameters
 
--   `msg`  
--   `obj`  
+*   `msg`  
+*   `obj`  
 
 #### debug
 
@@ -317,8 +341,8 @@ Log DEBUG message
 
 ##### Parameters
 
--   `msg`  
--   `obj`  
+*   `msg`  
+*   `obj`  
 
 #### info
 
@@ -326,8 +350,8 @@ Log INFO message
 
 ##### Parameters
 
--   `msg`  
--   `obj`  
+*   `msg`  
+*   `obj`  
 
 #### warn
 
@@ -335,8 +359,8 @@ Log WARN message
 
 ##### Parameters
 
--   `msg`  
--   `obj`  
+*   `msg`  
+*   `obj`  
 
 #### error
 
@@ -344,8 +368,8 @@ Log ERROR message
 
 ##### Parameters
 
--   `msg`  
--   `obj`  
+*   `msg`  
+*   `obj`  
 
 #### fatal
 
@@ -353,8 +377,8 @@ Log FATAL message
 
 ##### Parameters
 
--   `msg`  
--   `obj`  
+*   `msg`  
+*   `obj`  
 
 [1]: #jsonapi
 
@@ -424,60 +448,68 @@ Log FATAL message
 
 [34]: #parameters-13
 
-[35]: #messages
+[35]: #savewaitingtime
 
-[36]: #listenall
+[36]: #parameters-14
 
-[37]: #parameters-14
+[37]: #getwaitingtime
 
-[38]: #examples-1
+[38]: #parameters-15
 
-[39]: #utils
+[39]: #messages
 
-[40]: #getapitype
+[40]: #listenall
 
-[41]: #getsoftposversion
+[41]: #parameters-16
 
-[42]: #getsoftposinfo
+[42]: #examples-1
 
-[43]: #parameters-15
+[43]: #utils
 
-[44]: #log
+[44]: #getapitype
 
-[45]: #log-1
+[45]: #getsoftposversion
 
-[46]: #parameters-16
+[46]: #getsoftposinfo
 
-[47]: #examples-2
+[47]: #parameters-17
 
-[48]: #trace
+[48]: #log
 
-[49]: #parameters-17
+[49]: #log-1
 
-[50]: #debug
+[50]: #parameters-18
 
-[51]: #parameters-18
+[51]: #examples-2
 
-[52]: #info
+[52]: #trace
 
 [53]: #parameters-19
 
-[54]: #warn
+[54]: #debug
 
 [55]: #parameters-20
 
-[56]: #error
+[56]: #info
 
 [57]: #parameters-21
 
-[58]: #fatal
+[58]: #warn
 
 [59]: #parameters-22
 
-[60]: https://github.com/Soft-Contact/resto/issues/2#placeorder
+[60]: #error
 
-[61]: https://github.com/Soft-Contact/resto/issues/2#addtoopentable
+[61]: #parameters-23
 
-[62]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[62]: #fatal
 
-[63]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/JSON
+[63]: #parameters-24
+
+[64]: https://github.com/Soft-Contact/resto/issues/2#placeorder
+
+[65]: https://github.com/Soft-Contact/resto/issues/2#addtoopentable
+
+[66]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+
+[67]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/JSON

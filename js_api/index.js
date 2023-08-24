@@ -368,6 +368,42 @@ const softPos = {
                     }
                 }
             });
+        },
+
+        /**
+         * Save kitchen system waiting time in minutes
+         */
+        saveWaitingTime: function (jobOrderSystemId, waitingTime, successCallback, errorCallback) {
+            onlyJxSupported(() => {
+                try {
+                    let resp = window.softPos.saveWaitingTime(jobOrderSystemId, waitingTime);
+                    parseResultAndMakeCallbacks(resp, errorCallback, successCallback);
+                } catch (e) {
+                    if (errorCallback) {
+                        errorCallback(e);
+                    } else {
+                        console.error("Error in saveWaitingTime", e);
+                    }
+                }
+            });
+        },
+
+        /**
+         * Get kitchen system waiting time in minutes
+         */
+        getWaitingTime: function (jobOrderSystemId, successCallback, errorCallback) {
+            onlyJxSupported(() => {
+                try {
+                    let resp = window.softPos.getWaitingTime(jobOrderSystemId);
+                    parseResultAndMakeCallbacks(resp, errorCallback, successCallback);
+                } catch (e) {
+                    if (errorCallback) {
+                        errorCallback(e);
+                    } else {
+                        console.error("Error in getWaitingTime", e);
+                    }
+                }
+            });
         }
 
     },
