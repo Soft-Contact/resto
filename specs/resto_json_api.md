@@ -115,19 +115,24 @@ sample request code in Java:
 ```java
 	// url is the Restolution JSON API URL: https://restolution.fi/resto/api
         HttpPost httpPost = new HttpPost(url); 
+
         List<BasicNameValuePair> parameters = new ArrayList<>();
+        
         // requestJson is the JSON request as a String, see samples below
-        parameters.add(new BasicNameValuePair("request", requestJson));  
+        parameters.add(new BasicNameValuePair("request", requestJson));
+
         httpPost.setEntity(new UrlEncodedFormEntity(parameters, HTTP.UTF_8));
         httpPost.setHeader("Authorization", 
                 "Basic " + Base64.encodeBase64String((
                         apiKey + ":" + secret
                 ).getBytes(StandardCharsets.UTF_8)));
-        // the response JSON can be read from the input stream response.getEntity().getContent()
+        
 	DefaultHttpClient httpClient = new DefaultHttpClient();
+        
+        // the response JSON can be read from the input stream response.getEntity().getContent()
         HttpResponse response = httpClient.execute(httpPost);
 ```
-In this example the classes `HttpPost`, `BasicNameValuePair`, `UrlEncodedFormEntity`, `HTTP`, `DefaultHttpClient` and `HttpResponse` are from the [Apache HttpClient](https://hc.apache.org/httpcomponents-client-5.2.x/index.html) library. The `Base64` enconding class used for authorization header is from the [Apache Commons](https://commons.apache.org/proper/commons-codec/) library.
+In this example the classes `HttpPost`, `BasicNameValuePair`, `UrlEncodedFormEntity`, `HTTP`, `DefaultHttpClient` and `HttpResponse` are from the [Apache HttpClient](https://hc.apache.org/httpcomponents-client-5.2.x/index.html) library. The `Base64` enconding class used for the authorization header is from the [Apache Commons](https://commons.apache.org/proper/commons-codec/) library.
 
 <a name="common-objects"></a>
 ## Common objects
