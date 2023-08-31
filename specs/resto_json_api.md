@@ -109,7 +109,25 @@ All fields are mandatory, unless described as "optional".
 
 Restolution JSON API also supports Basic access authentication (over HTTPS) as alternative to
 the encoding and hash described in [Restolution JSON API Protocol Technical Description](resto_json_api_technical_description.md).
-Note: When using Basic access authentication, the "apiKey" field is NOT required in the request JSON.
+Note: When using Basic access authentication, the "apiKey" field is NOT required in the request JSON and the "request" parameter must not be Base64 encoded.
+
+sample request code in Java:
+```java
+	// url is the Restolution JSON API URL: https://restolution.fi/resto/api
+        HttpPost httpPost = new HttpPost(url); 
+        List<BasicNameValuePair> parameters = new ArrayList<>();
+        // requestJson is the JSON request as a String, see samples below
+        parameters.add(new BasicNameValuePair("request", requestJson));  
+        httpPost.setEntity(new UrlEncodedFormEntity(parameters, HTTP.UTF_8));
+        httpPost.setHeader("Authorization", 
+                "Basic " + Base64.encodeBase64String((
+                        apiKey + ":" + secret
+                ).getBytes(StandardCharsets.UTF_8)));
+        // the response JSON can be read from the input stream response.getEntity().getContent()
+	DefaultHttpClient httpClient = new DefaultHttpClient();
+        HttpResponse response = httpClient.execute(httpPost);
+```
+In this example the classes `HttpPost`, `BasicNameValuePair`, `UrlEncodedFormEntity`, `HTTP`, `DefaultHttpClient` and `HttpResponse` are from the [Apache HttpClient](https://hc.apache.org/httpcomponents-client-5.2.x/index.html) library. The `Base64` enconding class used for authorization header is from the [Apache Commons](https://commons.apache.org/proper/commons-codec/) library.
 
 <a name="common-objects"></a>
 ## Common objects
@@ -3612,5 +3630,6 @@ sample response:
 | 09.08.2023 | mats.antell@restolution.fi	  | Add new parameter "includePaymentTerminalTransactionData" to getReceipts method |
 | 09.08.2023 | mats.antell@restolution.fi	  | Added Customer field descriptors |
 | 09.08.2023 | mats.antell@restolution.fi	  | Added PriceList, Price field descriptors, improved TOC order |
+| 31.08.2023 | mats.antell@restolution.fi	  | Added sample code for the Basic authentication |
 
 
