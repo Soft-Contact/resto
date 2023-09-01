@@ -557,6 +557,7 @@ The delivery notes returned by the "getDeliveryNotes" method are objects of "Del
 * ``orderNumber`` - number of the Order in Restolution that corresponds to the DeliveryNote
 * ``deliveryDate`` - timestamp when this delivery note took place and affected the storage values
 * ``verifiedDate`` - timestamp when this delivery note was verified
+* ``registeredDate`` - timestamp when this delivery note was registered
 * ``businessUnitUUID`` - globally unique identifier of the Restolution business unit that this delivery note added to (a type 4 UUID as specified by RFC 4122)
 * ``toStorageName`` - name of the storage that this delivery note added to
 * ``userName`` - name of user who created this delivery note
@@ -2150,6 +2151,7 @@ sample response:
         "clientUUID": "0016eb0e-a9e2-4a82-a4a1-b33b6483ef57",
         "deliveryDate": "2018-08-02T04:59:59.99",
         "verifiedDate": "2018-08-01T08:03:39.787",
+        "registeredDate": "2018-08-01T07:45:56.314",
         "businessUnitUUID": "0b4a62aa-f857-4282-8dbb-ca26c0b1468c",
         "storageName": "Testivarasto 1",
         "userName": "Milla Mallikas",
