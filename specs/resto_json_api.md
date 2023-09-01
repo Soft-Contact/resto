@@ -2113,6 +2113,8 @@ parameters:
 
 * ``dateFrom`` - get delivery notes that have delivery note date equal to or later than this date. This parameter is required.
 * ``dateUntil`` - get delivery notes that have delivery note date equal to or earlier than this date.
+* ``registeredFromDate`` - optionally get delivery notes that have been registered equal or later to this date.
+* ``registeredUntilDate`` - optionally get delivery notes that been registered equal to or earlier than this date.
 * ``businessUnitUUIDs`` - optional list of business unit UUID's whose delivery notes should be included. If this parameter is not given, the delivery notes of all business units will be included.
 
 response:
@@ -3636,5 +3638,5 @@ sample response:
 | 09.08.2023 | mats.antell@restolution.fi	  | Added Customer field descriptors |
 | 09.08.2023 | mats.antell@restolution.fi	  | Added PriceList, Price field descriptors, improved TOC order |
 | 31.08.2023 | mats.antell@restolution.fi	  | Added sample code for the Basic authentication |
-
+| 01.09.2023 | mats.antell@restolution.fi	  | Added registeredFromDate and registeredUntilDate to getDeliveryNotes |
 
