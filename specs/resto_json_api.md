@@ -2871,7 +2871,7 @@ Imports new and existing sale articles to Restolution. If several Restolution cl
 
 <b>Note 2: If a property is missing, it will not be changed or set at all. If a property is given with the value null, it will be set if possible. Sums cannot be null.</b>
 
-<b>Note 3: Only sale articles can be imported. Thise corresponds to the ``SALE_ARTICLE`` in [Article main type](#article_maintype).
+<b>Note 3: Only sale articles can be imported. Thise corresponds to the ``SALE_ARTICLE`` in [Article main type](#article_maintype).</b>
 
 The sale articles to be imported are given as a list of [Extended Article (import)](#extendedarticle_import), used also in [getArticles](#getarticles) method. Importing supports only a subset of the properties in [Extended Article](#extendedarticle). The main reason is that many of the properties in [Extended Article](#extendedarticle) belong to other entities of Restolution and are managed separately. For example, importing an article with "priceListID": "1" requires that the price list with number "1" exists in Restolution. Refering to incorrect codes and IDs will raise errors and import will not succeed.
 
