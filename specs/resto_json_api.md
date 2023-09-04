@@ -34,6 +34,8 @@
     + [Campaign](#campaign)
     + [Campaign Unit Row](#campaign-unit-row)
     + [Campaign Article Row](#campaign-article-row)
+    + [Order](#order)
+    + [Order Row](#orderrow)
     + [Delivery Note](#deliverynote)
     + [Delivery Note Row](#deliverynoterow)
     + [Transfer](#transfer)
@@ -57,6 +59,7 @@
     + [listCards](#listcards)
     + [importCards](#importcards)
     + [listCampaigns](#listCampaigns)
+    + [getOrders](#getorders)
     + [getDeliveryNotes](#getdeliverynotes)
     + [getTransfers](#gettransfers)
     + [getWastages](#getwastages)
@@ -546,6 +549,39 @@ See also [listCampaigns](#listCampaigns).
 * ``price`` - price group total price in cents
 * ``articleGroupName`` - article group name this salearticle is belonging to
 
+<a name="order"></a>
+### Order
+
+The orders returned by the "getOrders" method are objects of "Order" which contains the rows of the order as an array of [Order Rows](#orderrow).
+
+* ``orderUUID`` - globally unique identifier of the Order (a type 4 UUID as specifield by RFC 4122)
+* ``clientUUID`` - globally unique identifier of the Restolution client that this delivery note belongs to (a type 4 UUID as specified by RFC 4122)
+* ``deliveryNoteUUID`` - globally unique identifier of the Restolution Delivery Note corresponding to this Order
+* ``orerNumber`` - number of the order in Restolution
+* ``orderDate`` - timestamp when this order was made
+* ``verifiedDate`` - timestamp when this order was verified
+* ``businessUnitUUID`` - globally unique identifier of the Restolution business unit that this order was added to (a type 4 UUID as specified by RFC 4122)
+* ``storageName`` - name of the storage that this order was added to
+* ``userName`` - name of user who created this order
+* ``status`` - the status of this delivery note, can be one of IN_PROGRESS, DONE, VERIFIED.
+* ``description`` - description of this order
+* ``orderRows`` - array of order rows 
+
+<a name="orderrow"></a>
+### Order Row
+
+The order rows contain on article level the quantities and purchase prices of the order.
+
+* ``articleUUID`` -  globally unique identifier for this order row's article (a type 4 UUID as specified by RFC 4122)
+* ``articleName`` - article name of this delivery note row's article
+* ``storageArticleID`` - storage article ID of this order row's storage article
+* ``quantity`` - the SI unit quantity of the article of this order row  in 1/1000 parts
+* ``quantityInBaseUnits`` - the baseunit quantity of the article of this order row  in 1/1000 parts
+* ``baseUnit`` - the base unit of this order row's article, e.g. a bottle, BTL.
+* ``baseUnitInSIUnits`` - base unit in SI units, e.g. how many grams in a kilogram. Note that this defaults to 1 for all units that can have different sizes, in 1/1000 parts.
+* ``purchasePriceWithTax`` - The purchase price of a base unit of this order row's article including tax
+* ``purchaseTax`` - The purchase tax percentage applied to the purchase of this order row's article. Given as a whole number, e.g 24% is given as 24. 
+
 <a name="deliverynote"></a>
 ### Delivery Note
 
@@ -558,10 +594,11 @@ The delivery notes returned by the "getDeliveryNotes" method are objects of "Del
 * ``deliveryDate`` - timestamp when this delivery note took place and affected the storage values
 * ``verifiedDate`` - timestamp when this delivery note was verified
 * ``registeredDate`` - timestamp when this delivery note was registered
-* ``businessUnitUUID`` - globally unique identifier of the Restolution business unit that this delivery note added to (a type 4 UUID as specified by RFC 4122)
-* ``toStorageName`` - name of the storage that this delivery note added to
+* ``businessUnitUUID`` - globally unique identifier of the Restolution business unit that this delivery note was added to (a type 4 UUID as specified by RFC 4122)
+* ``storageName`` - name of the storage that this delivery note was added to
 * ``userName`` - name of user who created this delivery note
-* ``status`` - the status of this delivery note, can be one of IN_PROGRESS, DONE, VERIFIED. 
+* ``status`` - the status of this delivery note, can be one of IN_PROGRESS, DONE, VERIFIED, TEMPLATE.
+* ``comment`` - a free text domment of this delivery note
 * ``deliveryNoteRows`` - array of delivery note rows
 
 <a name="deliverynoterow"></a>
@@ -2105,18 +2142,88 @@ sample response:
 	]
 }
 ```
-
-<a name="getdeliverynotes"></a>
-### getDeliveryNotes
-Gets all storage delivery notes from Restolution. The delivery notes are returned as an array of [DeliveryNotes](#deliverynote). The endpoint mimics the parameters and data in Delivery Note Reports in Restolution.
+<a name="getorders"></a>
+### getOrders
+Gets all orders from Restolution. The orders are returned as an array of [Orders](#order). 
+The method mimics the the parameters and data in Order Reports in Restolution.
 
 parameters:
 
-* ``dateFrom`` - get delivery notes that have delivery note date equal to or later than this date. This parameter is required.
-* ``dateUntil`` - get delivery notes that have delivery note date equal to or earlier than this date.
+* ``dateFrom`` - get orders that have order date equal to or later than this date. This parameter is required.
+* ``dateUntil`` - get orders that have order date equal to or earlier than this date.
+* ``businessUnitUUIDs`` - optional list of business unit UUIDs whose orders should be included. If this parameter is not given, the orders of all business units will be included.
+* ``openOrdersOnly`` - true/false option to include only orders that have no corresponding delivery note yet
+
+response:
+
+* ``orders`` - array of Order objects
+
+sample request:
+
+```json
+{
+  "apiKey":"user_321683", 
+  "timestamp": "2022-01-20T15:13:40.988Z",
+  "requestID": "test_request_id",
+  "method": "getOrders",
+  "params": {
+      "dateFrom":"2018-08-01T05:00:00.00Z",
+      "dateUntil":"2018-08-07T04:59:59.99Z",
+      "businessUnitUUIDs": ["0b4a62aa-f857-4282-8dbb-ca26c0b1468c"]
+  }   
+}
+```
+
+sample response:
+
+```json
+{
+  "success": true,
+  "timestamp": "2018-09-04T11:02:14.709Z",
+  "requestID": "test_request_id",
+  "response": {
+    "orders": [
+      {
+        "orderUUID": "a781943c-dd6c-4a73-aa59-77dfefdfda10",
+        "clientUUID": "fba3d2ac-1bb6-49ea-a1cd-d147d6a7e237",
+        "orderDate": "2018-08-03T04:59:59.99",
+        "verifiedDate": "2018-08-02T16:51:17.002",
+        "orderNumber": 12,
+        "deliveryNoteUUID": "3ca12e9e-56f9-4935-b714-d8451206609e",
+        "businessUnitUUID": "0b4a62aa-f857-4282-8dbb-ca26c0b1468c",
+        "storageName": "Varasto 1",
+        "userName": "Maija Mallikas",
+        "status": "VERIFIED",
+        "orderRows": [
+          {
+            "articleUUID": "a9fade01-cc6f-49c2-aacc-56c9a07cd94e",
+            "storageArticleID": "1801",
+            "articleName": "Viina",
+            "quantity": 22500,
+            "quantityInBaseUnits": 30000,
+            "baseUnit": "PLO",
+            "baseUnitInSIUnits": 750,
+            "purchasePriceWithTax": 1690,
+            "purchaseTax": 24
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+<a name="getdeliverynotes"></a>
+### getDeliveryNotes
+Gets all storage delivery notes from Restolution. The delivery notes are returned as an array of [DeliveryNotes](#deliverynote). The method mimics the parameters and data in Delivery Note Reports in Restolution.
+
+parameters:
+
+* ``dateFrom`` - get delivery notes that have delivery date equal to or later than this date. This parameter or ``registeredFromDate`` is required.
+* ``dateUntil`` - get delivery notes that have delivery date equal to or earlier than this date.
 * ``registeredFromDate`` - optionally get delivery notes that have been registered equal or later to this date.
 * ``registeredUntilDate`` - optionally get delivery notes that been registered equal to or earlier than this date.
-* ``businessUnitUUIDs`` - optional list of business unit UUID's whose delivery notes should be included. If this parameter is not given, the delivery notes of all business units will be included.
+* ``businessUnitUUIDs`` - optional list of business unit UUIDs whose delivery notes should be included. If this parameter is not given, the delivery notes of all business units will be included.
 
 response:
 
@@ -3641,4 +3748,5 @@ sample response:
 | 09.08.2023 | mats.antell@restolution.fi	  | Added PriceList, Price field descriptors, improved TOC order |
 | 31.08.2023 | mats.antell@restolution.fi	  | Added sample code for the Basic authentication |
 | 01.09.2023 | mats.antell@restolution.fi	  | Added registeredFromDate and registeredUntilDate to getDeliveryNotes |
+| 04.09.2023 | mats.antell@restolution.fi         | Added getOrders and Order and Order Row |
 
