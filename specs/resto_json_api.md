@@ -2192,6 +2192,8 @@ sample response:
         "clientUUID": "fba3d2ac-1bb6-49ea-a1cd-d147d6a7e237",
         "orderDate": "2018-08-03T04:59:59.99",
         "verifiedDate": "2018-08-02T16:51:17.002",
+        "insertionDate": "2018-08-02T15:32:22.968",
+        "deliveryDate": "2023-08-08T04:59:59.990", 
         "orderNumber": 12,
         "deliveryNoteUUID": "3ca12e9e-56f9-4935-b714-d8451206609e",
         "businessUnitUUID": "0b4a62aa-f857-4282-8dbb-ca26c0b1468c",
