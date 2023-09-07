@@ -560,6 +560,8 @@ The orders returned by the "getOrders" method are objects of "Order" which conta
 * ``orerNumber`` - number of the order in Restolution
 * ``orderDate`` - timestamp when this order was made
 * ``verifiedDate`` - timestamp when this order was verified
+* ``insertionDate`` - timestamp when this order was first entered in to Restolution
+* ``deliveryDate`` - optional timestamp when the delivery of this order is scheduled
 * ``businessUnitUUID`` - globally unique identifier of the Restolution business unit that this order was added to (a type 4 UUID as specified by RFC 4122)
 * ``storageName`` - name of the storage that this order was added to
 * ``userName`` - name of user who created this order
@@ -2149,8 +2151,10 @@ The method mimics the the parameters and data in Order Reports in Restolution.
 
 parameters:
 
-* ``dateFrom`` - get orders that have order date equal to or later than this date. This parameter is required.
+* ``dateFrom`` - get orders that have order date equal to or later than this date. This parameter or ``insertedFromDate`` is required.
 * ``dateUntil`` - get orders that have order date equal to or earlier than this date.
+* ``insertedFromDate`` - optionally get orders that have insertion date equal to or later than this date.
+* ``insertedUntilDate`` - optionally get orders that have insertion date eqauls to or earlier than this date.
 * ``businessUnitUUIDs`` - optional list of business unit UUIDs whose orders should be included. If this parameter is not given, the orders of all business units will be included.
 * ``openOrdersOnly`` - true/false option to include only orders that have no corresponding delivery note yet
 
