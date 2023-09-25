@@ -688,6 +688,7 @@ The wastage rows contain on article level the quantities and purchase prices of 
 The inventories returned by the [getInventories](#getinventories) method are objects of "Inventory" which contains the rows of the inventory as an array of [Inventory Rows](#inventoryrow).
 
 * ``clientUUID`` - globally unique identifier of the Restolution client that this inventory belongs to (a type 4 UUID as specified by RFC 4122)
+* ``inventoryUUID`` - globally unique identifier of the Inventory (a type 4 UUID as specifield by RFC 4122)
 * ``periodStart`` - timestamp when this inventory's period starts
 * ``periodEnd`` - timestamp when this inventory's period ends
 * ``calculationDate`` - timestamp of the actual (physical) inventory. Ie. the date when user counted the articles in stock (calculated the inventory).
@@ -2591,6 +2592,7 @@ sample response:
     "inventories": [
       {
         "clientUUID": "fba3d9ac-1bb6-49ea-a1cd-d147d6a7e233",
+        "inventoryUUID": "634bd5ab-59f9-44f3-aade-1ebe2a5bd7ca",  
         "periodStart": "2022-04-01T05:00:00",
         "periodEnd": "2022-05-01T04:59:59.99",
         "calculationDate": "2022-05-20T04:59:59.99",
@@ -3755,4 +3757,5 @@ sample response:
 | 31.08.2023 | mats.antell@restolution.fi	  | Added sample code for the Basic authentication |
 | 01.09.2023 | mats.antell@restolution.fi	  | Added registeredFromDate and registeredUntilDate to getDeliveryNotes |
 | 04.09.2023 | mats.antell@restolution.fi         | Added getOrders and Order and Order Row |
+| 25.09.2023 | mats.antell@restolution.fi         | Added Inventory.inventoryUUID |
 
