@@ -2557,8 +2557,12 @@ Gets all inventories from Restolution. The inventories are returned as an array 
 
 parameters:
 
-* ``month`` - get inventories whose inventory period start and end at the given month. Month is given in the format "MM/YYYY". This parameter is required.
+* ``month`` - get inventories whose inventory period start and end at the given month. Month is given in the format "MM/YYYY". This parameter is required if "verifiedFromDate" or "verifiedUntilDate" are not specified.
 * ``businessUnitUUIDs`` - optional list of business unit UUID's whose inventories should be included. If this parameter is not given, the inventories of all business units will be included.
+* ``verifiedFromDate`` - optionally get inventories that have verified date equal to or later than this date.  Required if "month" and "verifiedUntilDate" are not specified.
+* ``verifiedUntilDate`` - optionally get inventories that have verified date equal to or earlier than this date. Required if "month" and "verifiedFromDate" are not specified.
+* ``inventoryUUIDs`` - optionally get inventories with given UUIDs. Must be used together with "month" or "verifiedFromDate".
+
 
 response:
 
