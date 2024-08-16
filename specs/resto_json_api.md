@@ -270,8 +270,8 @@ The articles returned by the ``getArticles``  method are objects of  ``ExtendedA
 * ``deliveryUnitInSIUnits`` - delivery unit in SI units. Note that this defaults to 1 for all units that can have different sizes, in 1/1000 parts.
 * ``recipeQuantity`` - the unit quantity of the recipe article that is to be used in other articles
 * ``recipeUnit`` - the unit of the receipe article, e.g. millilitres, ML.
-* ``saleTax`` - Sale tax percentage applied to the sale of this article. Given as a whole number, e.g 24% is given as 24.
-* ``purchaseTax`` - Purchase tax percentage applied to the the purchase of this article. Given as a whole number, e.g 24% is given as 24.
+* ``saleTax`` - Sale tax percentage applied to the sale of this article. Given as a whole number if possible, decimal number otherwise, e.g 24% is given as 24 and 25.5% as 25.5.
+* ``purchaseTax`` - Purchase tax percentage applied to the the purchase of this article. Given as a whole number if possible, decimal number otherwise, e.g 24% is given as 24 and 25.5% as 25.5.
 * ``purchasePriceWithTax`` - The purchase price of a base unit of this article including tax.
 * ``portionSize`` - Size of a portion by which this article is sold.
 * ``saleArticleContents`` - Contents of a sale article as a list of [Content Articles](#contentarticle).
@@ -314,7 +314,7 @@ Content articles can be the contents of a sale, storage or recipe article. They 
 * ``deliveryUnit`` - delivery unit that the article arrives to the storage in, e.g. a box.
 * ``deliveryUnitInSIUnits`` - delivery unit in SI units. Note that this defaults to 1 for all units that can have different sizes, in 1/1000 parts.
 * ``purchasePriceWithTax`` - The purchase price of a base unit of this article including tax
-* ``purchaseTax`` - Purchase tax percentage applied to the the purchase of this article. Given as a whole number, e.g 24% is given as 24.
+* ``purchaseTax`` - Purchase tax percentage applied to the the purchase of this article. Given as a whole number if possible, decimal number otherwise, e.g 24% is given as 24 and 25.5% as 25.5.
 * ``modifiedDate`` - when this article was last modified
 
 <a name="pricelist"></a>
@@ -335,7 +335,7 @@ A sale price in Restolution. Note: When used in [importArticles](#importarticles
 * ``price`` _[integer, optional]_ - unit price including VAT in cents
 * ``priceWithTax`` _[integer, required in [importArticles](#importarticles)]_ - unit price without VAT in cents
 * ``priceWithoutTax`` _[integer, optional]_ - unit price without VAT in cents
-* ``tax`` _[integer, optional]_ - tax percentage, given as a whole number, e.g 24% is given as 24.
+* ``tax`` _[integer, optional]_ - tax percentage, given as a whole number if possible, decimal number otherwise, e.g 24% is given as 24 and 25.5% as 25.5.
 
 <a name="article-option"></a>
 ### Article Option
@@ -396,7 +396,7 @@ or read using "getReceipts" method.
 * ``price`` - unit price including VAT in cents
 * ``quantity`` - ordered quantity in 1/1000 parts
 * ``amount`` - optional row total amount in cents including VAT after discounts
-* ``tax`` - tax percentage
+* ``tax`` - tax percentage.  A whole number if possible, decimal number otherwise, e.g 24% is given as 24 and 25.5% as 25.5.
 * ``timestamp`` - timestamp when this sale was created
 * ``unitName`` - unit name, operational unit name in Restolution
 * ``clerkNumber`` - number of clerk who made the sale
@@ -582,7 +582,7 @@ The order rows contain on article level the quantities and purchase prices of th
 * ``baseUnit`` - the base unit of this order row's article, e.g. a bottle, BTL.
 * ``baseUnitInSIUnits`` - base unit in SI units, e.g. how many grams in a kilogram. Note that this defaults to 1 for all units that can have different sizes, in 1/1000 parts.
 * ``purchasePriceWithTax`` - The purchase price of a base unit of this order row's article including tax
-* ``purchaseTax`` - The purchase tax percentage applied to the purchase of this order row's article. Given as a whole number, e.g 24% is given as 24. 
+* ``purchaseTax`` - The purchase tax percentage applied to the purchase of this order row's article. Given as a whole number if possible, decimal number otherwise, e.g 24% is given as 24 and 25.5% as 25.5.
 
 <a name="deliverynote"></a>
 ### Delivery Note
@@ -616,7 +616,7 @@ The delivery note rows contain on article level the quantities and purchase pric
 * ``baseUnit`` - the base unit of this delivery note row's article, e.g. a bottle, BTL.
 * ``baseUnitInSIUnits`` - base unit in SI units, e.g. how many grams in a kilogram. Note that this defaults to 1 for all units that can have different sizes, in 1/1000 parts.
 * ``purchasePriceWithTax`` - The purchase price of a base unit of this delivery note row's article including tax
-* ``purchaseTax`` - The purchase tax percentage applied to the purchase of this delivery note row's article. Given as a whole number, e.g 24% is given as 24.
+* ``purchaseTax`` - The purchase tax percentage applied to the purchase of this delivery note row's article. Given as a whole number if possible, decimal number otherwise, e.g 24% is given as 24 and 25.5% as 25.5.
 
 <a name="transfer"></a>
 ### Transfer
@@ -649,7 +649,7 @@ The transfer rows contain on article level the quantities and purchase prices of
 * ``baseUnit`` - the base unit of this transfer row's article, e.g. a bottle, BTL.
 * ``baseUnitInSIUnits`` - base unit in SI units, e.g. how many grams in a kilogram. Note that this defaults to 1 for all units that can have different sizes, in 1/1000 parts.
 * ``purchasePriceWithTax`` - The purchase price of a base unit of this transfer row's article including tax
-* ``purchaseTax`` - The purchase tax percentage applied to the purchase of this transfer row's article. Given as a whole number, e.g 24% is given as 24.
+* ``purchaseTax`` - The purchase tax percentage applied to the purchase of this transfer row's article. Given as a whole number if possible, decimal number otherwise, e.g 24% is given as 24 and 25.5% as 25.5.
 
 <a name="wastage"></a>
 ### Wastage
@@ -680,7 +680,7 @@ The wastage rows contain on article level the quantities and purchase prices of 
 * ``baseUnit`` - the base unit of this wastage row's article, e.g. a bottle, BTL. Note: this is only shown when ``useStorageDistribution`` is set to ``true``
 * ``baseUnitInSIUnits`` - base unit in SI units, e.g. how many grams in a kilogram. Note that this defaults to 1 for all units that can have different sizes, in 1/1000 parts. Note: this is only shown when ``useStorageDistribution`` is set to ``true``
 * ``purchasePriceWithTax`` - The purchase price of a base unit of this wastage row's article including tax at the time of the wastage
-* ``purchaseTax`` - The purchase tax percentage applied to the purchase of this wastage row's article. Given as a whole number, e.g 24% is given as 24.
+* ``purchaseTax`` - The purchase tax percentage applied to the purchase of this wastage row's article. Given as a whole number if possible, decimal number otherwise, e.g 24% is given as 24 and 25.5% as 25.5.
 
 <a name="inventory"></a>
 ### Inventory
@@ -716,7 +716,7 @@ The inventory rows contain on article level the quantities and purchase prices o
 * ``baseUnit`` - the base unit of this inventory row's article, e.g. a bottle, BTL.
 * ``baseUnitInSIUnits`` - base unit in SI units, e.g. how many grams in a kilogram. Note that this defaults to 1 for all units that can have different sizes, in 1/1000 parts.
 * ``purchasePriceWithTax`` - The purchase price of a base unit of this inventory row's article including tax
-* ``purchaseTax`` - The purchase tax percentage applied to the purchase of this inventory row's article. Given as a whole number, e.g 24% is given as 24.
+* ``purchaseTax`` - The purchase tax percentage applied to the purchase of this inventory row's article. Given as a whole number if possible, decimal number otherwise, e.g 24% is given as 24 and 25.5% as 25.5.
 
 <a name="storagevalue"></a>
 ### Storage Value
@@ -741,7 +741,7 @@ The storage values returned by the [getStorageValues](#getstoragevalues) method 
 * ``baseUnit`` - the base unit of this storage value's article, e.g. a bottle, BTL.
 * ``baseUnitInSIUnits`` - base unit in SI units, e.g. how many litres in a bottle. Note that this defaults to 1 for all units that can have different sizes, in 1/1000 parts.
 * ``purchasePriceWithTax`` - The purchase price of a base unit of this storage value's article including tax
-* ``purchaseTax`` - Purchase tax percentage applied to the the purchase of this storage value's article. Given as a whole number, e.g 24% is given as 24.
+* ``purchaseTax`` - Purchase tax percentage applied to the the purchase of this storage value's article. Given as a whole number if possible, decimal number otherwise, e.g 24% is given as 24 and 25.5% as 25.5.
 
 <a name="employee"></a>
 ### Employee
