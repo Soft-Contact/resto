@@ -193,6 +193,8 @@ response structure:
 * TAX_NOT_FOUND
 * PAYMENT_ERROR
 * PRICE_NOT_SET - sale line is missing price, or the price is zero for article where it is not allowed
+* CAN_NOT_LOCK_TABLE - can not aquire lock on a table
+* CAN_NOT_UNLOCK_TABLE - can not release lock on a table
     
 ## Server status codes 
 
