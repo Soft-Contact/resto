@@ -11,6 +11,7 @@
     + [Client](#client) 
     + [Restaurant](#restaurant)
     + [Unit](#unit)
+    + [Cash register](#cash_register)
     + [Contact](#contact)
     + [Open Hours](#open-hours)
     + [Open Hour](#open-hour)
@@ -200,7 +201,7 @@ A Unit is an Operational Unit in Restolution.
 * ``registrationNr`` - registration number of the business unit
 * ``companyName`` - company name, the name of the company linked to the business unit
 
-<a name="cashregister"></a>
+<a name="cash_register"></a>
 ### Cash register
 A cash register used in a Restaurant in Restolution
 
