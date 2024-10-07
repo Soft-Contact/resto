@@ -176,7 +176,8 @@ A Restaurant is a BusinessUnit in Restolution.
 * ``customers`` - array of Customer objects (empty if customers are not included)
 * ``printers`` - array of Printer objects
 * ``status`` - status of restaurant.  Can be one of ``ACTIVE``, ``NEW``, ``DISABLED``. Included only if ``includeAllRestaurants`` is ``true``.
-* ``units`` - array of Unit objects, operational units in Restolution.
+* ``units`` - array of [Unit](#unit) objects, operational units in Restolution.
+* ``cashRegisters`` array of [Cash register](#cash_register) objects
 
 <a name="unit"></a>
 ### Unit
@@ -198,6 +199,17 @@ A Unit is an Operational Unit in Restolution.
 * ``faxNr`` - fax number
 * ``registrationNr`` - registration number of the business unit
 * ``companyName`` - company name, the name of the company linked to the business unit
+
+<a name="cashregister"></a>
+### Cash register
+A cash register used in a Restaurant in Restolution
+
+* ``cashRegisterUUID`` - globally unique identifier of the cash register (a type 4 UUID as specified by RFC 4122)
+* ``type`` - the type of the cash register. Given as a [Cash register type](#cash_register_type)
+* ``cashRegisterName`` - the name of the cash register
+* ``status`` - the production status of the cash register. Given as a [Production status](#production_status)
+* ``ipAddress`` - the IP address of the cash register
+* ``master`` - true/false if this is a master cash register or not
 
 <a name="open-hours"></a>
 ### Open hours
@@ -873,6 +885,7 @@ parameters:
 * ``includeBaseData`` - flag for including restaurant base data (contact and open hours) in results
 * ``includeAllRestaurants`` - flag for including all restaurants with status field shown. If not defined, lists only ACTIVE restaurants.
 * ``includeArticleImages`` - flag for including article images in results
+* ``includeCashRegisters`` - flag for including cash registers in results
 
 response:
 
@@ -893,7 +906,8 @@ sample request:
         "includeArticles" : true,
         "includeCustomers" : true,
         "includeBaseData" : true,
-        "includeArticleImages" : true
+        "includeArticleImages" : true,
+        "includeCashRegisters" : true
     }
 }
 ```
@@ -1225,7 +1239,25 @@ sample response:
             "unitName": "Dining room",
             "unitUUID": "68884762-1d63-4c4f-81b1-dda39f69c643"
           }
-	]  
+	],
+        "cashRegisters": [
+          {
+             "cashRegisterUUID": "0538d21d-cd0a-4b18-a1a1-7543ef00a3ee",
+             "type": "BITPOS_LS",
+             "cashRegisterName": "Main cash register 1",
+             "status": "IN_PRODUCTION",
+             "ipAddress": "192.168.1.207",
+             "master": true
+           },
+          {
+             "cashRegisterUUID": "4ec2edff-1a91-4815-85aa-e38cb7f6ac62",
+             "type": "SELFSERVICE_XL",
+             "cashRegisterName": "Selfservice 1",
+             "status": "NEW",
+             "ipAddress": "192.168.1.212",
+             "master": false
+           } 
+  	]   
       }
     ]
   }
@@ -3718,6 +3750,47 @@ sample response:
 * ``ACTIVE`` - Card is active and can be used in POS
 * ``DISABLED`` - Card is disabled and can not be used in POS
 
+<a name="cash_register_type"></a>
+## Cash register type
+
+* ``BITPOS_LS`` - SP Large
+* ``BITPOS_T2`` - SP Small
+* ``BITPOS_LITE_LS`` - SP Lite Large
+* ``BITPOS_LITE_T2`` - SP Lite Small
+* ``BITPOS_P2`` - SP Point
+* ``NETS_PAY_AT_TABLE`` - Nets pay@table
+* ``EASY`` - Easy
+* ``SELFSERVICE`` - Self-service
+* ``SELFSERVICE_XL`` - Self-service XL
+* ``WISKY`` - Wisky
+* ``UP600`` - Sharp UP600
+* ``UP700`` - Sharp UP700
+* ``UP810F`` - Sharp UP810F
+* ``UP810F_V162`` - Sharp UP810F V162
+* ``UP810F_V170`` - Sharp UP810F V170
+* ``UP810F_V181`` - Sharp UP810F V181
+* ``UP3500`` - Sharp UP3500
+* ``UP3500_V130`` - Sharp UP3500 V130
+* ``UP3500_V140`` - Sharp UP3500 V140
+* ``UP3500_V161`` - Sharp UP3500 V161
+* ``POPUP_V1`` - RestoGo
+* ``BITPOS_MOBILE_P`` - SP Mobile
+* ``KITCHEN_DISPLAY`` - Keittiönäyttö
+* ``JSON_API`` - JSON API
+* ``BESTORANTE`` - Bestorante
+* ``HTML`` - HTML
+* ``BASIC`` - Restolution Basic
+
+<a name="production_status"></a>
+## Production status
+
+* ``NEW`` - New, being installed
+* ``IN_PRODUCTION`` - In active production use
+* ``DISABLED`` - Disabled
+
+
+
+
      
 <a name="version-history"></a>
 ## Version history
@@ -3762,4 +3835,5 @@ sample response:
 | 01.09.2023 | mats.antell@restolution.fi	  | Added registeredFromDate and registeredUntilDate to getDeliveryNotes |
 | 04.09.2023 | mats.antell@restolution.fi         | Added getOrders and Order and Order Row |
 | 25.09.2023 | mats.antell@restolution.fi         | Added Inventory.inventoryUUID |
+| 07.10.2024 | mats.antell@restolution.fi         | Added cash register listing to listRestaurants |
 
