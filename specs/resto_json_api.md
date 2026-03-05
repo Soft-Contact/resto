@@ -29,6 +29,7 @@
     + [Discount](#discount)
     + [Payment Row](#payment-row)
     + [Customer](#customer)
+    + [Supplier](#supplier)
     + [Card](#card)
     + [Printer](#printer)
     + [Bookkeeping Row](#bookkeeping-row)
@@ -57,6 +58,7 @@
     + [saveReceipts](#savereceipts)
     + [listCustomers](#listcustomers)
     + [importCustomers](#importcustomers)
+    + [importSuppliers](#importsuppliers)
     + [listCards](#listcards)
     + [importCards](#importcards)
     + [listCampaigns](#listCampaigns)
@@ -396,6 +398,7 @@ or read using "getReceipts" method.
 * ``memoInfo`` - receipt memo info, used in "getReceipts"
 * ``quickInvoice`` - true if receipt has been finalized as a quick invoice in cash register
 * ``tableCode`` - optional table code
+* ``additionalJson`` - an optional JSON object containing any additional JSON data added to the receipt by the cash register. See also [getReceipts](#getreceipts)
 * ``receiptRows`` - an array of [Receipt Row](#receipt-row) objects
 * ``paymentRows`` - an array of [Payment Row](#payment-row) objects
 
@@ -483,6 +486,23 @@ See also [listCustomers](#listcustomers).
 * ``contact`` _[Contact, optional] - customer contact information as a Contact object. This object is omitted in results if no contact fields have been set in Restolution. See [Contact](#contact).
 * ``restaurantIDs`` _[array, optional]_ - array of Restaurant IDs where this Customer is active. Note: Used only in [importCustomers](#importcustomers). If not defined, the customer will be set active in every restaurant.
 * ``businessUnitUUIDs`` _[array, optional]_ - array of Business Unit UUIDs of restaurants where this Customer is active. Note: Used only in [importCustomers](#importcustomers). If not defined, the customer will be set active in every restaurant.
+
+<a name="supplier"></a>
+### Supplier
+
+A supplier in Restolution. See also [importSuppliers](#importsuppliers)
+
+* ``supplierNumber`` _[string, numeric, required]_ - supplier ID, supplier number in Restolution
+* ``supplierName`` _[string, required]_ - Name of the supplier
+* ``registrationNumber`` _[string]_ - Company business id code (e.g. 2124562-8")
+* ``contactPerson`` _[string]_ - Name of contact person at supplier
+* ``contact`` _[Contact]_ - Supplier's contact information as a Contact object. See [Contact](#contact)
+* ``comment`` _[string]_ - Free text comment about the supplier
+* ``deliveryTime`` _[string]_ - usual time it takes for delivery to arrive after order. E.g. "3d"
+* ``deliveryWeekDays`` _[array of 1..7]_ -  Weekdays the supoplier does deliveries as an array containing each weekday deliveries are done.  Monday = 1, Tuesday = 2, ... Sunday = 7.  E.g. ``[1, 2, 3, 4, 5]``
+* ``customerCode`` _[string]_ - Restolution client's customer code at the supplier
+* ``priceEditingAllowed`` _[boolean]_ - Should prices be editable in deliverynotes from this supplier. Default for new suppliers is true
+* ``eOrderAllowed`` _[boolean]_ - Are eDeliveryNotes allowed for this supplier.  Default for new suppliers is true.
 
 <a name="card"></a>
 ### Card
@@ -1289,6 +1309,7 @@ parameters:
 * ``includeAccountingInfo`` - true / false if Bookkeeping account codes should be included on sale and payment rows (also requires either ``includeSaleRows`` or ``includePaymentRows``)
 * ``customerReceiptsOnly`` - true / false to include only receipts that have a customer
 * ``includePaymentTerminalTransactionData`` - true / false if payment terminal transaction data should be included to Payment Rows. The data includes the 3 fields: _cardLastDigits_, _paymentFilingCode_ and _paymentTerminalTransactionNumber_. See [Payment Row](#payment-row). This parameter can only be used if the parameter _includePaymentRows_ is set to _true_.
+* ``includeAdditionalJson`` - true / false to include additional JSON reciept data if available
 
 Note 1: If no date parameters are given, the default value for ``salesReadFromDate`` will be used. Default value is kept by Restolution.
 
@@ -1317,8 +1338,9 @@ sample request:
         "includeSaleRows":true,
         "includePaymentRows":true,
         "includeRowComments":true,
-	"includeAccountingInfo":true,
-	"includePaymentTerminalTransactionData":true
+	      "includeAccountingInfo":true,
+	      "includePaymentTerminalTransactionData":true,
+        "includeAdditionalJson":true
     }
 }
 ```
@@ -1357,6 +1379,13 @@ sample response:
 		"memoInfo":"Tänne voi laittaa muistion",
                 "quickInvoice":false,
                 "tableCode":"100",
+                "additionalJson": {
+                     "jsonApi": {
+                         "proprietaryData": {
+                             "some_id": "some_value"   
+                         }
+                     }
+                },
                 "receiptRows":[
                     {
                         "articleID":"123",
@@ -1900,6 +1929,90 @@ sample response:
             "added": 1,
             "updated": 2,
             "clients": 2
+        }
+    }
+}
+```
+
+<a name="importsuppliers"></a>
+### importSuppliers
+For importing new and editing existing suppliers. If several Restolution clients share the same API Key, the same suppliers will be imported identically to all clients. See also [Supplier](#supplier).
+
+parameters:
+
+* ``suppliers`` - array of Supplier objects
+
+
+response:
+
+A "savedSuppliers" object that contains the following fields:
+
+* ``suppliers`` - nr of suppliers in request
+* ``added`` - nr of new suppliers added
+* ``updated`` - nr of existing suppliers updated
+* ``clients`` - nr of clients affected
+
+sample request:
+
+```json
+{
+    "timestamp": "2026-02-03T08:58:40.988Z",
+    "apiKey": "user_321681",
+    "requestID": "req_325168426",
+    "method": "importSuppliers",
+    "params": {
+        "suppliers": [
+            {
+                "supplierNumber": "111122223334",
+                "supplierName": "Kesko2",
+                "registrationNumber": "2124562-8",
+                "contactPerson": "John J. Smith",
+                "contact": {
+                    "street": "Salakuljettajankatu 8",
+                    "city": "Hki",
+                    "postIndex": "00001",
+                    "country": "Finland",
+                    "phoneNr": "+35891111111",
+                    "mobilePhoneNr": "+358401111111",
+                    "emailAddress": "email@mail.com",
+                    "wwwAddress": "www.kesko.fi"
+                },
+                "comment": "large sortiment",
+                "deliveryTime": "3d",
+                "deliveryWeekDays": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5
+                ],
+                "customerCode": "123446"
+            },
+            {
+                "supplierNumber": "999999999",
+                "supplierName": "Local Supplier",
+                "registrationNumber": "2129999-8",
+                "priceEditingAllowed": true,
+                "eOrderAllowed": false
+            }
+        ]
+    }
+}
+```
+
+sample response:
+
+```json
+{
+    "timestamp": "2026-02-26T10:46:40.398+0000",
+    "success": true,
+    "requestID": "req_325168426",
+    "response": {
+        "savedSuppliers": {
+            "suppliers": 2,
+            "added": 1,
+            "updated": 1,
+            "clients": 1
         }
     }
 }
@@ -3837,4 +3950,5 @@ sample response:
 | 04.09.2023 | mats.antell@restolution.fi         | Added getOrders and Order and Order Row |
 | 25.09.2023 | mats.antell@restolution.fi         | Added Inventory.inventoryUUID |
 | 07.10.2024 | mats.antell@restolution.fi         | Added cash register listing to listRestaurants |
+| 05.03.2025 | mats.antell@restolution.fi         | Added method "importSuppliers" and parameter "includeAdditionalJson" to method "getReceipts" |
 
