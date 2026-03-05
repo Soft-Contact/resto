@@ -463,7 +463,7 @@ See also [listCustomers](#listcustomers).
 * ``customerNumber`` _[string, max 20 chars, required]_ - customer ID, customer number in Restolution
 * ``customerName`` _[string, max 255 chars, required]_- customer name
 * ``clientUUID`` _[string, optional]_ - client UUID that this customer belongs to. If used in [importCustomers](#importcustomers), the customer will only be imported to this client and respectively if missing, the customer will be imported to all clients.
-* ``customerUUID`` _[string, optional]_ - customer UUID. If used in [importCustomers](#importcustomers), the import will only affect a customer with this customer UUID in Restolution. If used in [saveReciepts](#saveReceipts), this will override customerNumber when selecting customer for imported receipt.
+* ``customerUUID`` _[string, optional]_ - customer UUID. If used in [importCustomers](#importcustomers), the import will only affect a customer with this customer UUID in Restolution. If used in [saveReceipts](#saveReceipts), this will override customerNumber when selecting customer for imported receipt.
 * ``active`` _[boolean, optional]_ - flag to indicate whether customer should be active or not in Restolution (default = true)
 * ``type`` _[string, optional]_ - customer type, see [Customer types](#customer-types). Defaults to "LUNCH" for new customer if not given.
 * ``comment`` _[string, max 255 chars, optional]_ - additional comment about customer
