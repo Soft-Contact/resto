@@ -463,7 +463,7 @@ See also [listCustomers](#listcustomers).
 * ``customerNumber`` _[string, max 20 chars, required]_ - customer ID, customer number in Restolution
 * ``customerName`` _[string, max 255 chars, required]_- customer name
 * ``clientUUID`` _[string, optional]_ - client UUID that this customer belongs to. If used in [importCustomers](#importcustomers), the customer will only be imported to this client and respectively if missing, the customer will be imported to all clients.
-* ``customerUUID`` _[string, optional]_ - customer UUID. If used in [importCustomers](#importcustomers), the import will only affect a customer with this customer UUID in Restolution. If used in [saveReceipts](#saveReceipts), this will override customerNumber when selecting customer for imported receipt.
+* ``customerUUID`` _[string, optional]_ - customer UUID. If used in [importCustomers](#importcustomers), the import will only affect a customer with this customer UUID in Restolution. If used in [saveReciepts](#saveReceipts), this will override customerNumber when selecting customer for imported receipt.
 * ``active`` _[boolean, optional]_ - flag to indicate whether customer should be active or not in Restolution (default = true)
 * ``type`` _[string, optional]_ - customer type, see [Customer types](#customer-types). Defaults to "LUNCH" for new customer if not given.
 * ``comment`` _[string, max 255 chars, optional]_ - additional comment about customer
@@ -600,6 +600,9 @@ The orders returned by the "getOrders" method are objects of "Order" which conta
 * ``userName`` - name of user who created this order
 * ``status`` - the status of this delivery note, can be one of IN_PROGRESS, DONE, VERIFIED.
 * ``description`` - description of this order
+* ``supplierNumber`` - number of the Supplier of this Order
+* ``supplierName`` - name of the Supplier of this Order
+* ``supplierRegNr`` - the company registration number (Business ID) of the Supplier of this Order
 * ``orderRows`` - array of order rows 
 
 <a name="orderrow"></a>
@@ -634,6 +637,9 @@ The delivery notes returned by the "getDeliveryNotes" method are objects of "Del
 * ``userName`` - name of user who created this delivery note
 * ``status`` - the status of this delivery note, can be one of IN_PROGRESS, DONE, VERIFIED, TEMPLATE.
 * ``comment`` - a free text domment of this delivery note
+* ``supplierNumber`` - number of the Supplier of this DeliveryNote
+* ``supplierName`` - name of the Supplier of this DeliveryNote 
+* ``supplierRegNr`` - the company registration number (Business ID) of the Supplier of this DeliveryNote
 * ``deliveryNoteRows`` - array of delivery note rows
 
 <a name="deliverynoterow"></a>
@@ -1309,7 +1315,7 @@ parameters:
 * ``includeAccountingInfo`` - true / false if Bookkeeping account codes should be included on sale and payment rows (also requires either ``includeSaleRows`` or ``includePaymentRows``)
 * ``customerReceiptsOnly`` - true / false to include only receipts that have a customer
 * ``includePaymentTerminalTransactionData`` - true / false if payment terminal transaction data should be included to Payment Rows. The data includes the 3 fields: _cardLastDigits_, _paymentFilingCode_ and _paymentTerminalTransactionNumber_. See [Payment Row](#payment-row). This parameter can only be used if the parameter _includePaymentRows_ is set to _true_.
-* ``includeAdditionalJson`` - true / false to include additional JSON receipt data if available
+* ``includeAdditionalJson`` - true / false to include additional JSON reciept data if available
 
 Note 1: If no date parameters are given, the default value for ``salesReadFromDate`` will be used. Default value is kept by Restolution.
 
@@ -2347,6 +2353,9 @@ sample response:
         "storageName": "Varasto 1",
         "userName": "Maija Mallikas",
         "status": "VERIFIED",
+        "supplierNumber": 1,
+        "supplierName": "Toimittaja 1",
+        "supplierRegNr": "1234567-8",
         "orderRows": [
           {
             "articleUUID": "a9fade01-cc6f-49c2-aacc-56c9a07cd94e",
@@ -2417,6 +2426,9 @@ sample response:
         "userName": "Milla Mallikas",
         "status": "VERIFIED",
         "comment": "comment",
+        "supplierNumber": 1,
+        "supplierName": "Toimittaja 1",
+        "supplierRegNr": "1234567-8",
         "deliveryNoteRows": [
           {
             "articleUUID": "4f71d138-f870-49d3-8712-f6e55de0d760",
@@ -3950,5 +3962,6 @@ sample response:
 | 04.09.2023 | mats.antell@restolution.fi         | Added getOrders and Order and Order Row |
 | 25.09.2023 | mats.antell@restolution.fi         | Added Inventory.inventoryUUID |
 | 07.10.2024 | mats.antell@restolution.fi         | Added cash register listing to listRestaurants |
-| 05.03.2025 | mats.antell@restolution.fi         | Added method "importSuppliers" and parameter "includeAdditionalJson" to method "getReceipts" |
+| 05.03.2026 | mats.antell@restolution.fi         | Added method "importSuppliers" and parameter "includeAdditionalJson" to method "getReceipts" |
+| 18.03.2026 | mats.antell@restolution.fi         | Added supplier information to "getOrders" and "getDeliveryNotes" responses |
 
