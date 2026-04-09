@@ -279,7 +279,7 @@ const softPos = {
          */
         getPrice: function(priceReq, successCallback, errorCallback) {
             onlyJxSupported(() => {
-                let result = window.softPos.getPrice(priceReq);
+                let result = window.softPos.getPrice(JSON.stringify(priceReq));
                 parseResultAndMakeCallbacks(result, failureCallback, successCallback);
             });
         }
