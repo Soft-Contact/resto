@@ -271,7 +271,19 @@ const softPos = {
                     }
                 }
             });
+        },
+
+        /**
+         * Get article price @Experimental
+         * @requires SoftPoS 26.04.02 at least
+         */
+        getPrice: function(priceReq, successCallback, errorCallback) {
+            onlyJxSupported(() => {
+                let result = window.softPos.getPrice(priceReq);
+                parseResultAndMakeCallbacks(result, failureCallback, successCallback);
+            });
         }
+
     },
 
     /**
