@@ -119,6 +119,18 @@ const softPos = {
             });
         },
         /**
+         * listUsersWithOpenTables, see https://github.com/Soft-Contact/resto/issues/2#listUsersWithOpenTables
+         * @param successCallback as a function for successful callback
+         * @param failureCallback as a function for failure callback
+         */
+        listUsersWithOpenTables: function (successCallback, failureCallback) {
+            onlyJxSupported(() => {
+                let result = window.softPos.listUsersWithOpenTables();
+                parseResultAndMakeCallbacks(result, failureCallback, successCallback);
+            });
+        },
+
+        /**
          * get currently on cashregister screen active transaction
          * @param successCallback
          * @param failureCallback
