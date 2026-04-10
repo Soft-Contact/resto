@@ -196,6 +196,7 @@ response structure:
 * CAN_NOT_LOCK_TABLE - can not aquire lock on a table
 * CAN_NOT_UNLOCK_TABLE - can not release lock on a table
 * PRINTING_ERROR - can not print to (receipt) printer
+* ARTICLE_ID_MISSING - required parameter `articleID` not provided in the request
     
 ## Server status codes 
 
