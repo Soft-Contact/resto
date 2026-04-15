@@ -604,6 +604,7 @@ The orders returned by the "getOrders" method are objects of "Order" which conta
 * ``supplierName`` - name of the Supplier of this Order
 * ``supplierRegNr`` - the company registration number (Business ID) of the Supplier of this Order
 * ``orderRows`` - array of order rows 
+* ``discountCode`` - discount tag on transaction level, can be percentage or fixed sum discount
 
 <a name="orderrow"></a>
 ### Order Row
@@ -619,7 +620,7 @@ The order rows contain on article level the quantities and purchase prices of th
 * ``baseUnitInSIUnits`` - base unit in SI units, e.g. how many grams in a kilogram. Note that this defaults to 1 for all units that can have different sizes, in 1/1000 parts.
 * ``purchasePriceWithTax`` - The purchase price of a base unit of this order row's article including tax
 * ``purchaseTax`` - The purchase tax percentage applied to the purchase of this order row's article. Given as a whole number if possible, decimal number otherwise, e.g 24% is given as 24 and 25.5% as 25.5.
-
+* ``discountCode`` - discount tag on line level, can be percentage or fixed sum discount
 <a name="deliverynote"></a>
 ### Delivery Note
 
