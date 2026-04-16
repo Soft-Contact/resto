@@ -1,21 +1,8 @@
 # Soft-Contact payment authorization protocol
 
-## Specification history
-
-| Version   | Author                         | Summary                                                     |
-|-----------|--------------------------------|-------------------------------------------------------------|
-| 0.1-draft | indrek.toom@soft-contact.fi    | Initial draft for commenting                                |
-| 0.2       | indrek.toom@soft-contact.fi    | Initial version for proof-reading                           |
-| 0.3       | indrek.toom@soft-contact.fi    | multiple bonuses in `registerPurchase`                      |
-| 0.4       | indrek.toom@soft-contact.fi    | added `listGuests` and `billToRoom` requests                |
-| 0.5       | mats.antell@soft-contact.fi    | added customer bonus system requests                        |
-| 0.6       | indrek.toom@soft-contact.fi    | added `transactionNumber` parameter to `billToRoom` request |
-| 0.7       | mats.antell@restolution.fi     | added `businessUnitUUID` to all requests                    |
-| 0.8       | ilkka.hyvarinen@restolution.fi | added `rowID` and `parentRowID` to Sale Row object          |
-
 ## Goal
 
-This documents specifies the protocol for authorizing 3rd-party gift cards, mobile payments etc from [Soft-Contact's](http://soft-contact.fi/) SoftPos cash registers.
+This documents specifies the protocol for authorizing 3rd-party gift cards, mobile payments etc from [Restolution's](https://restolution.eu/) SoftPos cash registers.
 
 ## Technical description
 The requests are made from SoftPos towards the 3rd-party server using HTTP or (preferably) HTTPS POST request using the [JSON](https://en.wikipedia.org/wiki/JSON) based format defined in this document.
