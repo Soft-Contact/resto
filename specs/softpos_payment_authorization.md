@@ -603,6 +603,9 @@ parameters
 * `customerNumber` - string containing customer number
 * `cardNumber` - string containing the card number
 * `cardHolderName` - optional card holder name
+* `customData1` - optional integration specific custom data
+* `customData2` - optional integration specific custom data
+* `customData3` - optional integration specific custom data
 
 response:
 
@@ -621,7 +624,8 @@ sample request:
     "params":{
         "customerNumber":"4100",
         "cardNumber":"123-456",
-        "cardHolderName":"John Doe"
+        "cardHolderName":"John Doe",
+        "customData1":"VIP client"
     }
 }
 ```
