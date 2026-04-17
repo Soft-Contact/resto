@@ -330,7 +330,19 @@ const softPos = {
                 let result = window.softPos.getPrice(JSON.stringify(priceReq));
                 parseResultAndMakeCallbacks(result, errorCallback, successCallback);
             });
+        },
+
+        /**
+         * Get many article prices @Experimental
+         * @requires SoftPoS 26.04.02 at least
+         */
+        getPrices: function(priceReq, successCallback, errorCallback) {
+            onlyJxSupported(() => {
+                let result = window.softPos.getPrices(JSON.stringify(priceReq));
+                parseResultAndMakeCallbacks(result, errorCallback, successCallback);
+            });
         }
+
 
     },
 
