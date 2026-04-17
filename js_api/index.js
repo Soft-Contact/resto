@@ -246,7 +246,55 @@ const softPos = {
                     successCallback(resp);
                 }
             });
+        },
+
+        /**
+         * Experimental: Start prereading mode
+         * @requires SoftPos 26.04.2 at least
+         * @param successCallback
+         * @param failureCallback
+         */
+        startSscPrereadingMode(successCallback, failureCallback) {
+            onlyJxSupported(() => {
+                const cmd = "(sok-ssc-identify-customer)";
+                let result = window.softPos.evalLisp(cmd);
+                parseResultAndMakeCallbacks(result, failureCallback, successCallback);
+            });
+        },
+
+        /**
+         * Experimental: Abort prereading mode
+         * @requires SoftPos 26.04.2 at least
+         * @param successCallback
+         * @param failureCallback
+         */
+        abortSscPrereadingMode(successCallback, failureCallback) {
+            onlyJxSupported(() => {
+                const cmd = "(sok-ssc-abort)";
+                let result = window.softPos.evalLisp(cmd);
+                parseResultAndMakeCallbacks(result, failureCallback, successCallback);
+            });
+        },
+
+        /**
+         * Experimental: Set SSC loyalty
+         * @requires SoftPos 26.04.2 at least
+         * @param loyaltyJson as strng
+         * @param successCallback
+         * @param failureCallback
+         */
+        setSscLoyalty(loyaltyJson, successCallback, failureCallback) {
+            onlyJxSupported(() => {
+                if (loyaltyJson === undefined) {
+                    loyaltyJson = "";
+                }
+                const escapedString = loyaltyJson.replace(/"/g, '\\"');
+                const cmd = "(sok-ssc-set-transaction-loyalty " + escapedString + ")";
+                let result = window.softPos.evalLisp(cmd);
+                parseResultAndMakeCallbacks(result, failureCallback, successCallback);
+            });
         }
+
     },
 
     /**
