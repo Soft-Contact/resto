@@ -603,6 +603,8 @@ parameters
 * `customerNumber` - string containing customer number
 * `cardNumber` - string containing the card number
 * `cardHolderName` - optional card holder name
+* `articleID` - optional identifier for the article/product voucher being registered
+* `articleBalance` - optional initial balance for the article/product voucher
 * `customData1` - optional integration specific custom data
 * `customData2` - optional integration specific custom data
 * `customData3` - optional integration specific custom data
