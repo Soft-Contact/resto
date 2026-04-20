@@ -50,6 +50,7 @@
     + [Employee](#employee)
     + [Time Tracking](#timetracking)
     + [RestoCoin Card](#restocoincard)
+    + [RestoCoin Card Event](#restocoincardevent)
   * [Available Methods](#available-methods)
     + [listClients](#listclients)
     + [listRestaurants](#listrestaurants)
@@ -75,6 +76,7 @@
     + [importTimeTrackings](#importtimetrackings)
     + [listRestoCoinCards](#listrestocoincards)
     + [importRestoCoinCards](#importrestocoincards)
+    + [listRestoCoinCardEvents](#listrestocoincardevents)
     
   * [Receipt types](#receipt-types)
   * [Discount methods](#discount-methods)
@@ -805,7 +807,7 @@ See also [importTimeTrackings](#importtimetrackings).
 * ``comment`` _[string, max 255 chars, optional]_ - comment for the time tracking
 
 <a name="restocoincard"></a>
-### RestoCoinCard
+### RestoCoin Card
 
 RestoCoin card has all properties that can be managed on Restolution Customer edit page RestoCoin cards. Note that RestoCoin cards do not have a ``clientUUID`` property as these cards can be used across multiple clients limited the POS setup and ``businessUnitUUIDs`` parameter in [importRestoCoinCards](#importrestocoincards).
 
@@ -828,6 +830,21 @@ RestoCoin card has all properties that can be managed on Restolution Customer ed
 * ``customData2`` _[string, max 255 chars, optional]_ - Optional custom data field
 * ``customData3`` _[string, max 255 chars, optional]_ - Optional custom data field
 
+### RestoCoin Card Event
+And event that was recorded for a RestoCoin Card. See also [listRestoCoinCardEvents](#listrestocoincardevents).
+
+* ``id`` - internal event ID
+* ``timestamp`` - event timestamp
+* ``type`` - event type, see alse [RestoCoin Card Event Type](#restocoin_card_event_type)
+* ``requestID`` - request ID from the originating request
+* ``cashRegisterUUID`` - originating cash register UUID
+* ``transactionUUID`` - transaction UUID related to the event
+* ``cardNumber`` - card number
+* ``quantity`` - event quantity in 1/1000 parts
+* ``amount`` - event amount in cents
+* ``bonusProgram`` - bonus program identifier
+* ``paymentMethod`` - payment method
+* ``articleID`` - article ID, null if the event is not article-related
 
 <a name="available-methods"></a>
 ## Available Methods
@@ -3737,6 +3754,95 @@ sample response:
 }
 ```
 
+### listRestoCoinCardEvents
+
+For listing stored RestoCoin card events.
+See also [RestoCoin Card Event](#restocoin-card-event).
+
+If ``includeArticleEvents`` is missing or ``false``, only events where ``articleID`` is ``null`` are returned.
+If ``includeArticleEvents`` is ``true``, article-linked events are included as well.
+If both ``type`` and ``bonusProgram`` are given, both filters must match.
+
+parameters:
+
+* ``cardNumbers`` - array of card numbers whose events should be returned
+* ``dateFrom`` - optional ISO 8601 timestamp, defaults to the beginning of the current calendar year if omitted
+* ``dateUntil`` - optional ISO 8601 timestamp, defaults to current time if omitted
+* ``type`` - optional event type filter, one of ``CREDIT``, ``DEBIT``, ``TRANSACTION`` or ``VOID``
+* ``bonusProgram`` - optional bonus program filter
+* ``includeArticleEvents`` - optional boolean, defaults to ``false``; when ``true``, article-linked events are included
+
+Notes:
+
+* In RestoCoin ``dateFrom`` is normalized internally to the start of the sale day at ``05:00`` in the server default timezone.
+* In RestoCoin ``dateUntil`` is normalized internally to the end of the sale day at ``04:59:59.990`` of the following sale day in the server default timezone.
+
+response:
+
+* ``events`` - array of [RestoCoin Card Event](#restocoin-card-event) objects
+
+sample request:
+
+```json
+{
+  "timestamp": "2015-09-16T08:58:40Z",
+  "apiKey": "user_283764",
+  "requestID": "req_28376428",
+  "method": "listRestoCoinCardEvents",
+  "params": {
+    "cardNumbers": [
+      "123-456",
+      "123-789"
+    ],
+    "dateFrom": "2015-09-16T00:00:00Z",
+    "dateUntil": "2015-09-16T23:59:59Z",
+    "type": "TRANSACTION",
+    "bonusProgram": "REDEEM",
+    "includeArticleEvents": true
+  }
+}
+```
+
+sample request using default dates:
+
+```json
+{
+  "timestamp": "2015-09-16T08:58:40Z",
+  "apiKey": "user_283764",
+  "requestID": "req_28376429",
+  "method": "listRestoCoinCardEvents",
+  "params": {
+    "cardNumbers": [
+      "123-456"
+    ]
+  }
+}
+```
+
+sample response:
+
+```json
+{
+  "timestamp": "2015-09-16T08:58:40Z",
+  "success": true,
+  "requestID": "req_28376428",
+  "response": {
+    "events": [
+      {
+        "id": 1001,
+        "timestamp": "2015-09-16T09:15:30Z",
+        "type": "DEBIT",
+        "requestID": "req_28376428",
+        "cashRegisterUUID": "3aaf2ef6-89ee-4e8f-8191-cbf725435a96",
+        "transactionUUID": "txn_123456",
+        "cardNumber": "123-456",
+        "bonusProgram": "REDEEM",
+        "articleID": "3456"
+      }
+    ]
+  }
+}
+```
 
 <a name="receipt-types"></a>
 ## Receipt types
@@ -3915,6 +4021,13 @@ sample response:
 * ``IN_PRODUCTION`` - In active production use
 * ``DISABLED`` - Disabled
 
+<a name="restocoin_card_event_type></a>
+## RestoCoin Card Event Type
+* ``CREDIT`` - Adjustment to card balance, can be a positive or negative balance change.
+* ``DEBIT`` - Adjustment to card balance from a payment. Always negative.
+* ``TRANSACTION`` - A transaction event that does not affect the card's balance. It can affect bonus program or article amounts for the card.
+* ``VOID`` - Adjustment to card balance from canceling a payment. Always positive.
+
 
 
 
@@ -3965,4 +4078,5 @@ sample response:
 | 07.10.2024 | mats.antell@restolution.fi         | Added cash register listing to listRestaurants |
 | 05.03.2026 | mats.antell@restolution.fi         | Added method "importSuppliers" and parameter "includeAdditionalJson" to method "getReceipts" |
 | 18.03.2026 | mats.antell@restolution.fi         | Added supplier information to "getOrders" and "getDeliveryNotes" responses |
+| 20.04.2026 | mats.antell@restolution.fi         | Added "listRestoCoinCardEvents" and "RestoCoin Card Event" and "RestoCoin Card Event Type" |
 
