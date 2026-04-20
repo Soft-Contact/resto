@@ -3470,10 +3470,25 @@ parameters:
 
 * ``includeFreeBalances`` - true/false to include free balances, i.e. balances without a card entity. These will be returned as [RestoCoin Card](#restocoincard) objects with only "cardNumber" and "balance". For an example, see the ```"cardNumber" : "555555"``` in the sample response below. 
 * ``businessUnitUUIDs``- array of strings that are business unit UUIDs, see Restaurant.businessUnitUUID. This filters the cards and returns only cards that can be used in the given business units (Restaurants). An empty array will return only cards that can be used in all business units. If the parameter is not given or is null, all cards will be returned.
+* ``cashRegisterUUIDs`` - optional array of cash register UUID filters
+* ``status`` - optional card status filter, one of ``ACTIVE`` or ``DISABLED``
+* ``customerNumber`` - optional customer number filter, required if ``changedOnly`` parameter is given
 * ``cardNumbers`` - array of strings that are numbers of cards to return in the results. A maximum of 10000 card numbers can be given.
+* ``first`` - optional first row number in the returned result range, starting from ``1``
+* ``last`` - optional last row number in the returned result range
+* ``changedOnly`` - optional boolean, default ``false``; when ``true``, only cards changed since the last successful ``changedOnly=true`` request for the same authenticated API user and the same ``customerNumber`` are returned
 
-reponse
+Notes:
+
+* If ``changedOnly`` is missing or ``false``, the method behaves like a normal card listing.
+* ``changedOnly=true`` requires a non-empty ``customerNumber``.
+* ``changedOnly=true`` cannot be combined with ``cardNumbers``, ``first`` or ``last``.
+* If no earlier successful ``changedOnly=true`` request is stored for the same authenticated API user and ``customerNumber``, the effective ``changed since`` timestamp is one week before the current request time.
+* On successful ``changedOnly=true`` requests, the current request timestamp is stored for the same authenticated API user and ``customerNumber``. 
+
+reponse:
 * ``cards`` - array of [RestoCoin Card](#restocoincard) objects.
+* ``totalCount`` - total number of returned cards
 
 sample requests:
 
@@ -3499,6 +3514,18 @@ sample requests:
   "params": {     
      "cardNumbers": ["111111",  "222222", "333333", "444444"]   
    }
+}
+```
+```json
+{
+  "timestamp": "2026-04-17T10:00:00Z",
+  "apiKey": "user_283764",
+  "requestID": "req_cards_1",
+  "method": "listRestoCoinCards",
+  "params": {
+    "customerNumber": "4100",
+    "changedOnly": true
+  }
 }
 ```
 
@@ -3591,7 +3618,8 @@ sample response:
         "cardNumber": "555555",
         "balance": 5000
       }
-    ]
+    ],
+	"totalCount": 5
   }
 }
 ```
@@ -4073,10 +4101,11 @@ sample response:
 | 09.08.2023 | mats.antell@restolution.fi	  | Added PriceList, Price field descriptors, improved TOC order |
 | 31.08.2023 | mats.antell@restolution.fi	  | Added sample code for the Basic authentication |
 | 01.09.2023 | mats.antell@restolution.fi	  | Added registeredFromDate and registeredUntilDate to getDeliveryNotes |
-| 04.09.2023 | mats.antell@restolution.fi         | Added getOrders and Order and Order Row |
-| 25.09.2023 | mats.antell@restolution.fi         | Added Inventory.inventoryUUID |
-| 07.10.2024 | mats.antell@restolution.fi         | Added cash register listing to listRestaurants |
-| 05.03.2026 | mats.antell@restolution.fi         | Added method "importSuppliers" and parameter "includeAdditionalJson" to method "getReceipts" |
-| 18.03.2026 | mats.antell@restolution.fi         | Added supplier information to "getOrders" and "getDeliveryNotes" responses |
-| 20.04.2026 | mats.antell@restolution.fi         | Added "listRestoCoinCardEvents" and "RestoCoin Card Event" and "RestoCoin Card Event Type" |
+| 04.09.2023 | mats.antell@restolution.fi     | Added getOrders and Order and Order Row |
+| 25.09.2023 | mats.antell@restolution.fi     | Added Inventory.inventoryUUID |
+| 07.10.2024 | mats.antell@restolution.fi     | Added cash register listing to listRestaurants |
+| 05.03.2026 | mats.antell@restolution.fi     | Added method "importSuppliers" and parameter "includeAdditionalJson" to method "getReceipts" |
+| 18.03.2026 | mats.antell@restolution.fi     | Added supplier information to "getOrders" and "getDeliveryNotes" responses |
+| 20.04.2026 | mats.antell@restolution.fi     | Added "listRestoCoinCardEvents" and "RestoCoin Card Event" and "RestoCoin Card Event Type" |
+| 20.04.2026 | mats.antell@restolution.fi	  | Added "changedOnly" and previously missing parameters "cashRegisterUUIDs", "status", "customerNumber", "first", "last" to "listRestoCoinCards" |
 
