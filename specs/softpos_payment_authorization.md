@@ -604,7 +604,7 @@ parameters
 * `cardNumber` - string containing the card number
 * `cardHolderName` - optional card holder name
 * `articleID` - optional identifier for the article/product voucher being registered
-* `articleQuantity` - optional initial quantity for the article/product voucher
+* `articleBalance` - optional initial balance for the article/product voucher in 1/1000 parts
 * `customData1` - optional integration specific custom data
 * `customData2` - optional integration specific custom data
 * `customData3` - optional integration specific custom data
