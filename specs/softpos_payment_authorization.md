@@ -608,6 +608,8 @@ parameters
 * `customData1` - optional integration specific custom data
 * `customData2` - optional integration specific custom data
 * `customData3` - optional integration specific custom data
+* `validFrom` - optional validity start
+* `validUntil` - optional validity end
 
 response:
 
