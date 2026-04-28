@@ -76,6 +76,7 @@
     + [importTimeTrackings](#importtimetrackings)
     + [listRestoCoinCards](#listrestocoincards)
     + [importRestoCoinCards](#importrestocoincards)
+    + [addRestoCoinCardEvent](#addrestocoincardevent)
     + [listRestoCoinCardEvents](#listrestocoincardevents)
     
   * [Receipt types](#receipt-types)
@@ -3781,6 +3782,85 @@ sample response:
   }
 }
 ```
+<a name="addrestocoincardevent"></a>
+### addRestoCoinCardEvent
+
+For importing a single RestoCoin card event. This method should not be used to update card balances or article quantities.
+See also [RestoCoin Card Event](#restocoin-card-event).
+
+parameters:
+
+* ``event`` - a single [RestoCoin Card Event](#restocoin-card-event) object
+
+Notes:
+
+* The method imports exactly one event per request.
+* ``event.type`` is required and must be ``TRANSACTION``.
+* ``event.cardNumber`` is required.
+* ``event.timestamp`` is optional, but recommended. If omitted, the current server time is used.
+* ``event.amount`` and ``event.quantity`` are both optional. If omitted, the missing value is forwarded as ``0``.
+* Before importing the event, the method checks that the card exists in RestoCoin by calling card ``listAll`` with ``cardNumbers`` containing the given ``event.cardNumber``.
+* If the card lookup returns no cards, the event is not recorded and the method returns ``CARD_NOT_FOUND``.
+* ``event.articleID`` is not supported and must not be included as that could affect the card's article quantity.
+* ``event.id``, ``event.requestID`` are assigned or ignored internally and should not be included.
+* The response uses an ``events`` array for consistency with RestoCoin ``importEvents``, but this method returns at most one inserted event.
+
+response:
+
+* ``events`` - array of inserted [RestoCoin Card Event](#restocoin-card-event) objects. For this method, ``articleID`` is not returned.
+
+error responses:
+
+* ``CARD_NOT_FOUND`` - no RestoCoin card exists with the given ``event.cardNumber``
+
+sample request:
+
+```json
+{
+  "timestamp": "2026-04-21T08:30:00Z",
+  "apiKey": "user_283764",
+  "requestID": "req_event_1",
+  "method": "addRestoCoinCardEvent",
+  "params": {
+    "event": {
+      "timestamp": "2026-04-21T08:15:30Z",
+      "type": "TRANSACTION",
+      "transactionUUID": "2f43c57e-c63b-4c77-af86-ba2a97e96590",
+      "cashRegisterUUID": "3aaf2ef6-89ee-4e8f-8191-cbf725435a96",
+      "cardNumber": "123-456",
+      "bonusProgram": "REDEEM",
+      "paymentMethod": "CARD"
+    }
+  }
+}
+```
+
+sample response:
+
+```json
+{
+  "timestamp": "2026-04-21T08:30:00Z",
+  "success": true,
+  "requestID": "req_event_1",
+  "response": {
+    "events": [
+      {
+        "id": 1002,
+        "timestamp": "2026-04-21T08:15:30Z",
+        "type": "TRANSACTION",
+        "requestID": "req_event_1",
+        "transactionUUID": "2f43c57e-c63b-4c77-af86-ba2a97e96590",
+        "cashRegisterUUID": "3aaf2ef6-89ee-4e8f-8191-cbf725435a96",
+        "cardNumber": "123-456",
+        "quantity": 0,
+        "amount": 0,
+        "bonusProgram": "REDEEM",
+        "paymentMethod": "CARD"
+      }
+    ]
+  }
+}
+```
 
 ### listRestoCoinCardEvents
 
@@ -4108,4 +4188,5 @@ sample response:
 | 18.03.2026 | mats.antell@restolution.fi     | Added supplier information to "getOrders" and "getDeliveryNotes" responses |
 | 20.04.2026 | mats.antell@restolution.fi     | Added "listRestoCoinCardEvents" and "RestoCoin Card Event" and "RestoCoin Card Event Type" |
 | 20.04.2026 | mats.antell@restolution.fi	  | Added "changedOnly" and previously missing parameters "cashRegisterUUIDs", "status", "customerNumber", "first", "last" to "listRestoCoinCards" |
+| 28.04.3026 | mats.antell@restolution.fi     | Added "addRestoCoinCardEvent" |
 
