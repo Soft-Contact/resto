@@ -132,6 +132,7 @@ parameters:
 * `requestID` - ID of the original request. Optional in case the original request did not contain `requestID`
 * `success` - shows whether the request was processed successfully (i.e. `false`)
 * `statusCode` - in case of unsuccessful request. see the list of error codes below
+* `extraStatusCode` optional integration specific extra error code for `statusCode`
 * `message` - optional human readable description of the error which can be shown to user
 
 response structure:
