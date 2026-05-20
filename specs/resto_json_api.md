@@ -3870,15 +3870,17 @@ See also [RestoCoin Card Event](#restocoin-card-event).
 If ``includeArticleEvents`` is missing or ``false``, only events where ``articleID`` is ``null`` are returned.
 If ``includeArticleEvents`` is ``true``, article-linked events are included as well.
 If both ``type`` and ``bonusProgram`` are given, both filters must match.
+If ``cardNumbers`` is omitted, at least one of ``type`` or ``bonusProgram`` is required.
 
 parameters:
 
-* ``cardNumbers`` - array of card numbers whose events should be returned
+* ``cardNumbers`` - optional array of card numbers whose events should be returned
 * ``dateFrom`` - optional ISO 8601 timestamp, defaults to the beginning of the current calendar year if omitted
 * ``dateUntil`` - optional ISO 8601 timestamp, defaults to current time if omitted
 * ``type`` - optional event type filter, one of ``CREDIT``, ``DEBIT``, ``TRANSACTION`` or ``VOID``
 * ``bonusProgram`` - optional bonus program filter
 * ``includeArticleEvents`` - optional boolean, defaults to ``false``; when ``true``, article-linked events are included
+
 
 Notes:
 
@@ -4189,4 +4191,5 @@ sample response:
 | 20.04.2026 | mats.antell@restolution.fi     | Added "listRestoCoinCardEvents" and "RestoCoin Card Event" and "RestoCoin Card Event Type" |
 | 20.04.2026 | mats.antell@restolution.fi	  | Added "changedOnly" and previously missing parameters "cashRegisterUUIDs", "status", "customerNumber", "first", "last" to "listRestoCoinCards" |
 | 28.04.3026 | mats.antell@restolution.fi     | Added "addRestoCoinCardEvent" |
+| 20.05.2026 | mats.antell@restolution.fi	  | Changes to "listRestoCoinCardEvents": "cardNumbers" parameter optional |
 
