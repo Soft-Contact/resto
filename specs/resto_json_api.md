@@ -403,7 +403,7 @@ or read using "getReceipts" method.
 * ``tableCode`` - optional table code
 * ``additionalJson`` - an optional JSON object containing any additional JSON data added to the receipt by the cash register. See also [getReceipts](#getreceipts)
 * ``receiptRows`` - an array of [Receipt Row](#receipt-row) objects
-* ``paymentRows`` - an array of [Payment Row](#payment-row) objects
+* ``paymentRows`` - an array of [](#payment-row) objects
 
 <a name="receipt-row"></a>
 ### Receipt Row
@@ -457,6 +457,7 @@ Every third party has a reserved payment code (or codes) for any payments they h
 * ``paymentTerminalTransactionNumber`` - optional payment terminal transaction number.
 * ``transactionCertificate`` - optional Transaction Certificate (TC) from payment terminal
 * ``authorizationCode`` - optional Authorization code from payment terminal
+* ``fullNumber`` - optional full (masked) card number from payment terminal
 
 <a name="customer"></a>
 ### Customer
