@@ -81,7 +81,10 @@ const softPos = {
         placeOrder: function (order, successCallback, failureCallback) {
             const apiVersion = getApiType();
             if (!apiVersion || apiVersion == 'NONE') {
-                console.error("API not supported " + apiVersion);
+                console.error("API not initialized " + apiVersion);
+                if (failureCallback) {
+                    failureCallback("API not initialized " + apiVersion);
+                }
                 return;
             }
             if (apiVersion == "HTMLVIEW_LEGACY") {
