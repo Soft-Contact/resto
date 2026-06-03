@@ -25,7 +25,7 @@ function onlyJxSupported(actionFn, errorFn) {
         if (errorFn) {
             errorFn(msg);
         } else {
-            alert(msg);
+            console.error("Error: " + msg);
         }
     }
 
@@ -81,7 +81,8 @@ const softPos = {
         placeOrder: function (order, successCallback, failureCallback) {
             const apiVersion = getApiType();
             if (!apiVersion || apiVersion == 'NONE') {
-                alert("SoftPoS API not supported on standalone web applications, please consult Kassamagneetti support")
+                console.error("API not supported " + apiVersion);
+                return;
             }
             if (apiVersion == "HTMLVIEW_LEGACY") {
                 let resp = JSON.parse(window.softPosApi424242.jsonPlaceOrder(JSON.stringify(order)));
